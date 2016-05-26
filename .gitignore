@@ -1,0 +1,8 @@
+django/env/
+django/__pycache__/
+Untitled Folder/
+django/migrations/
+*.sqlite3
+django/startup/
+django/main/__pycache__/
+django/main/migrations/
