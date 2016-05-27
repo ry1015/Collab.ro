@@ -3,6 +3,6 @@ django/__pycache__/
 Untitled Folder/
 django/migrations/
 *.sqlite3
-django/startup/
+django/startup/__pycache__/
 django/main/__pycache__/
 django/main/migrations/
