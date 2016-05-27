@@ -68,3 +68,7 @@ function addPlaceHolder(attribute)
     }
     return placeHolders[attribute];
 }
+
+function test(){
+    return null;
+}

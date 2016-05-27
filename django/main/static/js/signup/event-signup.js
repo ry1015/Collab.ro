@@ -41,3 +41,7 @@ function checkUsernameAvailability(){
         }, 2000);
     }
 }
+
+function test(){
+    return null;
+}
