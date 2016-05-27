@@ -1,13 +1,15 @@
 var nav_links = ["Home", "Profile", "Search", "Logout"];
 var current_user = "";
-function addNavigationEventListener(){
+function addNavigationEventListener()
+{
     document.getElementById("Home").addEventListener('click', openHomePage, false);
     document.getElementById("Profile").addEventListener('click', openProfilePage, false);
     document.getElementById("Search").addEventListener('click', openSearchPage, false);
     document.getElementById("Logout").addEventListener('click', openLoginPage, false);
 }
 
-function createNavigationBar(user){
+function createNavigationBar(user)
+{
     current_user = user;
     var navigation_div = document.createElement("div");
     navigation_div.id = "navigation-div";
@@ -28,7 +30,8 @@ function createNavigationBar(user){
     return navigation_div;
 }
 
-function openProfilePage(){
+function openProfilePage()
+{
     console.log("NAV PROFILE BUTTON CLICKED!");
 
     var body_div = document.getElementById("body-div");
@@ -47,7 +50,8 @@ function openProfilePage(){
     addProfileButtonEventListener();
 }
 
-function openHomePage(){
+function openHomePage()
+{
     console.log("HOME BUTTON CLICKED!");
     var body_div = document.getElementById("body-div");
     if (body_div.innerHTML != "")
@@ -55,14 +59,16 @@ function openHomePage(){
     createHomePage(current_user);
 }
 
-function openSearchPage(){
+function openSearchPage()
+{
     console.log("SEARCH BUTTON CLICKED!");
     var body_div = document.getElementById("body-div");
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
 }
 
-function openLoginPage(){
+function openLoginPage()
+{
     current_user={};
     location.reload();
 }

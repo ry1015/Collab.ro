@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^api/login$',views.login),
     url(r'^index', views.index),
+    url(r'^signup', views.signup),
+    url(r'^api/signup', views.signup_user),
     # url(r'^api/userprofiles/$', views.userprofile_list),
     # url(r'^api/userprofile/(?P<pk>[0-9]+)/$', views.userprofile_detail),
     # url(r'^api/userprofiles$', user.userprofile_list),
