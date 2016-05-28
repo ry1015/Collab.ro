@@ -1,3 +1,7 @@
+function addProfileButtonEventListener(){
+    document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false); //event-profile.js
+}
+
 function createProfile(info, user){
     var attributes = [
     ["Username", user.username],
@@ -14,7 +18,11 @@ function createProfile(info, user){
                 if (attributes[i][j-1] == "Username")
                     cell.innerHTML = attributes[i][j];
                 else{
-                    cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
+                    if (attributes[i][j-1] == "Password"){
+                        cell.innerHTML = "<input type='password' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
+                    }
+                    else
+                        cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
                 }
         }
     }

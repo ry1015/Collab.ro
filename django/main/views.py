@@ -54,6 +54,45 @@ def signup_user(request, format=None):
     
     if (user):
         return Response("Username or exists.", status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'POST'])
+def update_profile(request, format=None):
+    print ("Updating Profile")
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    email = request.POST.get("email")
+    password_flag = False
+    email_flag = False
+
+    user = User.objects.get(username=username)
+    if (email):
+        # Check if email address already exists
+        try:
+            temp_user = User.objects.get(email=email)
+            if (temp_user):
+                return Response("Email already Exists!", status=status.HTTP_400_BAD_REQUEST)
+        except:
+            print ("NEW EMAIL")
+            email_flag = True
+            user.email = email
+            user.save()
+
+    if (password):
+        print ("NEW PASSWORD!")
+        password_flag = True
+        user.set_password(password)
+        user.save()
     
-    
+    if (email_flag == True):
+        serializer = UserSerializer(user)
+
+    if (password_flag == True and email_flag == True):
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    elif (password_flag == True):
+        return Response("Password Updated", status=status.HTTP_201_CREATED)
+    elif (email_flag == True):
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response("Could not update User Profile.", status=status.HTTP_400_BAD_REQUEST)
         

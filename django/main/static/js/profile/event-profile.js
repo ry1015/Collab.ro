@@ -8,16 +8,17 @@ function updateProfileEvent(){
     {
         var url = "api/update-profile";
         var data = data;
+        data["username"] = current_user.username
         postRequest(url, data, processUserProfileUpdate); //ajax.js
     }
 
     var processUserProfileUpdate = function(result){
+        current_user = result;
         console.log(result);
     }
 
     // USER HAS CHANGED PASSWORD
     if (password.length != 0)
-        
         data["password"] = password;
     
     // USER HAS CHANGED EMAIL

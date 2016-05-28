@@ -1,7 +1,3 @@
-function addProfileButtonEventListener(){
-    document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false);
-}
-
 // Creates Current Uploaded Tracks of A User
 // user, current user
 function createCurrentTracks(user){
