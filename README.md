@@ -18,9 +18,10 @@ Dependencies
 5. ALWAYS REMEMBER! git pull first BEFORE committing your files.
 
 ### REMINDER ###
-Forking will be discussed later on
 
 1. git pull
 2. git add "path/to/files"
 3. git commit -m "Message on what you are about to commit"
 4. git push
+
+* Forking will be discussed later on
