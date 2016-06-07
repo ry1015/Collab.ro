@@ -40,3 +40,10 @@ class UserProfile (models.Model):
         preview = "(" + str(self.userID) + ") " + self.phone_number
         return preview
 
+class SocialNetwork(models.Model):
+    url = models.URLField(max_length=200, blank=True)
+    userID = models.ForeignKey(User)
+
+    def __str__(self):
+        preview = "(" + str(self.userID) + ") " + self.url
+        return preview

@@ -53,7 +53,9 @@ function createInfo(info){
     var user_info = current_user.info;
     var attributes = [
         ["Phone Number", user_info.phone_number],
-        ["Address", user_info.address]
+        ["Address", user_info.address],
+        ["Biography", user_info.biography],
+        ["Category", user_info.user_category]
     ];
 
     for (var i in attributes){

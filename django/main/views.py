@@ -4,7 +4,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from .serializer import UserSerializer
+from .serializer import UserSerializer, UserProfileSerializer
+from .models import UserProfile, UserCategory
+import json
 
 # Create your views here.
 def index(request):
@@ -22,8 +24,17 @@ def login(request, format=None):
         user = authenticate(username=username, password=password)
         if user is not None:
             print("User is valid, active and authenticated")
-            serializer = UserSerializer(user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # serializer = UserSerializer(user)
+            userprofile = UserProfile.objects.get(userID=user)
+            serializer = UserProfileSerializer(userprofile)
+            user_info = serializer.data
+            print ("USER INFO")
+            category = UserCategory.objects.get(pk=user_info["user_category"])
+            user_info["user_category"] = category.name
+            print ("NEW USER INFO")
+            print (user_info)
+            data={"info": user_info, "user": UserSerializer(user).data}
+            return Response(data, status=status.HTTP_201_CREATED)
         else:
             # the authentication system was unable to verify the username and password
             print("The username and password were incorrect.")
@@ -58,7 +69,9 @@ def signup_user(request, format=None):
 @api_view(['GET', 'POST'])
 def update_profile(request, format=None):
     print ("Updating Profile")
+    print (request.POST)
     username = request.POST.get("username")
+    print ("USERNAME: " + str(username))
     password = request.POST.get("password")
     email = request.POST.get("email")
     password_flag = False
@@ -82,17 +95,23 @@ def update_profile(request, format=None):
         password_flag = True
         user.set_password(password)
         user.save()
-    
+        serializer = UserSerializer(user)
+
     if (email_flag == True):
         serializer = UserSerializer(user)
 
+    userprofile = UserProfile.objects.get(userID=user)
+    userprofile_serializer = UserProfileSerializer(userprofile)
+
+    data={"info": userprofile_serializer.data, "user": UserSerializer(user).data}
+
     if (password_flag == True and email_flag == True):
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_201_CREATED)
     elif (password_flag == True):
-        return Response("Password Updated", status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_201_CREATED)
     elif (email_flag == True):
         serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_201_CREATED)
     else:
         return Response("Could not update User Profile.", status=status.HTTP_400_BAD_REQUEST)
         
