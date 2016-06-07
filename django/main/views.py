@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .serializer import UserSerializer, UserProfileSerializer
-from .models import UserProfile, UserCategory
+from .models import UserProfile, UserCategory, SocialNetwork
 import json
 
 # Create your views here.
@@ -24,15 +24,23 @@ def login(request, format=None):
         user = authenticate(username=username, password=password)
         if user is not None:
             print("User is valid, active and authenticated")
-            # serializer = UserSerializer(user)
-            userprofile = UserProfile.objects.get(userID=user)
-            serializer = UserProfileSerializer(userprofile)
+            userprofile = UserProfile.objects.get(userID=user) # Get User
+            serializer = UserProfileSerializer(userprofile) # Serialize params
             user_info = serializer.data
             print ("USER INFO")
-            category = UserCategory.objects.get(pk=user_info["user_category"])
+            category = UserCategory.objects.get(pk=user_info["user_category"]) # Get User Category
             user_info["user_category"] = category.name
             print ("NEW USER INFO")
             print (user_info)
+
+            # Adding User Social Network Links
+            social_network = SocialNetwork.objects.filter(userID=user.pk)
+            print ("USER'S SOCIAL NETWORK SITES")
+            social_network_links = []
+            for obj in social_network:
+                social_network_links.append(obj.url)
+
+            user_info["social_network"] = social_network_links
             data={"info": user_info, "user": UserSerializer(user).data}
             return Response(data, status=status.HTTP_201_CREATED)
         else:

@@ -33,7 +33,6 @@ class UserProfile (models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], max_length=16, blank=True, default="+19999999999") # validators should be a list
     biography = models.TextField(blank=True)
-    social_network = models.CharField(max_length=200, blank=True)
     user_category = models.ForeignKey(UserCategory)
 
     def __str__(self):
