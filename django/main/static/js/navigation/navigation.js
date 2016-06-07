@@ -1,5 +1,4 @@
 var nav_links = ["Home", "Profile", "Search", "Logout"];
-var current_user = "";
 function addNavigationEventListener()
 {
     document.getElementById("Home").addEventListener('click', openHomePage, false);
@@ -8,9 +7,8 @@ function addNavigationEventListener()
     document.getElementById("Logout").addEventListener('click', openLoginPage, false);
 }
 
-function createNavigationBar(user)
+function createNavigationBar()
 {
-    current_user = user;
     var navigation_div = document.createElement("div");
     navigation_div.id = "navigation-div";
     var table = document.createElement("table");
@@ -33,7 +31,9 @@ function createNavigationBar(user)
 function openProfilePage()
 {
     console.log("NAV PROFILE BUTTON CLICKED!");
-
+    console.log("CURRENT USER: ");
+    console.log(current_user);
+    console.log("----------------------------------")
     var body_div = document.getElementById("body-div");
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
@@ -41,13 +41,23 @@ function openProfilePage()
     var profile = document.createElement("div");
     profile.id = "div-user-profile";
 
+    // Table 1
+    // username, pw, email
     var info = document.createElement("table");
     info.id = "table-user-profile";
-    createProfile(info, current_user);
-
+    createProfile(info); //profile.js
     profile.appendChild(info);
     body_div.appendChild(profile);
-    addProfileButtonEventListener();
+    
+    // Table 2
+    // address, phone_number
+    info = document.createElement("table");
+    info.id = "table-user-info";
+    createInfo(info);
+    profile.appendChild(info);
+    body_div.appendChild(profile);
+
+    addProfileButtonEventListener(); //profile.js
 }
 
 function openHomePage()
@@ -56,7 +66,9 @@ function openHomePage()
     var body_div = document.getElementById("body-div");
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
-    createHomePage(current_user);
+    console.log("CURRENT USER:");
+    console.log(current_user);
+    createHomePage(current_user); //home.js
 }
 
 function openSearchPage()

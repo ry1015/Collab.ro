@@ -15,7 +15,6 @@ function createCurrentTracks(user){
 }
 
 function createHomePage(user){
-    console.log(user);
     // Check if user has uploaded some music
     
     createCurrentTracks(user);
@@ -34,8 +33,10 @@ function isEmpty(some_list){
 
 // Creates User Home Page
 // user, current user
+// user contains {info and user}
+// info contains address, phone_number, and address
+// user contains username, password, and email
 function showHome(user){
-    // user contains id, username, first_name, last_name, email
     console.log("INSIDE SHOWHOME");
     var login = document.getElementById("login");
     if (login.innerHTML != "")
@@ -48,7 +49,7 @@ function showHome(user){
     main.appendChild(header_div);
 
     // Add Navigation
-    var nav_div = createNavigationBar(user);
+    var nav_div = createNavigationBar(); //navigation.js
     main.appendChild(nav_div);
 
     // Add Navigation Event Listener
@@ -57,6 +58,6 @@ function showHome(user){
     var body = document.createElement("div");
     body.id = "body-div"
     main.appendChild(body);
-    openHomePage();
+    openHomePage(); //navigation.js
 }
 

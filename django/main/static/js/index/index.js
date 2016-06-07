@@ -21,7 +21,6 @@ function addIndexEventListener()
     document.getElementById("username").addEventListener('keydown', attachEventToLogin, false);
     document.getElementById("password").addEventListener('keydown', attachEventToLogin, false);
     document.getElementById("login_button").addEventListener('click', loginEvent, false);
-    // document.getElementById("sign-up").addEventListener('click', signupEvent, false);
 }
 
 // Creates login div

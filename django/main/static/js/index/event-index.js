@@ -11,8 +11,8 @@ function loginEvent()
     var processUser = function(result)
     {
         var user = result;
-        current_user = user;
-        showHome(user); //home.js
+        current_user = result;
+        showHome(current_user); //home.js
     }
 
     var url = "api/login";
