@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from .serializer import UserSerializer, UserProfileSerializer
-from .models import UserProfile, UserCategory, SocialNetwork
+from .serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer
+from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation
 import json
 
 # Create your views here.
@@ -26,22 +26,24 @@ def login(request, format=None):
             print("User is valid, active and authenticated")
             userprofile = UserProfile.objects.get(userID=user) # Get User
             serializer = UserProfileSerializer(userprofile) # Serialize params
-            user_info = serializer.data
-            print ("USER INFO")
-            category = UserCategory.objects.get(pk=user_info["user_category"]) # Get User Category
-            user_info["user_category"] = category.name
-            print ("NEW USER INFO")
-            print (user_info)
-
-            # Adding User Social Network Links
+            user_profile = serializer.data
+            
+            # Build user data (i.e. profile and contact info)
             social_network = SocialNetwork.objects.filter(userID=user.pk)
-            print ("USER'S SOCIAL NETWORK SITES")
             social_network_links = []
             for obj in social_network:
                 social_network_links.append(obj.url)
+            user_profile["social_network"] = social_network_links
 
-            user_info["social_network"] = social_network_links
-            data={"info": user_info, "user": UserSerializer(user).data}
+            # User Contact Info
+            contact_info = ContactInformation.objects.get(userID=user)
+            contact_info_serializer = ContactInformationSerializer(contact_info)
+
+            data={
+                "contact_info": contact_info_serializer.data,
+                "profile": user_profile,
+                "user": UserSerializer(user).data
+            }
             return Response(data, status=status.HTTP_201_CREATED)
         else:
             # the authentication system was unable to verify the username and password
@@ -56,8 +58,6 @@ def signup_user(request, format=None):
         user = User.objects.get(username=request.POST.get("username"))
         if (user):
             return Response("Username exists.", status=status.HTTP_400_BAD_REQUEST)
-        print(user)
-        print("---------------------------------")
     except:
         try:
             print ("Checking email")
@@ -67,6 +67,14 @@ def signup_user(request, format=None):
         except:
             try:
                 user = User.objects.create_user(request.POST.get("username"), email=request.POST.get("email"), password=request.POST.get("password"))
+                print ("USER PK")
+                print (user.pk)
+                try:
+                    profile = UserProfile.objects.create(userID=user)
+                except:
+                    print ("PROFILE COULD NOT BE CREATED.")
+                    return Response("Could not create Profile.", status=status.HTTP_400_BAD_REQUEST)
+
                 return Response("USERNAME and EMAIL UNIQUE!", status=status.HTTP_201_CREATED)
             except:
                 return Response("Could not create User.", status=status.HTTP_400_BAD_REQUEST)
