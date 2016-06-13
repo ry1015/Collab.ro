@@ -31,8 +31,8 @@ function createNavigationBar()
 function openProfilePage()
 {
     console.log("NAV PROFILE BUTTON CLICKED!");
-    console.log("CURRENT USER: ");
-    console.log(current_user);
+    console.log("CURRENT USER PROFILE: ");
+    console.log(current_user.profile);
     console.log("----------------------------------")
     var body_div = document.getElementById("body-div");
     if (body_div.innerHTML != "")
@@ -48,7 +48,7 @@ function openProfilePage()
     createProfile(info); //profile.js
     profile.appendChild(info);
     body_div.appendChild(profile);
-    
+    document.getElementById("Biography").value = current_user.profile["biography"];
     // Table 2
     // address, phone_number
     info = document.createElement("table");

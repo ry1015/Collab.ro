@@ -46,10 +46,17 @@ def login(request, format=None):
                 return Response("No Contact Information exists.", status=status.HTTP_400_BAD_REQUEST)
             contact_info_serializer = ContactInformationSerializer(contact_info)
 
+            # Sending a list of categories
+            categories = []
+            for obj in UserCategory.objects.all():
+                categories.append(obj.name)
+
+            print (categories)
             data={
                 "contact_info": contact_info_serializer.data,
                 "profile": user_profile,
-                "user": UserSerializer(user).data
+                "user": UserSerializer(user).data,
+                "categories": categories
             }
             return Response(data, status=status.HTTP_201_CREATED)
         else:
