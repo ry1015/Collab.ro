@@ -38,7 +38,8 @@ def login(request, format=None):
             for obj in social_network:
                 social_network_links.append(obj.url)
             user_profile["social_network"] = social_network_links
-
+            user_profile["user_category"] = userprofile.user_category.name
+            
             # User Contact Info
             try:
                 contact_info = ContactInformation.objects.get(userID=user)

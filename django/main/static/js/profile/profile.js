@@ -9,6 +9,7 @@ function createProfile(info){
     console.log("INSIDE CREATEPROFILE");
     var user_creds = current_user.user;
     var user_profile = current_user.profile;
+    var categories = current_user.categories;
 
     var attributes = [
         ["Username", user_creds.username],
@@ -34,6 +35,19 @@ function createProfile(info){
                         cell.innerHTML = "<input type='password' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
                     else if (attributes[i][j-1] == "Biography")
                         cell.innerHTML = "<textarea id='" + attributes[i][j-1] +"'>";
+                    else if (attributes[i][j-1] == "User Category")
+                    {
+                        var select = "<select id='"+ attributes[i][j-1] + "'>";
+                        for (var i in categories)
+                        {
+                            if (categories[i] == user_profile.user_category)
+                                select+="<option selected>" + categories[i] + "</option>";
+                            else
+                                select+="<option>" + categories[i] + "</option>";
+                        }
+                        select += "</select>";
+                        cell.innerHTML = select;
+                    }
                     else
                         cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
                 }
