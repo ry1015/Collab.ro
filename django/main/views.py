@@ -24,7 +24,11 @@ def login(request, format=None):
         user = authenticate(username=username, password=password)
         if user is not None:
             print("User is valid, active and authenticated")
-            userprofile = UserProfile.objects.get(userID=user) # Get User
+            try:
+                userprofile = UserProfile.objects.get(userID=user) # Get User
+            except:
+                return Response("No User Profile.", status=status.HTTP_400_BAD_REQUEST)
+
             serializer = UserProfileSerializer(userprofile) # Serialize params
             user_profile = serializer.data
             
@@ -36,7 +40,10 @@ def login(request, format=None):
             user_profile["social_network"] = social_network_links
 
             # User Contact Info
-            contact_info = ContactInformation.objects.get(userID=user)
+            try:
+                contact_info = ContactInformation.objects.get(userID=user)
+            except:
+                return Response("No Contact Information exists.", status=status.HTTP_400_BAD_REQUEST)
             contact_info_serializer = ContactInformationSerializer(contact_info)
 
             data={
