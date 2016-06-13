@@ -81,6 +81,11 @@ def signup_user(request, format=None):
                 except:
                     print ("PROFILE COULD NOT BE CREATED.")
                     return Response("Could not create Profile.", status=status.HTTP_400_BAD_REQUEST)
+                try:
+                    contact_info = ContactInformation.objects.create(userID=user)
+                except:
+                    print ("CONTACT INFO COULD NOT BE CREATED.")
+                    return Response("Could not create Contact Info.", status=status.HTTP_400_BAD_REQUEST)
 
                 return Response("USERNAME and EMAIL UNIQUE!", status=status.HTTP_201_CREATED)
             except:
