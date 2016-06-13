@@ -9,7 +9,7 @@ function createProfile(info){
     console.log("INSIDE CREATEPROFILE");
     var user_creds = current_user.user;
     var user_profile = current_user.profile;
-    var categories = current_user.categories;
+    var categories = current_user.categories.sort();
 
     var attributes = [
         ["Username", user_creds.username],
@@ -38,10 +38,15 @@ function createProfile(info){
                     else if (attributes[i][j-1] == "User Category")
                     {
                         var select = "<select id='"+ attributes[i][j-1] + "'>";
+                        var empty = false;
                         for (var i in categories)
                         {
                             if (categories[i] == user_profile.user_category)
                                 select+="<option selected>" + categories[i] + "</option>";
+                            else if (!empty && user_profile.user_category == ""){
+                                select+="<option selected>" + categories[0] + "</option>";
+                                empty = true;
+                            }
                             else
                                 select+="<option>" + categories[i] + "</option>";
                         }

@@ -21,7 +21,7 @@ class Account (models.Model):
         return preview
 
 class UserCategory (models.Model):
-    name = models.CharField(max_length=10, default="--------")
+    name = models.CharField(max_length=10, default="")
     
     def __str__(self):
         preview = self.name
