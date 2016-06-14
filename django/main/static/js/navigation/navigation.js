@@ -45,14 +45,21 @@ function openProfilePage()
     // username, pw, email
     var info = document.createElement("table");
     info.id = "table-user-profile";
+    info.style.border = "1px dashed black";
+    info.createCaption();
+    info.innerHTML = "<b>Profile</b>";
     createProfile(info); //profile.js
     profile.appendChild(info);
     body_div.appendChild(profile);
     document.getElementById("Biography").value = current_user.profile["biography"];
+    
     // Table 2
     // address, phone_number
     info = document.createElement("table");
     info.id = "table-user-info";
+    info.style.border = "1px dashed black";
+    info.createCaption();
+    info.innerHTML = "<b>Contact Information</b>";
     createInfo(info);
     profile.appendChild(info);
     body_div.appendChild(profile);

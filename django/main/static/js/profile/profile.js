@@ -43,7 +43,8 @@ function createProfile(info){
                         {
                             if (categories[i] == user_profile.user_category)
                                 select+="<option selected>" + categories[i] + "</option>";
-                            else if (!empty && user_profile.user_category == ""){
+                            else if (!empty && user_profile.user_category == "")
+                            {
                                 select+="<option selected>" + categories[0] + "</option>";
                                 empty = true;
                             }
@@ -74,22 +75,21 @@ function createInfo(info){
     console.log("INSIDE CREATEINFO");
     console.log("CURRENT USER");
     console.log(current_user);
-    var user_info = current_user.info;
+    var user_info = current_user.contact_info;
     var attributes = [
         ["Phone Number", user_info.phone_number],
         ["Address", user_info.address],
-        ["Biography", user_info.biography],
-        ["Category", user_info.user_category]
     ];
 
-    for (var i in attributes){
+    for (var i in attributes)
+    {
         var row = info.insertRow(info.rows.length);
         for (var j in attributes[i]){
             var cell = row.insertCell(j);
             if (j == 0)
                 cell.innerHTML = attributes[i][j];
             else
-                cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
+                cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +" placeholder=Optional>";
         }
     }
 
