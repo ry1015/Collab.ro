@@ -73,8 +73,8 @@ function createProfile(info){
 // user_info, user information table
 function createInfo(info){
     console.log("INSIDE CREATEINFO");
-    console.log("CURRENT USER");
-    console.log(current_user);
+    // console.log("CURRENT USER");
+    // console.log(current_user);
     var user_info = current_user.contact_info;
     var attributes = [
         ["Phone Number", user_info.phone_number],

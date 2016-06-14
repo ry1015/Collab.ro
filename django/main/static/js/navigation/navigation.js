@@ -31,8 +31,8 @@ function createNavigationBar()
 function openProfilePage()
 {
     console.log("NAV PROFILE BUTTON CLICKED!");
-    console.log("CURRENT USER PROFILE: ");
-    console.log(current_user.profile);
+    // console.log("CURRENT USER PROFILE: ");
+    // console.log(current_user.profile);
     console.log("----------------------------------")
     var body_div = document.getElementById("body-div");
     if (body_div.innerHTML != "")
