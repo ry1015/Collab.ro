@@ -57,13 +57,16 @@ function updateEvent(){
 
     var updateUserProfile = function(data){
         var url = "api/update-profile";
-        var data = data;
+        var data = JSON.stringify(data);
         console.log(data);
         postRequest(url, data, processUserProfileUpdate); //ajax.js
     }
 
     var processUserProfileUpdate = function(result){
+        console.log("USER PROFILE UPDATE SUCCESSFUL!")
         current_user = result;
+        console.log("CURRENT USER");
+        console.log(current_user);
         openProfilePage(); //navigation.js
     }
 
@@ -75,6 +78,9 @@ function updateEvent(){
     var contact_info = {};
     var profile = {};
 
+    if (current_user.user.email == email)
+        email = "";
+    
     user["email"] = email;
     user["password"] = password;
 

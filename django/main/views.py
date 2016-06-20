@@ -108,49 +108,97 @@ def signup_user(request, format=None):
 @api_view(['GET', 'POST'])
 def update_profile(request, format=None):
     print ("Updating Profile")
-    print (request.POST)
-    username = request.POST.get("username")
-    print ("USERNAME: " + str(username))
-    password = request.POST.get("password")
-    email = request.POST.get("email")
-    password_flag = False
-    email_flag = False
+    data = json.loads(request.body.decode("utf-8"))
+    username = data["username"]
+    user_info = data["user"]
+    profile = data["profile"]
+    contact_info = data["contact_info"]
 
-    user = User.objects.get(username=username)
-    if (email):
-        # Check if email address already exists
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return Response("User Does Not Exist.", status=status.HTTP_400_BAD_REQUEST)
+
+    # Updating User Email and Password
+    if (user_info["email"]):
+        # Check if email already exists
         try:
-            temp_user = User.objects.get(email=email)
+            temp_user = User.objects.get(email=user_info["email"])
             if (temp_user):
-                return Response("Email already Exists!", status=status.HTTP_400_BAD_REQUEST)
+                return Response("Email already exists.", status=status.HTTP_400_BAD_REQUEST)
         except:
-            print ("NEW EMAIL")
-            email_flag = True
-            user.email = email
+            print ("Updating Email")
+            user.email = user_info["email"]
             user.save()
-
-    if (password):
-        print ("NEW PASSWORD!")
-        password_flag = True
-        user.set_password(password)
+    
+    if (user_info["password"]):
+        print ("Updating Password")
+        user.set_password(user_info["password"])
         user.save()
-        serializer = UserSerializer(user)
 
-    if (email_flag == True):
-        serializer = UserSerializer(user)
+    # Updating User Contact Info
+    try:
+        contact_info_serializer = ContactInformationSerializer(data=contact_info)
+    except:
+        print ("SOMETHING WENT WORNG WITH CONTACT INFO SERIALIZER")
+        return Response("Contact Info Serializer Error.", status=status.HTTP_400_BAD_REQUEST)
 
-    userprofile = UserProfile.objects.get(userID=user)
-    userprofile_serializer = UserProfileSerializer(userprofile)
-
-    data={"info": userprofile_serializer.data, "user": UserSerializer(user).data}
-
-    if (password_flag == True and email_flag == True):
-        return Response(data, status=status.HTTP_201_CREATED)
-    elif (password_flag == True):
-        return Response(data, status=status.HTTP_201_CREATED)
-    elif (email_flag == True):
-        serializer = UserSerializer(user)
-        return Response(data, status=status.HTTP_201_CREATED)
+    if contact_info_serializer.is_valid():
+        print ("VALID CONTACT INFO")
+        try:
+            user_contact_info = ContactInformation.objects.get(userID=user)
+            if (contact_info["address"]):
+                user_contact_info.address = contact_info["address"]
+            if (contact_info["phone_number"]):
+                user_contact_info.phone_number = contact_info["phone_number"]
+            user_contact_info.save()
+        except:
+            return Response("Contact Info Does Not Exist.", status=status.HTTP_400_BAD_REQUEST)
     else:
-        return Response("Could not update User Profile.", status=status.HTTP_400_BAD_REQUEST)
-        
+        print ("NOT VALID CONTACT INFO")
+        return Response("Contact Info Not Valid.", status=status.HTTP_400_BAD_REQUEST)
+    
+
+    # Updating User Profile
+    try:
+        profile["user_category"] = UserCategory.objects.get(name=profile["user_category"]).id
+        print (profile)
+        userprofile_serializer = UserProfileSerializer(data=profile)
+    except:
+        print ("SOMETHING WENT WORNG WITH USER PROFILE SERIALIZER")
+        return Response("User Profile Serializer Error.", status=status.HTTP_400_BAD_REQUEST)
+
+    if userprofile_serializer.is_valid(raise_exception=True):
+        print ("USER PROFILE VALID")
+        try:
+            userprofile = UserProfile.objects.get(userID=user)
+            if (profile["biography"]):
+                userprofile.biography = profile["biography"]
+                userprofile.save()
+            if (profile["user_category"]):
+                try:
+                    userprofile.user_category = UserCategory.objects.get(id=profile["user_category"])
+                except:
+                    print ("ERROR SAVING USER CATEGORY")
+                userprofile.save()
+        except:
+            return Response("User Profile Does Not Exist.", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        print ("NOT VALID USER PROFILE")
+        return Response("User Profile Serializer Error.", status=status.HTTP_400_BAD_REQUEST)
+
+    # Sending a list of categories
+    categories = []
+    for obj in UserCategory.objects.all():
+        categories.append(obj.name)
+
+    profile = UserProfileSerializer(UserProfile.objects.get(userID=user)).data
+    profile["user_category"] = userprofile.user_category.name
+    print (profile)
+    data={
+        "contact_info": ContactInformationSerializer(ContactInformation.objects.get(userID=user)).data,
+        "profile": profile,
+        "user": UserSerializer(user).data,
+        "categories": categories
+    }
+    return Response(data, status=status.HTTP_201_CREATED)
