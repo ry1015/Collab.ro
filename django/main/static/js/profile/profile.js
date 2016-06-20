@@ -1,6 +1,6 @@
 function addProfileButtonEventListener(){
-    document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false); //event-profile.js
-    document.getElementById("info_update").addEventListener('click', updateInfoEvent, false); //event-profile.js
+    // document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false); //event-profile.js
+    document.getElementById("user_update").addEventListener('click', updateEvent, false); //event-profile.js
 }
 
 // Create User Profile Table
@@ -61,12 +61,12 @@ function createProfile(info){
         }
     }
 
-    row = info.insertRow(info.rows.length);
-    cell = row.insertCell(0);
-    var update_button = document.createElement("button");
-    update_button.id = "profile_update";
-    update_button.textContent = "Update";
-    info.appendChild(update_button);
+    // row = info.insertRow(info.rows.length);
+    // cell = row.insertCell(0);
+    // var update_button = document.createElement("button");
+    // update_button.id = "profile_update";
+    // update_button.textContent = "Update";
+    // info.appendChild(update_button);
 }
 
 // Create User Information Table
@@ -96,7 +96,7 @@ function createInfo(info){
     row = info.insertRow(info.rows.length);
     cell = row.insertCell(0);
     var update_button = document.createElement("button");
-    update_button.id = "info_update";
+    update_button.id = "user_update";
     update_button.textContent = "Update";
     info.appendChild(update_button);
 }
