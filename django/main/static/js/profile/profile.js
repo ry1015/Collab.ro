@@ -16,7 +16,8 @@ function createProfile(info){
         ["Password", ""],
         ["Email", user_creds.email],
         ["Biography", user_profile.biography],
-        ["User Category", user_profile.user_category]
+        ["User Category", user_profile.user_category],
+        ["Social Network", user_profile.social_network]
     ];
 
     for (var i in attributes){
@@ -53,6 +54,10 @@ function createProfile(info){
                         }
                         select += "</select>";
                         cell.innerHTML = select;
+                    }
+                    else if (attributes[i][j-1] == "Social Network")
+                    {
+                        cell.innerHTML = "<img src='media/add_button.png' width='20px'id='Social Network'>";
                     }
                     else
                         cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
