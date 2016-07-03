@@ -5,6 +5,6 @@ body {
     padding: 0 0 0 0;
 }
 
-img[id='Social Network']:hover {
+#social_network_button:hover {
     cursor: pointer;
 }

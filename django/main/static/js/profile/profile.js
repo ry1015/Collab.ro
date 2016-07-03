@@ -3,6 +3,13 @@ function addProfileButtonEventListener(){
     document.getElementById("user_update").addEventListener('click', updateEvent, false); //event-profile.js
 }
 
+function addSocialNetworkEventListener(){
+    document.getElementById("social_network_button").addEventListener('click', addSocialNetworkSite, false); //event-profile.js
+}
+
+function deleteSocialNetworkEventListener(){
+    document.getElementById("delete_social_network_site").addEventListener('click', deleteSocialNetworkSite, false) //event-profile.js
+}
 // Create User Profile Table
 // info, user profile table
 function createProfile(info){
@@ -10,6 +17,8 @@ function createProfile(info){
     var user_creds = current_user.user;
     var user_profile = current_user.profile;
     var categories = current_user.categories.sort();
+    var social_network_id = "social_network_table";
+    var social_network_add_button = "social_network_button";
 
     var attributes = [
         ["Username", user_creds.username],
@@ -57,7 +66,30 @@ function createProfile(info){
                     }
                     else if (attributes[i][j-1] == "Social Network")
                     {
-                        cell.innerHTML = "<img src='media/add_button.png' width='20px'id='Social Network'>";
+
+                        console.log("Social Networks");
+                        var social_network_list = attributes[i][j];
+                        console.log(social_network_list);
+                        var sn_table = document.createElement("table");
+                        
+                        // Add table rows for social network
+                        for (var link in social_network_list){
+                            var sn_row = sn_table.insertRow(sn_table.rows.length);
+                            var sn_cell = sn_row.insertCell(0);
+                            sn_cell.innerHTML = "<a href=" + social_network_list[link]+ ">" + social_network_list[link] + "</a>";
+                            sn_cell = sn_row.insertCell(1);
+                            sn_cell.innerHTML = "<a href=# id=delete_social_network_site>DELETE</a>";
+                        }
+
+                        // Append Social Network rows to social_network table                        
+                        var table_node = "<table id=" + social_network_id + ">";
+                        sn_row = sn_table.insertRow(sn_table.rows.length);
+                        sn_cell = sn_row.insertCell(0);
+                        sn_cell.innerHTML = "<img src='media/add_button.png' width='20px'id='social_network_button'>";
+                        table_node+=sn_table.innerHTML;
+                        table_node+="</table>";
+                        // console.log(table_node);
+                        cell.innerHTML = table_node;
                     }
                     else
                         cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
