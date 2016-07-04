@@ -29,3 +29,17 @@ function postRequest(url, data, callback){
         }
     });
 }
+
+function deleteRequest(url, data, callback){
+    $.ajax({
+        type: "DELETE",
+        url: url,
+        data: data,
+        success : function (result){
+            callback(result);
+        },
+        error : function(result){
+            failCallback(result);
+        }
+    });
+}

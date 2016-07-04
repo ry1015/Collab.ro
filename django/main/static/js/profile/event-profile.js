@@ -2,9 +2,35 @@ function addSocialNetworkSite(){
     console.log("ADD SOCIAL NETWORK");
 }
 
-function deleteSocialNetworkSite(){
+function deleteSocialNetworkSite(x){
     console.log("DELETE SOCIAL NETWORK");
+    var test = document.getElementById(this.id);
+    console.log(test.parentNode.parentNode.rowIndex);
+    var test_index = test.parentNode.parentNode.rowIndex;
+    var table = document.getElementById("social_network_table");
+    table.deleteRow(test_index);
+    
+    // var sn_link = this.id.split("_")[0];
+    // console.log(sn_link);
+    // var deleteUserSocialSite = function(social_network){
+    //     var url = "api/delete-social-network";
+    //     var data = {};
+    //     data["username"] = current_user.user.username;
+    //     data["social_network"] = social_network;
+    //     deleteRequest(url, data, processDeletedSocialSite);
+    // }
+
+    // var processDeletedSocialSite = function(result){
+    //     console.log("USER'S SOCIAL SITE DELETED!");
+    //     current_user = result;
+    //     console.log("CURRENT USER");
+    //     console.log(current_user);
+    //     openProfilePage();
+    // }
+
+    // deleteUserSocialSite(sn_link);
 }
+
 function updateEvent(){
     console.log("UPDATE BUTTON CLICKED!");
     var password = document.getElementById("Password").value;

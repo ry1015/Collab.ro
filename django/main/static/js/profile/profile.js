@@ -8,7 +8,12 @@ function addSocialNetworkEventListener(){
 }
 
 function deleteSocialNetworkEventListener(){
-    document.getElementById("delete_social_network_site").addEventListener('click', deleteSocialNetworkSite, false) //event-profile.js
+    var social_network_list = document.getElementsByClassName("delete_social_network_site");
+    for (var i in social_network_list){
+        if (!isNaN(Number(i)))
+            document.getElementById(social_network_list[i].id).addEventListener('click', deleteSocialNetworkSite, false) //event-profile.js
+    }
+    
 }
 // Create User Profile Table
 // info, user profile table
@@ -76,9 +81,9 @@ function createProfile(info){
                         for (var link in social_network_list){
                             var sn_row = sn_table.insertRow(sn_table.rows.length);
                             var sn_cell = sn_row.insertCell(0);
-                            sn_cell.innerHTML = "<a href=" + social_network_list[link]+ ">" + social_network_list[link] + "</a>";
+                            sn_cell.innerHTML = "<a id=" + social_network_list[link]+ " href=" + social_network_list[link]+ " target=_blank>" + social_network_list[link] + "</a>";
                             sn_cell = sn_row.insertCell(1);
-                            sn_cell.innerHTML = "<a href=# id=delete_social_network_site>DELETE</a>";
+                            sn_cell.innerHTML = "<span id=" + social_network_list[link]+ "_delete class=delete_social_network_site>DELETE</span>";
                         }
 
                         // Append Social Network rows to social_network table                        
