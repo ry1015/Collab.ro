@@ -90,7 +90,8 @@ function createProfile(info){
                         var table_node = "<table id=" + social_network_id + ">";
                         sn_row = sn_table.insertRow(sn_table.rows.length);
                         sn_cell = sn_row.insertCell(0);
-                        sn_cell.innerHTML = "<img src='media/add_button.png' width='20px'id='social_network_button'>";
+                        sn_input = "<input type=text placeholder='www.facebook.com/name'>";
+                        sn_cell.innerHTML = sn_input + "<img src='media/add_button.png' width='20px'id='social_network_button'>";
                         table_node+=sn_table.innerHTML;
                         table_node+="</table>";
                         // console.log(table_node);

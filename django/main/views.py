@@ -29,11 +29,48 @@ def delete_social_network(request, format=None):
     try:
         social_network = SocialNetwork.objects.get(userID=user, url__contains=sn)
         social_network.delete()
-        return Response("Social Network Deleted.", status=status.HTTP_200_OK)
     except:
-        print (None)
-    return Response("Could Not Delete Social Network.", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Could Not Delete Social Network.", status=status.HTTP_400_BAD_REQUEST)
 
+    data = get_user_data(username)
+    print (data)
+    return Response(data, status=status.HTTP_200_OK)
+
+def get_user_data(username):
+    user = User.objects.get(username=username)
+
+    # User Profile
+    try:
+        userprofile = UserProfile.objects.get(userID=user) # Get User
+    except:
+        return Response("Cannot Retrieve User Data. No User Profile.", status=status.HTTP_400_BAD_REQUEST)
+
+    serializer = UserProfileSerializer(userprofile) # Serialize params
+    user_profile = serializer.data
+    print ("USER PROFILE BEFORE")
+    print(user_profile)
+    user_profile["user_category"] =UserCategory.objects.get(id=user_profile["user_category"]).name
+    print ("USER PROFILE AFTER")
+    print(user_profile)
+    # User Contact Info
+    try:
+        contact_info = ContactInformation.objects.get(userID=user)
+    except:
+        return Response("Cannot Retrieve User Data. No Contact Information exists.", status=status.HTTP_400_BAD_REQUEST)
+    contact_info_serializer = ContactInformationSerializer(contact_info)
+
+    # Sending a list of categories
+    categories = []
+    for obj in UserCategory.objects.all():
+        categories.append(obj.name)
+    
+    data={
+        "contact_info": contact_info_serializer.data,
+        "profile": user_profile,
+        "user": UserSerializer(user).data,
+        "categories": categories
+    }
+    return data
 
 @api_view(['GET', 'POST'])
 def login(request, format=None):
