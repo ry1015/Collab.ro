@@ -4,31 +4,35 @@ function addSocialNetworkSite(){
 
 function deleteSocialNetworkSite(x){
     console.log("DELETE SOCIAL NETWORK");
-    var test = document.getElementById(this.id);
-    console.log(test.parentNode.parentNode.rowIndex);
-    var test_index = test.parentNode.parentNode.rowIndex;
+
+    // Delete row from Social Network Table
+    var sn_node = document.getElementById(this.id);
+    var sn_index = sn_node.parentNode.parentNode.rowIndex;
     var table = document.getElementById("social_network_table");
-    table.deleteRow(test_index);
+    table.deleteRow(sn_index);
     
-    // var sn_link = this.id.split("_")[0];
-    // console.log(sn_link);
-    // var deleteUserSocialSite = function(social_network){
-    //     var url = "api/delete-social-network";
-    //     var data = {};
-    //     data["username"] = current_user.user.username;
-    //     data["social_network"] = social_network;
-    //     deleteRequest(url, data, processDeletedSocialSite);
-    // }
+    // Delete User Social Network from Database
+    var sn_link = this.id.split("_")[0];
 
-    // var processDeletedSocialSite = function(result){
-    //     console.log("USER'S SOCIAL SITE DELETED!");
-    //     current_user = result;
-    //     console.log("CURRENT USER");
-    //     console.log(current_user);
-    //     openProfilePage();
-    // }
+    var deleteUserSocialSite = function(social_network){
+        var url = "api/delete-social-network";
+        var data = {};
+        data["username"] = current_user.user.username;
+        data["social_network"] = social_network;
+        console.log(data);
+        data = JSON.stringify(data);
+        deleteRequest(url, data, processDeletedSocialSite);
+    }
 
-    // deleteUserSocialSite(sn_link);
+    var processDeletedSocialSite = function(result){
+        console.log("USER'S SOCIAL SITE DELETED!");
+        current_user = result;
+        console.log("CURRENT USER");
+        console.log(current_user);
+        // openProfilePage();
+    }
+
+    deleteUserSocialSite(sn_link);
 }
 
 function updateEvent(){

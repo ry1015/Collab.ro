@@ -14,7 +14,27 @@ def index(request):
 
 def signup(request):
     return render_to_response('html/signup.html')
-    
+
+@api_view(['DELETE'])
+def delete_social_network(request, format=None):
+    print ("Deleting Social Network")
+    data = json.loads(request.body.decode("utf-8"))
+    username = data["username"]    
+    sn = data["social_network"]
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return Response("Delete Social Network Error. Username Does Not Exist.")
+
+    try:
+        social_network = SocialNetwork.objects.get(userID=user, url__contains=sn)
+        social_network.delete()
+        return Response("Social Network Deleted.", status=status.HTTP_200_OK)
+    except:
+        print (None)
+    return Response("Could Not Delete Social Network.", status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET', 'POST'])
 def login(request, format=None):
     if request.method == "GET":
