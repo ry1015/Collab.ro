@@ -1,5 +1,24 @@
 function addSocialNetworkSite(){
     console.log("ADD SOCIAL NETWORK");
+    var sn_node = document.getElementById(this.id);
+    var sn_index = sn_node.parentNode.parentNode.rowIndex;
+    var table = document.getElementById("social_network_table");
+    var row = null;
+    var sn_link = document.getElementById("add_social_network").value;
+
+    if (sn_link != ""){
+        if (sn_index == 0)
+            row = table.insertRow(0);
+        else
+            row = table.insertRow(sn_index);
+        
+        var cell = row.insertCell(0);
+        cell.innerHTML = "<a id=http://" + sn_link+ " href=http://" + sn_link+ " target=_blank>http://" + sn_link + "</a>";
+        document.getElementById("add_social_network").value = "";
+        cell = row.insertCell(1);
+        cell.innerHTML = "<span id=" + sn_link + "_delete class=delete_social_network_site>DELETE</span>";
+        deleteSocialNetworkEventListener();
+    }
 }
 
 function deleteSocialNetworkSite(x){
