@@ -6,6 +6,22 @@ function addSocialNetworkSite(){
     var row = null;
     var sn_link = document.getElementById("add_social_network").value;
 
+    var addUserSocialSite = function(){
+        var url = "api/add-social-network";
+        var data = {};
+        data["username"] = current_user.user.username;
+        data["social_network"] = sn_link;
+        data = JSON.stringify(data);
+        postRequest(url, data, processAddedSocialSite)
+    }
+
+    var processAddedSocialSite = function(result){
+        console.log("USER'S SOCIAL SITE ADDED!");
+        current_user = result;
+        console.log("CURRENT USER");
+        console.log(current_user);
+    }
+
     if (sn_link != ""){
         if (sn_index == 0)
             row = table.insertRow(0);
@@ -17,7 +33,8 @@ function addSocialNetworkSite(){
         document.getElementById("add_social_network").value = "";
         cell = row.insertCell(1);
         cell.innerHTML = "<span id=" + sn_link + "_delete class=delete_social_network_site>DELETE</span>";
-        deleteSocialNetworkEventListener();
+        deleteSocialNetworkEventListener(); // profile.js
+        addUserSocialSite();
     }
 }
 
@@ -38,7 +55,7 @@ function deleteSocialNetworkSite(x){
         var data = {};
         data["username"] = current_user.user.username;
         data["social_network"] = social_network;
-        console.log(data);
+        // console.log(data);
         data = JSON.stringify(data);
         deleteRequest(url, data, processDeletedSocialSite);
     }

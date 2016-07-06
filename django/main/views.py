@@ -15,6 +15,32 @@ def index(request):
 def signup(request):
     return render_to_response('html/signup.html')
 
+@api_view(['POST'])
+def add_social_network(request, format=None):
+    print ("Adding Social Network")
+    data = json.loads(request.body.decode("utf-8"))
+    print (data)
+    username = data["username"]
+    sn = "http://" + data["social_network"]
+
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return Response("Add Social Network Error. Username Does Not Exist.")
+
+    try:
+        social_network = SocialNetwork.objects.get(userID=user, url=sn)
+    except:
+        try:
+            new_social_network = SocialNetwork.objects.create(userID=user, url=sn)
+        except:
+            return Response("Social Network Error. Cannot Create New Social Network Site")
+        data = get_user_data(username)
+        return Response(data, status=status.HTTP_200_OK)
+    
+    if (social_network):
+        return Response("Social Network Already Exists!", status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['DELETE'])
 def delete_social_network(request, format=None):
     print ("Deleting Social Network")
@@ -47,11 +73,15 @@ def get_user_data(username):
 
     serializer = UserProfileSerializer(userprofile) # Serialize params
     user_profile = serializer.data
-    print ("USER PROFILE BEFORE")
-    print(user_profile)
     user_profile["user_category"] =UserCategory.objects.get(id=user_profile["user_category"]).name
-    print ("USER PROFILE AFTER")
-    print(user_profile)
+    
+    # Build user data (i.e. profile and contact info)
+    social_network = SocialNetwork.objects.filter(userID=user.pk)
+    social_network_links = []
+    for obj in social_network:
+        social_network_links.append(obj.url)
+    user_profile["social_network"] = social_network_links
+
     # User Contact Info
     try:
         contact_info = ContactInformation.objects.get(userID=user)
