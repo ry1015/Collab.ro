@@ -91,7 +91,7 @@ function createProfile(info){
                         var table_node = "<table id=" + social_network_id + ">";
                         sn_row = sn_table.insertRow(sn_table.rows.length);
                         sn_cell = sn_row.insertCell(0);
-                        sn_input = "<input id=" + new_social_network_id + " type=text value='www.facebook.com/name'>";
+                        sn_input = "<input id=" + new_social_network_id + " type=text placeholder='www.facebook.com/user'>";
                         sn_cell.innerHTML = sn_input + "<img src='media/add_button.png' width='20px'id='social_network_button'>";
                         table_node+=sn_table.innerHTML;
                         table_node+="</table>";

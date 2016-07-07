@@ -274,18 +274,5 @@ def update_profile(request, format=None):
         print ("NOT VALID USER PROFILE")
         return Response("User Profile Serializer Error.", status=status.HTTP_400_BAD_REQUEST)
 
-    # Sending a list of categories
-    categories = []
-    for obj in UserCategory.objects.all():
-        categories.append(obj.name)
-
-    profile = UserProfileSerializer(UserProfile.objects.get(userID=user)).data
-    profile["user_category"] = userprofile.user_category.name
-    print (profile)
-    data={
-        "contact_info": ContactInformationSerializer(ContactInformation.objects.get(userID=user)).data,
-        "profile": profile,
-        "user": UserSerializer(user).data,
-        "categories": categories
-    }
+    data = get_user_data(username)
     return Response(data, status=status.HTTP_201_CREATED)

@@ -22,19 +22,32 @@ function addSocialNetworkSite(){
         console.log(current_user);
     }
 
+    var contains = function(list, new_link){
+        for (var i in list){
+            if (list[i] == new_link)
+                return true;
+        }
+        return false;
+    }
+
     if (sn_link != ""){
-        if (sn_index == 0)
-            row = table.insertRow(0);
-        else
-            row = table.insertRow(sn_index);
-        
-        var cell = row.insertCell(0);
-        cell.innerHTML = "<a id=http://" + sn_link+ " href=http://" + sn_link+ " target=_blank>http://" + sn_link + "</a>";
-        document.getElementById("add_social_network").value = "";
-        cell = row.insertCell(1);
-        cell.innerHTML = "<span id=" + sn_link + "_delete class=delete_social_network_site>DELETE</span>";
-        deleteSocialNetworkEventListener(); // profile.js
-        addUserSocialSite();
+        var new_link = "http://" + sn_link;
+        if (!contains(current_user.profile.social_network, new_link)){
+            if (sn_index == 0)
+                row = table.insertRow(0);
+            else
+                row = table.insertRow(sn_index);
+            
+            var cell = row.insertCell(0);
+            cell.innerHTML = "<a id=http://" + sn_link+ " href=http://" + sn_link+ " target=_blank>http://" + sn_link + "</a>";
+            var add_social_network_input = document.getElementById("add_social_network");
+            add_social_network_input.value = "";
+            add_social_network_input.placeholder = "www.facebook.com/user";
+            cell = row.insertCell(1);
+            cell.innerHTML = "<span id=" + sn_link + "_delete class=delete_social_network_site>DELETE</span>";
+            deleteSocialNetworkEventListener(); // profile.js
+            addUserSocialSite();
+        }
     }
 }
 
