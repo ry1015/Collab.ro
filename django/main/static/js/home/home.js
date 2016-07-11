@@ -18,6 +18,19 @@ function createHomePage(user){
     // Check if user has uploaded some music
     
     createCurrentTracks(user);
+    var main_div = document.getElementById("body-div");
+    
+    var home_div = document.createElement("div");
+    home_div.id = "home_div";
+    
+    var project_span = document.createElement("span");
+    project_span.innerHTML = "WELCOME HOME!";
+    home_div.appendChild(project_span);
+    main_div.appendChild(home_div);
+}
+
+function createProject(parent_node){
+
 }
 
 function getMusicTitle(){
