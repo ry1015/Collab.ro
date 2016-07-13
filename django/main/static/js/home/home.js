@@ -1,10 +1,22 @@
+// Global Variables
+var HOME_DIV_ID = "home_div";
+var PROJ_DIV_ID = "project_div";
+var PROJECT_TABLE_ID = "project_table";
+var BODY_DIV_ID = "body_div";
+var CURRENT_TRACKS_ID = "current-tracks-div";
+var NEW_PROJECT_ID = "new_project";
+
+function addProjectButtonEventListener(){
+    // document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false); //event-profile.js
+    document.getElementById(NEW_PROJECT_ID).addEventListener('click', newProjectEvent, false); //event-profile.js
+}
+
 // Creates Current Uploaded Tracks of A User
 // user, current user
 function createCurrentTracks(user){
-
-    var body_div = document.getElementById("body-div");
+    var body_div = document.getElementById(BODY_DIV_ID);
     var current_tracks_div = document.createElement("div");
-    current_tracks_div.id = "current-tracks-div";
+    current_tracks_div.id = CURRENT_TRACKS_ID;
 
     var table = document.createElement("table");
     var row = table.insertRow(table.rows.length);
@@ -16,21 +28,36 @@ function createCurrentTracks(user){
 
 function createHomePage(user){
     // Check if user has uploaded some music
-    
     createCurrentTracks(user);
-    var main_div = document.getElementById("body-div");
+    var parent_node = document.getElementById(BODY_DIV_ID);
     
-    var home_div = document.createElement("div");
-    home_div.id = "home_div";
+    // var home_div = document.createElement("div");
+    // home_div.id = HOME_DIV_ID;
     
-    var project_span = document.createElement("span");
-    project_span.innerHTML = "WELCOME HOME!";
-    home_div.appendChild(project_span);
-    main_div.appendChild(home_div);
+    // var project_span = document.createElement("span");
+    // project_span.innerHTML = "WELCOME HOME!";
+    // home_div.appendChild(project_span);
+    // main_div.appendChild(home_div);
+    createProject(parent_node);
 }
 
 function createProject(parent_node){
+    var attributes = [];
+    var project_node = document.createElement("div");
+    project_node.id = PROJ_DIV_ID;
 
+    var project_table = document.createElement("table");
+    project_table.id = PROJECT_TABLE_ID;
+    project_table.style.border = "1px dashed lightblue";
+    var row = project_table.insertRow(project_table.rows.length);
+    var cell = row.insertCell(0);
+    cell.innerHTML = "<b>PROJECT</b>";
+    cell = row.insertCell(1);
+    cell.innerHTML = "<button id=new_project>ADD PROJECT</button>";
+
+    project_node.appendChild(project_table);
+    parent_node.appendChild(project_node);
+    addProjectButtonEventListener();
 }
 
 function getMusicTitle(){
@@ -69,7 +96,7 @@ function showHome(user){
     addNavigationEventListener(); //navigation.js
 
     var body = document.createElement("div");
-    body.id = "body-div"
+    body.id = BODY_DIV_ID;
     main.appendChild(body);
     openHomePage(); //navigation.js
 }

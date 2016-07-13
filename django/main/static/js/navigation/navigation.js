@@ -34,7 +34,7 @@ function openProfilePage()
     // console.log("CURRENT USER PROFILE: ");
     // console.log(current_user.profile);
     console.log("----------------------------------")
-    var body_div = document.getElementById("body-div");
+    var body_div = document.getElementById(BODY_DIV_ID);
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
 
@@ -73,7 +73,7 @@ function openProfilePage()
 function openHomePage()
 {
     console.log("HOME BUTTON CLICKED!");
-    var body_div = document.getElementById("body-div");
+    var body_div = document.getElementById(BODY_DIV_ID);
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
     console.log("CURRENT USER:");
@@ -84,7 +84,7 @@ function openHomePage()
 function openSearchPage()
 {
     console.log("SEARCH BUTTON CLICKED!");
-    var body_div = document.getElementById("body-div");
+    var body_div = document.getElementById(BODY_DIV_ID);
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
 }
