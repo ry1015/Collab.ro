@@ -30,14 +30,7 @@ function createHomePage(user){
     // Check if user has uploaded some music
     createCurrentTracks(user);
     var parent_node = document.getElementById(BODY_DIV_ID);
-    
-    // var home_div = document.createElement("div");
-    // home_div.id = HOME_DIV_ID;
-    
-    // var project_span = document.createElement("span");
-    // project_span.innerHTML = "WELCOME HOME!";
-    // home_div.appendChild(project_span);
-    // main_div.appendChild(home_div);
+    createTrackList(parent_node); //track-list.js
     createProject(parent_node);
 }
 
