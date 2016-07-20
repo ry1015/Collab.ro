@@ -8,7 +8,7 @@ var NEW_PROJECT_ID = "new_project";
 
 function addProjectButtonEventListener(){
     // document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false); //event-profile.js
-    document.getElementById(NEW_PROJECT_ID).addEventListener('click', newProjectEvent, false); //event-profile.js
+    document.getElementById(NEW_PROJECT_ID).addEventListener('click', newProjectEvent, false); //event-home.js
 }
 
 // Creates Current Uploaded Tracks of A User
