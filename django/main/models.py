@@ -5,8 +5,9 @@ from django.core.validators import RegexValidator
 
 # Create your models here.
 class Music (models.Model):
-    artist_name = models.CharField(max_length=100)
+    userID = models.ForeignKey(User)
     title = models.CharField(max_length=200)
+    filename = models.CharField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
