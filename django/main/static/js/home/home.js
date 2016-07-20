@@ -7,7 +7,6 @@ var CURRENT_TRACKS_ID = "current-tracks-div";
 var NEW_PROJECT_ID = "new_project";
 
 function addProjectButtonEventListener(){
-    // document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false); //event-profile.js
     document.getElementById(NEW_PROJECT_ID).addEventListener('click', newProjectEvent, false); //event-home.js
 }
 

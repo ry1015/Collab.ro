@@ -1,3 +1,5 @@
+var TRACK_LIST_DIV_ID = "track-list-div";
+
 function createTrackList(parent_node){
     console.log("CREATING TRACK LIST");
     var track_list_div = document.createElement("div");
