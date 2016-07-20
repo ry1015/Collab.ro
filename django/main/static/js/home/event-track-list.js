@@ -1,15 +1,16 @@
 var TRACK_LIST_DIV_ID = "track_list_div";
 
-function getTracks(username, parent_node){
+function getUserTracks(parent_node){
     var url = "api/get-tracks";
     var data = {};
+    var username = current_user.user.username;
     data["username"] = username;
     data = JSON.stringify(data);
 
-    var processTracks() = function(result){
+    var processTracks = function(result){
         current_user["tracks"] = result["tracks"];
-
+        createUserTrackList(parent_node); // track-list.js
     }
-    getRequest(url, data, callback);
 
+    getRequest(url, data, processTracks);
 }

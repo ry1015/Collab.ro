@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from main import views
-
+from main.user_tracks import user_tracks
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^api/login$',views.login),
@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^api/update-profile', views.update_profile),
     url(r'^api/delete-social-network', views.delete_social_network),
     url(r'^api/add-social-network', views.add_social_network),
+    url(r'^api/get-tracks', user_tracks.get_user_tracks),
     # url(r'^api/userprofiles/$', views.userprofile_list),
     # url(r'^api/userprofile/(?P<pk>[0-9]+)/$', views.userprofile_detail),
     # url(r'^api/userprofiles$', user.userprofile_list),
