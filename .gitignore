@@ -8,3 +8,4 @@ django/startup/__pycache__/
 django/main/__pycache__/
 django/main/migrations/
 .DS_Store
+*.pyc
