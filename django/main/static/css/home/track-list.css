@@ -1,0 +1,7 @@
+.track-comment{
+    width: 25px;
+}
+
+.track-comment:hover{
+    cursor: pointer;
+}
