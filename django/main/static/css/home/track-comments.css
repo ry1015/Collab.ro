@@ -1,0 +1,18 @@
+.center{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+#comment-div{
+    /*border: 1px solid black;*/
+    width: 200px;
+}
+
+#test-table-id {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}

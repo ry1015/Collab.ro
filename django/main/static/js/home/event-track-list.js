@@ -17,5 +17,6 @@ function getUserTracks(parent_node){
 
 function showTrackComments(){
     var track = this.parentNode.previousSibling.childNodes[0].id;
-    console.log(track);
+    // console.log(track);
+    createTrackCommentSection(track);
 }
