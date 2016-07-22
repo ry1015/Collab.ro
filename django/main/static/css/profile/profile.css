@@ -1,0 +1,21 @@
+.delete_social_network_site{
+    width: 17px;
+    margin-left: 5px;
+    margin-bottom: -3px;
+}
+.delete_social_network_site:hover{
+    cursor: pointer;
+}
+
+#social_network_button{
+    width: 17px;
+    margin-bottom: -4px;
+    margin-left: 5px;
+}
+#social_network_button:hover {
+    cursor: pointer;
+}
+
+#add_social_network{
+    width: 267px;
+}

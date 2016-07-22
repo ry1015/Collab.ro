@@ -66,8 +66,8 @@ function openProfilePage()
     body_div.appendChild(profile);
 
     addProfileButtonEventListener(); //profile.js
-    addSocialNetworkEventListener();
-    deleteSocialNetworkEventListener();
+    addSocialNetworkEventListener(); //profile.js
+    deleteSocialNetworkEventListener(); //profile.js
 }
 
 function openHomePage()

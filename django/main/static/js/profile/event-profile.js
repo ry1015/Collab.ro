@@ -44,14 +44,14 @@ function addSocialNetworkSite(){
             add_social_network_input.value = "";
             add_social_network_input.placeholder = "www.facebook.com/user";
             cell = row.insertCell(1);
-            cell.innerHTML = "<span id=" + sn_link + "_delete class=delete_social_network_site>DELETE</span>";
+            cell.innerHTML = "<img src=media/delete_icon.jpg id=" + sn_link + "_delete class=delete_social_network_site>";
             deleteSocialNetworkEventListener(); // profile.js
             addUserSocialSite();
         }
     }
 }
 
-function deleteSocialNetworkSite(x){
+function deleteSocialNetworkSite(){
     console.log("DELETE SOCIAL NETWORK");
 
     // Delete row from Social Network Table

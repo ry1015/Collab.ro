@@ -2,17 +2,17 @@ var TRACK_LIST_DIV_ID = "track-list-div";
 var TRACK_LIST_TABLE_ID = "track-list-table";
 var COMMENT_CLASS = "track-comment";
 
+function commentsEventListener(){
+    var track_comments = document.getElementsByClassName("track-comment");
+    for (var i of track_comments){
+        i.addEventListener('click', showTrackComments, false);
+    }
+}
+
 function pauseEventListener(){
     var audio_list = document.getElementsByTagName("audio");
     for (var i of audio_list){
         i.addEventListener('play', pauseOther, false);
-    }
-}
-
-function commentsEventListener(){
-    var track_comments = document.getElementsByClassName("track-comment");
-    for (var i of track_comments){
-        console.log(i.parentNode.previousSibling.childNodes[0].src);
     }
 }
 
@@ -36,7 +36,7 @@ function createUserTrackList(parent_node){
         var row = track_list_table.insertRow(track_list_table.rows.length);
         var track = new Audio("media/" + track_list[filename]);
         track.controls = true;
-
+        track.id = track_list[filename];
 
         var cell = row.insertCell(0);
         cell.appendChild(track);
@@ -44,6 +44,7 @@ function createUserTrackList(parent_node){
         var comment = document.createElement("img");
         comment.setAttribute("class", COMMENT_CLASS);
         comment.src = "media/comment.ico";
+        
         cell = row.insertCell(1);
         cell.appendChild(comment);
     }

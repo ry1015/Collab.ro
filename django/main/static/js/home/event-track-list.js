@@ -14,3 +14,8 @@ function getUserTracks(parent_node){
 
     getRequest(url, data, processTracks);
 }
+
+function showTrackComments(){
+    var track = this.parentNode.previousSibling.childNodes[0].id;
+    console.log(track);
+}

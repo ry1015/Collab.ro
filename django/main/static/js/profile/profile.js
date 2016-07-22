@@ -84,15 +84,16 @@ function createProfile(info){
                             var sn_cell = sn_row.insertCell(0);
                             sn_cell.innerHTML = "<a id=" + social_network_list[link]+ " href=" + social_network_list[link]+ " target=_blank>" + social_network_list[link] + "</a>";
                             sn_cell = sn_row.insertCell(1);
-                            sn_cell.innerHTML = "<span id=" + social_network_list[link]+ "_delete class=delete_social_network_site>DELETE</span>";
+                            sn_cell.innerHTML = "<img src=media/delete_icon.jpg id=" + social_network_list[link]+ "_delete class=delete_social_network_site>";
                         }
 
                         // Append Social Network rows to social_network table                        
                         var table_node = "<table id=" + social_network_id + ">";
                         sn_row = sn_table.insertRow(sn_table.rows.length);
                         sn_cell = sn_row.insertCell(0);
-                        sn_input = "<input id=" + new_social_network_id + " type=text placeholder='www.facebook.com/user'>";
-                        sn_cell.innerHTML = sn_input + "<img src='media/add_button.png' width='20px'id='social_network_button'>";
+                        sn_cell.innerHTML = "<input id=" + new_social_network_id + " type=text placeholder='www.facebook.com/user'>";
+                        sn_cell = sn_row.insertCell(1);
+                        sn_cell.innerHTML = "<img src='media/add_button.png' id='social_network_button'>";
                         table_node+=sn_table.innerHTML;
                         table_node+="</table>";
                         // console.log(table_node);
