@@ -1,6 +1,7 @@
 var COMMENT_DIV_ID = "comment-div";
 var COMMENT_TABLE_ID = "comment-table-id";
 var TRACK_LIST_DIV_ID = "track-list-div";
+var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
 
 function createTrackCommentSection(track){
     console.log("CREATING TRACK COMMENT SECTION");
@@ -51,7 +52,6 @@ function clickOutside(){
 function traceClick(event){
     if (event.target.parentNode.parentNode != null)
         var parentNode = event.target.parentNode.parentNode.parentNode.parentNode.id;
-    // console.log(parentNode);
 
     var comment_div = document.getElementById("comment-div");
     // console.log(comment_div.innerHTML);
@@ -68,15 +68,4 @@ function traceClick(event){
             }
         }
     }
-    // }
-    // if (parentNode == null && )
-    //     comment_div.innerHTML = "";
-    // else if (COMMENT_SECTION_PARENT_IDS.includes(parentNode)){
-    //     console.log("INSIDE COMMENT SECTION");
-    // } 
-    // else {
-    //     var comment_div = document.getElementById("comment-div");
-    //     if (comment_div != null)
-    //         comment_div.innerHTML = "";
-    // }
 }
