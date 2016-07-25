@@ -27,6 +27,10 @@ Dependencies
 * Forking will be discussed later on
 
 * HELP
+
 1. https://www.youtube.com/watch?v=CKAdoAR0ykc (merge tool via git)
 2. https://www.youtube.com/watch?v=NnBb9NTk-To#t=729.771423 (pull request tutorial)
 3. https://www.youtube.com/watch?v=1S_526C8Gkw (how to fork)
+
+### GIT CHEATSHEET ###
+* https://services.github.com/kit/downloads/github-git-cheat-sheet.pdf
