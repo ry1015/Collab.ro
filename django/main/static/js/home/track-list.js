@@ -2,6 +2,7 @@ var TRACK_LIST_DIV_ID = "track-list-div";
 var TRACK_LIST_TABLE_ID = "track-list-table";
 var COMMENT_CLASS = "track-comment";
 
+// Add click event listener to all elements that contains a class name of track-comment
 function commentsEventListener(){
     var track_comments = document.getElementsByClassName("track-comment");
     for (var i of track_comments){
@@ -9,6 +10,8 @@ function commentsEventListener(){
     }
 }
 
+// Add a pause event listener to tracks
+// This will cause a currently playing track to stop if a user plays a different track
 function pauseEventListener(){
     var audio_list = document.getElementsByTagName("audio");
     for (var i of audio_list){
@@ -16,6 +19,8 @@ function pauseEventListener(){
     }
 }
 
+// Create a track list div
+// parent_node, parent to append the track list div
 function createTrackList(parent_node){
     console.log("CREATING TRACK LIST");
     var track_list_div = document.createElement("div");
@@ -23,6 +28,8 @@ function createTrackList(parent_node){
     getUserTracks(parent_node); //event-track-list.js
 }
 
+// Creates a div for all tracks associated to a user
+// parent_node, parent to append the track list
 function createUserTrackList(parent_node){
     var track_list_div = document.createElement("div");
     track_list_div.id = TRACK_LIST_DIV_ID;
@@ -55,6 +62,7 @@ function createUserTrackList(parent_node){
     commentsEventListener();
 }
 
+// Pause other playing tracks
 function pauseOther(){
     var audio = document.getElementsByTagName("audio");
     for (var i of audio){

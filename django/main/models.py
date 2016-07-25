@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
 # Create your models here.
+# Music table
 class Music (models.Model):
     userID = models.ForeignKey(User)
     title = models.CharField(max_length=200)
@@ -15,6 +16,8 @@ class Music (models.Model):
         preview = "(" + self.artist_name + ") " + self.title
         return preview
 
+# Account table
+# May be deleted... Not sure
 class Account (models.Model):
     account_type = models.CharField(max_length=100)
 
@@ -22,6 +25,7 @@ class Account (models.Model):
         preview = self.account_type
         return preview
 
+# Category of a user i.e. Vocalist, Producer
 class UserCategory (models.Model):
     name = models.CharField(max_length=10, default="")
     
@@ -29,6 +33,7 @@ class UserCategory (models.Model):
         preview = self.name
         return preview
 
+# User Contact Info
 class ContactInformation (models.Model):
     userID = models.ForeignKey(User)
     address = models.CharField(max_length=200, blank=True)
@@ -39,6 +44,7 @@ class ContactInformation (models.Model):
         preview = "(" + str(self.userID) + ") " + str(self.phone_number)
         return preview
 
+# User Profile
 class UserProfile (models.Model):
     userID = models.ForeignKey(User)
     biography = models.TextField(blank=True)
@@ -48,6 +54,7 @@ class UserProfile (models.Model):
         preview = "(" + str(self.userID) + ") " + str(self.user_category)
         return preview
 
+# User Social Networks
 class SocialNetwork(models.Model):
     url = models.URLField(max_length=200, blank=True)
     userID = models.ForeignKey(User)

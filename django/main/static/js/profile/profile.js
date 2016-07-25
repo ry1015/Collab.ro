@@ -1,12 +1,15 @@
+// Add click event listener to user_update
 function addProfileButtonEventListener(){
     // document.getElementById("profile_update").addEventListener('click', updateProfileEvent, false); //event-profile.js
     document.getElementById("user_update").addEventListener('click', updateEvent, false); //event-profile.js
 }
 
+// Add click event listener to social_network_button
 function addSocialNetworkEventListener(){
     document.getElementById("social_network_button").addEventListener('click', addSocialNetworkSite, false); //event-profile.js
 }
 
+// Add click event listener to all elemeents which contains the class, delete_social_network_site
 function deleteSocialNetworkEventListener(){
     var social_network_list = document.getElementsByClassName("delete_social_network_site");
     for (var i in social_network_list){
@@ -15,6 +18,7 @@ function deleteSocialNetworkEventListener(){
     }
     
 }
+
 // Create User Profile Table
 // info, user profile table
 function createProfile(info){

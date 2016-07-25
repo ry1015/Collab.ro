@@ -1,5 +1,7 @@
 var TRACK_LIST_DIV_ID = "track_list_div";
 
+// Gets all tracks associated to a user
+// parent_node, parent tag to attach the track list section
 function getUserTracks(parent_node){
     var url = "api/get-tracks";
     var data = {};
@@ -15,6 +17,7 @@ function getUserTracks(parent_node){
     getRequest(url, data, processTracks);
 }
 
+// Show comments associated to a track
 function showTrackComments(){
     var track = this.parentNode.previousSibling.childNodes[0].id;
     createTrackCommentSection(track);

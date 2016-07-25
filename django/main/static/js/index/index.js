@@ -16,6 +16,7 @@ window.onload = function()
     addIndexEventListener();
 }
 
+// Add event listeners to username and password inputs and login button
 function addIndexEventListener()
 {
     document.getElementById("username").addEventListener('keydown', attachEventToLogin, false); //event-index.js
@@ -40,6 +41,8 @@ function createLogin()
     return node;
 }
 
+// Create Signup div
+// node, signup div
 function createSignup()
 {
     var node = document.createElement("div");

@@ -1,3 +1,4 @@
+// Add new project
 function newProjectEvent(){
     console.log("ADD NEW PROJECT!");
     var new_project_table = document.createElement("table");

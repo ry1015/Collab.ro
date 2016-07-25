@@ -6,6 +6,7 @@ var BODY_DIV_ID = "body_div";
 var CURRENT_TRACKS_ID = "current-tracks-div";
 var NEW_PROJECT_ID = "new_project";
 
+// Add click event when new_project id is clicked
 function addProjectButtonEventListener(){
     document.getElementById(NEW_PROJECT_ID).addEventListener('click', newProjectEvent, false); //event-home.js
 }
@@ -25,6 +26,8 @@ function createCurrentTracks(user){
     }
 }
 
+// Create user home page
+// user, current user
 function createHomePage(user){
     // Check if user has uploaded some music
     createCurrentTracks(user);
@@ -33,6 +36,8 @@ function createHomePage(user){
     createProject(parent_node);
 }
 
+// Creates user project div
+// parent_node, parent div where the project div will be appended to
 function createProject(parent_node){
     var attributes = [];
     var project_node = document.createElement("div");
@@ -52,6 +57,7 @@ function createProject(parent_node){
     addProjectButtonEventListener();
 }
 
+// Get all music title
 function getMusicTitle(){
 
 }

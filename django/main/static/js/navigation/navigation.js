@@ -1,4 +1,6 @@
 var nav_links = ["Home", "Profile", "Search", "Logout"];
+
+// Adds event listener to the navigation options
 function addNavigationEventListener()
 {
     document.getElementById("Home").addEventListener('click', openHomePage, false);
@@ -7,6 +9,8 @@ function addNavigationEventListener()
     document.getElementById("Logout").addEventListener('click', openLoginPage, false);
 }
 
+// Creates the navigation bar
+// navigations_div, navigation bar
 function createNavigationBar()
 {
     var navigation_div = document.createElement("div");
@@ -28,6 +32,7 @@ function createNavigationBar()
     return navigation_div;
 }
 
+// Creates the user profile page
 function openProfilePage()
 {
     console.log("NAV PROFILE BUTTON CLICKED!");
@@ -70,6 +75,7 @@ function openProfilePage()
     deleteSocialNetworkEventListener(); //profile.js
 }
 
+// Creates the user home page
 function openHomePage()
 {
     console.log("HOME BUTTON CLICKED!");
@@ -81,6 +87,7 @@ function openHomePage()
     createHomePage(current_user); //home.js
 }
 
+// Creates the search result page
 function openSearchPage()
 {
     console.log("SEARCH BUTTON CLICKED!");
@@ -89,6 +96,7 @@ function openSearchPage()
         body_div.innerHTML = "";
 }
 
+// Redirects to login page
 function openLoginPage()
 {
     current_user={};

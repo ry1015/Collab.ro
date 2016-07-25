@@ -1,3 +1,4 @@
+// Add a user's social network site
 function addSocialNetworkSite(){
     console.log("ADD SOCIAL NETWORK");
     var sn_node = document.getElementById(this.id);
@@ -51,6 +52,7 @@ function addSocialNetworkSite(){
     }
 }
 
+// Delete a user's social network
 function deleteSocialNetworkSite(){
     console.log("DELETE SOCIAL NETWORK");
 
@@ -84,6 +86,7 @@ function deleteSocialNetworkSite(){
     deleteUserSocialSite(sn_link);
 }
 
+// Update event when a user changes their info/profile
 function updateEvent(){
     console.log("UPDATE BUTTON CLICKED!");
     var password = document.getElementById("Password").value;

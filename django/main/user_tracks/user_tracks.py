@@ -10,6 +10,7 @@ import json
 from startup.settings import MEDIA_ROOT
 import os
 
+# Gets all user tracks
 @api_view(['GET'])
 def get_user_tracks(request, format=None):
     data = {}

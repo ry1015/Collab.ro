@@ -1,12 +1,14 @@
 var COMMENT_DIV_ID = "comment-div";
 var COMMENT_TABLE_ID = "comment-table-id";
 var TRACK_LIST_DIV_ID = "track-list-div";
-var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
 
+// Add event listener to every click a user makes when track comment section is activated
 function addCommentEventListener(){
-    document.addEventListener('click', traceClick, false);
+    document.addEventListener('click', traceClick, false); //event-track-comments.js
 }
 
+// Creates a comment div for the associated track
+// track, associated user track
 function createTrackCommentSection(track){
     console.log("CREATING TRACK COMMENT SECTION");
     addCommentEventListener();

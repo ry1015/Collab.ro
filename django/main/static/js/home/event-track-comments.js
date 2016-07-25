@@ -1,3 +1,8 @@
+var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
+
+// Tracks every user click
+// If the user clicks outside the comment section, close comment section
+// event, click event of the user
 function traceClick(event){
     if (event.target.parentNode.parentNode != null)
         var parentNode = event.target.parentNode.parentNode.parentNode.parentNode.id;

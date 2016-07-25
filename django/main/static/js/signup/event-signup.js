@@ -1,5 +1,6 @@
 var user;
 
+// Signs up a new user
 function signUp(){
     console.log("SOMEONE HAS SIGNED UP!");
     var processSignupRequest = function(result){
@@ -15,6 +16,7 @@ function signUp(){
     postRequest(url, data, processSignupRequest);
 }
 
+// Check username availability
 function checkUsernameAvailability(){
     var timer;
     var username = document.getElementById("username-signup")

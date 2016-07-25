@@ -9,12 +9,15 @@ from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation
 import json
 
 # Create your views here.
+# Redirects to index page
 def index(request):
     return render_to_response('html/index.html')
 
+# Redirects to signup page
 def signup(request):
     return render_to_response('html/signup.html')
 
+# Add a social network
 @api_view(['POST'])
 def add_social_network(request, format=None):
     print ("Adding Social Network")
@@ -41,6 +44,7 @@ def add_social_network(request, format=None):
     if (social_network):
         return Response("Social Network Already Exists!", status=status.HTTP_400_BAD_REQUEST)
 
+# Delete a social network
 @api_view(['DELETE'])
 def delete_social_network(request, format=None):
     print ("Deleting Social Network")
@@ -62,6 +66,7 @@ def delete_social_network(request, format=None):
     print (data)
     return Response(data, status=status.HTTP_200_OK)
 
+# Get all user information i.e. profile, contact info, all possible user category
 def get_user_data(username):
     user = User.objects.get(username=username)
 
@@ -102,6 +107,7 @@ def get_user_data(username):
     }
     return data
 
+# Logs in a user
 @api_view(['GET', 'POST'])
 def login(request, format=None):
     if request.method == "GET":
@@ -156,6 +162,7 @@ def login(request, format=None):
 
     return Response("Login Failed.", status=status.HTTP_400_BAD_REQUEST)
 
+# Signs up a user
 @api_view(['GET', 'POST'])
 def signup_user(request, format=None):
     try:
@@ -192,6 +199,7 @@ def signup_user(request, format=None):
     if (user):
         return Response("Username or exists.", status=status.HTTP_400_BAD_REQUEST)
 
+# Updates a user profile
 @api_view(['GET', 'POST'])
 def update_profile(request, format=None):
     print ("Updating Profile")

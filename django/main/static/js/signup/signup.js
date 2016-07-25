@@ -9,6 +9,8 @@ window.onload = function()
     createSignupForm();
 }
 
+// Add click event listner to signup-button
+// Add input event listener on username-signup
 function addSignUpEvent(){
     document.getElementById("signup-button").addEventListener('click', signUp, false);
     document.getElementById("username-signup").addEventListener('input', checkUsernameAvailability, false);

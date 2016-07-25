@@ -1,5 +1,5 @@
-
-
+// Attach event to return key button
+// Event causes user to log in
 function attachEventToLogin(event)
 {
     if (event.keyCode == 13)
