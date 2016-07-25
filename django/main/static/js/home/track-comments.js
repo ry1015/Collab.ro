@@ -11,7 +11,6 @@ function addCommentEventListener(){
 // track, associated user track
 function createTrackCommentSection(track){
     console.log("CREATING TRACK COMMENT SECTION");
-    addCommentEventListener();
     var track_list_parent = document.getElementById(TRACK_LIST_DIV_ID);
     var parent_table = document.getElementById(COMMENT_TABLE_ID);
 
@@ -48,4 +47,5 @@ function createTrackCommentSection(track){
 
     comment_div.appendChild(comment_table);
     track_list_parent.appendChild(comment_div);
+    addCommentEventListener();
 }

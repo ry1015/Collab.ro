@@ -4,7 +4,7 @@ var COMMENT_CLASS = "track-comment";
 
 // Add click event listener to all elements that contains a class name of track-comment
 function commentsEventListener(){
-    var track_comments = document.getElementsByClassName("track-comment");
+    var track_comments = document.getElementsByClassName(COMMENT_CLASS);
     for (var i of track_comments){
         i.addEventListener('click', showTrackComments, false);
     }
@@ -51,7 +51,7 @@ function createUserTrackList(parent_node){
         var comment = document.createElement("img");
         comment.setAttribute("class", COMMENT_CLASS);
         comment.src = "media/comment.ico";
-        
+
         cell = row.insertCell(1);
         cell.appendChild(comment);
     }

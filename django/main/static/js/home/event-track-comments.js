@@ -14,11 +14,11 @@ function traceClick(event){
             console.log("INSIDE TABLE");
         }
         else{
-            console.log(event.target.tagName);
-            if (event.target.tagName != "IMG"){
-                console.log("OUTSIDE TABLE");
-                var delete_table = document.getElementById("comment-div");
-                delete_table.parentNode.removeChild(delete_table);
+            console.log(event.target.className);
+            if (event.target.tagName != "IMG" && event.target.className != COMMENT_CLASS){
+            console.log("OUTSIDE TABLE");
+            var delete_table = document.getElementById("comment-div");
+            delete_table.parentNode.removeChild(delete_table);
             }
         }
     }
