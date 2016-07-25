@@ -3,9 +3,13 @@ var COMMENT_TABLE_ID = "comment-table-id";
 var TRACK_LIST_DIV_ID = "track-list-div";
 var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
 
+function addCommentEventListener(){
+    document.addEventListener('click', traceClick, false);
+}
+
 function createTrackCommentSection(track){
     console.log("CREATING TRACK COMMENT SECTION");
-    clickOutside();
+    addCommentEventListener();
     var track_list_parent = document.getElementById(TRACK_LIST_DIV_ID);
     var parent_table = document.getElementById(COMMENT_TABLE_ID);
 
@@ -42,30 +46,4 @@ function createTrackCommentSection(track){
 
     comment_div.appendChild(comment_table);
     track_list_parent.appendChild(comment_div);
-}
-
-function clickOutside(){
-    document.addEventListener('click', traceClick, false);
-    // document.getElementById("comment-table-id").addEventListener('click', userClickedOutside, false);
-}
-
-function traceClick(event){
-    if (event.target.parentNode.parentNode != null)
-        var parentNode = event.target.parentNode.parentNode.parentNode.parentNode.id;
-
-    var comment_div = document.getElementById("comment-div");
-    // console.log(comment_div.innerHTML);
-    if (comment_div != null){
-        if (parentNode != null && COMMENT_SECTION_PARENT_IDS.includes(parentNode)){
-            console.log("INSIDE TABLE");
-        }
-        else{
-            console.log(event.target.tagName);
-            if (event.target.tagName != "IMG"){
-                console.log("OUTSIDE TABLE");
-                var delete_table = document.getElementById("comment-div");
-                delete_table.parentNode.removeChild(delete_table);
-            }
-        }
-    }
 }

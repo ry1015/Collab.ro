@@ -9,6 +9,7 @@ class Music (models.Model):
     title = models.CharField(max_length=200)
     filename = models.CharField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=7, default="public")
 
     def __str__(self):
         preview = "(" + self.artist_name + ") " + self.title
