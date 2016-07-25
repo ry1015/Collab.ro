@@ -1,3 +1,5 @@
+var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
+
 function attachEventToLogin(event)
 {
     if (event.keyCode == 13)
@@ -24,3 +26,30 @@ function loginEvent()
     
     getRequest(url, data, processUser); //ajax.js    
 }
+
+// function traceClick(event){
+//     var parentNode = event.target.parentNode.parentNode.parentNode.parentNode.id;
+//     // console.log(parentNode);
+
+//     var comment_div = document.getElementById("comment-div");
+//     console.log(comment_div.innerHTML);
+//     if (comment_div != null){
+//         if (parentNode != null && COMMENT_SECTION_PARENT_IDS.includes(parentNode)){
+//             console.log("INSIDE TABLE");
+//         }
+//         else{
+//             console.log("OUTSIDE TABLE");
+//         }
+//     }
+//     // }
+//     // if (parentNode == null && )
+//     //     comment_div.innerHTML = "";
+//     // else if (COMMENT_SECTION_PARENT_IDS.includes(parentNode)){
+//     //     console.log("INSIDE COMMENT SECTION");
+//     // } 
+//     // else {
+//     //     var comment_div = document.getElementById("comment-div");
+//     //     if (comment_div != null)
+//     //         comment_div.innerHTML = "";
+//     // }
+// }
