@@ -10,7 +10,7 @@ class Project (models.Model):
     name = models.CharField(max_length=200)
     
     def __str__(self):
-        preview = "(" + self.userID + ") " + self.name
+        preview = "(" + str(self.userID) + ") " + self.name
         return preview
 
 class Music (models.Model):

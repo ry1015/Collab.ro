@@ -39,6 +39,6 @@ function saveProjectEvent(){
         "username": "admin", //user reference
         "project_name": document.getElementById("project_name_field").value
     };
-    
+    data = JSON.stringify(data);
     postRequest(url, data, processProject); //ajax.js  
 }
