@@ -312,3 +312,4 @@ def update_profile(request, format=None):
 
     data = get_user_data(username)
     return Response(data, status=status.HTTP_201_CREATED)
+
