@@ -4,6 +4,15 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
 # Create your models here.
+
+class Project (models.Model):
+    userID = models.ForeignKey(User)
+    name = models.CharField(max_length=200)
+    
+    def __str__(self):
+        preview = "(" + self.userID + ") " + self.name
+        return preview
+
 class Music (models.Model):
     userID = models.ForeignKey(User)
     title = models.CharField(max_length=200)

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer
-from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation
+from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Project
 import json
 
 # Create your views here.
@@ -14,6 +14,33 @@ def index(request):
 
 def signup(request):
     return render_to_response('html/signup.html')
+
+@api_view(['POST'])
+def add_project(request, format=None):
+    print ("Adding Project")
+    print (request.body)
+    data = json.loads(request.body.decode("utf-8"))
+    print (data)
+    username = data["username"]
+    project_name = data["project_name"]
+    
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return Response("Add Project Error. Username Does Not Exist.")
+    
+    try:
+        project = Project.objects.get(userID=user, name=project_name)
+    except:
+        try:
+            new_project = Project.objects.create(userID=user, name=project_name)
+        except:
+            return Response("Project Error. Cannot Create New Project")
+        data = new_project
+        return Response(data, status=status.HTTP_200_OK)
+    
+    if (project):
+        return Response("Project Already Exists!", status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def add_social_network(request, format=None):
