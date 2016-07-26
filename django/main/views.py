@@ -17,7 +17,7 @@ def index(request):
 def signup(request):
     return render_to_response('html/signup.html')
 
-# Add a social network
+# Add a social network BREAK TEST
 @api_view(['POST'])
 def add_social_network(request, format=None):
     print ("Adding Social Network")
