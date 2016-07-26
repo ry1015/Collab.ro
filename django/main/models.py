@@ -3,6 +3,15 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
+class Project (models.Model):
+    userID = models.ForeignKey(User)
+    name = models.CharField(max_length=200)
+    
+    def __str__(self):
+        preview = "(" + self.userID + ") " + self.name
+        return preview
+
+
 # Create your models here.
 # Music table
 class Music (models.Model):
