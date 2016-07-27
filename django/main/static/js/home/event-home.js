@@ -2,6 +2,7 @@
 function newProjectEvent(){
     console.log("ADD NEW PROJECT!");
     var new_project_table = document.createElement("table");
+    new_project_table.id = "Test Project";
      var row = new_project_table.insertRow(new_project_table.rows.length);
      var cell = row.insertCell(0);
      cell.innerHTML = "<input id='project_name_field' value='Test Project'>";
@@ -29,7 +30,9 @@ function saveProjectEvent(){
 	console.log("Save clicked");
 	var processProject = function(result)
 	{
-		console.log("Project created: " + result);
+        current_user = result;
+        console.log("CURRENT USER");
+		console.log(current_user);
 	}
 	
 	var url = "api/add_project";
@@ -39,5 +42,5 @@ function saveProjectEvent(){
         "project_name": document.getElementById("project_name_field").value
     };
     
-    postRequest(url, data, processProject); //ajax.js  
+    postRequest(url, JSON.stringify(data), processProject); //ajax.js  
 }

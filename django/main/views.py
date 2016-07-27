@@ -38,7 +38,8 @@ def add_project(request, format=None):
             new_project = Project.objects.create(userID=user, name=project_name)
         except:
             return Response("Project Error. Cannot Create New Project")
-        data = new_project
+        
+        data = get_user_data(username)
         return Response(data, status=status.HTTP_200_OK)
     
     if (project):
@@ -127,12 +128,24 @@ def get_user_data(username):
     for obj in UserCategory.objects.all():
         categories.append(obj.name)
     
+    # User Projects
+    print ("-------------------------------------")
+    print ("GETTING PROJECTS")
+    projects = []
+    user_projects = Project.objects.filter(userID=user)
+    print(user_projects)
+    print ("-------------------------------------")
+    for proj in user_projects:
+        projects.append(proj.name)
+
     data={
         "contact_info": contact_info_serializer.data,
         "profile": user_profile,
         "user": UserSerializer(user).data,
-        "categories": categories
+        "categories": categories,
+        "projects": projects
     }
+
     return data
 
 # Logs in a user
@@ -177,12 +190,13 @@ def login(request, format=None):
                 categories.append(obj.name)
 
             print (categories)
-            data={
-                "contact_info": contact_info_serializer.data,
-                "profile": user_profile,
-                "user": UserSerializer(user).data,
-                "categories": categories
-            }
+            # data={
+            #     "contact_info": contact_info_serializer.data,
+            #     "profile": user_profile,
+            #     "user": UserSerializer(user).data,
+            #     "categories": categories
+            # }
+            data = get_user_data(username)
             return Response(data, status=status.HTTP_201_CREATED)
         else:
             # the authentication system was unable to verify the username and password

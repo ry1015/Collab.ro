@@ -8,7 +8,7 @@ class Project (models.Model):
     name = models.CharField(max_length=200)
     
     def __str__(self):
-        preview = "(" + self.userID + ") " + self.name
+        preview = "(" + str(self.userID) + ") " + str(self.name)
         return preview
 
 
