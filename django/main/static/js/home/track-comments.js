@@ -9,8 +9,8 @@ function addCommentEventListener(){
 
 // Creates a comment div for the associated track
 // track, associated user track
-function createTrackCommentSection(track){
-    console.log("CREATING TRACK COMMENT SECTION");
+// called in event-track-comments.js
+function createTrackCommentSection(track_comments){
     var track_list_parent = document.getElementById(TRACK_LIST_DIV_ID);
     var parent_table = document.getElementById(COMMENT_TABLE_ID);
 
@@ -21,6 +21,9 @@ function createTrackCommentSection(track){
         if (temp_comment_div != null)
             temp_comment_div.remove();
     }
+
+    console.log("TRACK COMMENTS");
+    console.log(track_comments);
 
     var comment_div = document.createElement("div");
     comment_div.id = COMMENT_DIV_ID;
@@ -38,7 +41,7 @@ function createTrackCommentSection(track){
 
     row = comment_table.insertRow(comment_table.rows.length);
     cell = row.insertCell(0);
-    cell.innerHTML = "<span>" + track + "<span>";
+    cell.innerHTML = "<span>" + "track" + "<span>";
 
     row = comment_table.insertRow(comment_table.rows.length);
     cell = row.insertCell(0);

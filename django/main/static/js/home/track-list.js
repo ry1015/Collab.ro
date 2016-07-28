@@ -6,7 +6,7 @@ var COMMENT_CLASS = "track-comment";
 function commentsEventListener(){
     var track_comments = document.getElementsByClassName(COMMENT_CLASS);
     for (var i of track_comments){
-        i.addEventListener('click', showTrackComments, false);
+        i.addEventListener('click', showTrackComments, false); //event-track-list.js
     }
 }
 

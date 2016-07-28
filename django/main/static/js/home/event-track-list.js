@@ -20,5 +20,5 @@ function getUserTracks(parent_node){
 // Show comments associated to a track
 function showTrackComments(){
     var track = this.parentNode.previousSibling.childNodes[0].id;
-    createTrackCommentSection(track);
+    getAllTrackComments(track); //event-track-comments.js
 }

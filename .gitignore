@@ -9,5 +9,6 @@ django/main/__pycache__/
 django/main/migrations/
 .DS_Store
 django/main/user_tracks/__pycache__/
+django/main/*/__pycache__/
 *.orig
 *~

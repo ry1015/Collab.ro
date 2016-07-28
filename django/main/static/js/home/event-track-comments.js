@@ -1,5 +1,25 @@
 var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
 
+// Get all comments associated to a particular track
+// track, selected track
+function getAllTrackComments(track){
+    var url = "api/get-track-comments";
+    var split_track = track.split("_");
+    var track_username = split_track[1];
+    
+    var processAllTrackComments = function(result){
+        var track_comments = result;
+        createTrackCommentSection(track_comments); //track-comments.js
+    }
+
+    var data = 
+    {
+        "filename": track
+    }
+    // data = JSON.stringify(data);
+    getRequest(url, data, processAllTrackComments);
+}
+
 // Tracks every user click
 // If the user clicks outside the comment section, close comment section
 // event, click event of the user

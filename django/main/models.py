@@ -76,8 +76,9 @@ class TrackComment(models.Model):
     musicID = models.ForeignKey(Music, blank=True, null=True)
     comments = models.TextField(blank=True)
     sender = models.ForeignKey(User, blank=True)
-    recipient = models.ForeignKey(User, related_name='user_recipient',blank=True)
-
+    recipient = models.ForeignKey(User, related_name='user_recipient',blank=True, null=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+    
     def __str__(self):
         preview = "(" + str(self.musicID) + ")" + str(self.sender)
         return preview
