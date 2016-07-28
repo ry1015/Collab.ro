@@ -107,8 +107,13 @@ def get_user_data(username):
 
     serializer = UserProfileSerializer(userprofile) # Serialize params
     user_profile = serializer.data
-    user_profile["user_category"] =UserCategory.objects.get(id=user_profile["user_category"]).name
     
+    categories = UserCategory.objects.all()
+    if len(categories) != 0:
+        user_profile["user_category"] = UserCategory.objects.get(id=user_profile["user_category"]).name
+    else:
+        user_profile["user_category"] = ""
+        
     # Build user data (i.e. profile and contact info)
     social_network = SocialNetwork.objects.filter(userID=user.pk)
     social_network_links = []

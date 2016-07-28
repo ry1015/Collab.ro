@@ -59,17 +59,21 @@ function createProfile(info){
                     {
                         var select = "<select id='"+ attributes[i][j-1] + "'>";
                         var empty = false;
-                        for (var i in categories)
-                        {
-                            if (categories[i] == user_profile.user_category)
-                                select+="<option selected>" + categories[i] + "</option>";
-                            else if (!empty && user_profile.user_category == "")
+                        if (categories.length != 0){
+                            for (var i in categories)
                             {
-                                select+="<option selected>" + categories[0] + "</option>";
-                                empty = true;
+                                if (categories[i] == user_profile.user_category)
+                                    select+="<option selected>" + categories[i] + "</option>";
+                                else if (!empty && user_profile.user_category == "")
+                                {
+                                    select+="<option selected>" + categories[0] + "</option>";
+                                    empty = true;
+                                }
+                                else
+                                    select+="<option>" + categories[i] + "</option>";
                             }
-                            else
-                                select+="<option>" + categories[i] + "</option>";
+                        } else {
+                            select+="<option selected>--------</option>";
                         }
                         select += "</select>";
                         cell.innerHTML = select;
