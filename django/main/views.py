@@ -110,10 +110,13 @@ def get_user_data(username):
     
     categories = UserCategory.objects.all()
     if len(categories) != 0:
-        user_profile["user_category"] = UserCategory.objects.get(id=user_profile["user_category"]).name
+        try:
+            user_profile["user_category"] = UserCategory.objects.get(id=user_profile["user_category"]).name
+        except:
+            user_profile["user_category"] = ""
     else:
         user_profile["user_category"] = ""
-        
+
     # Build user data (i.e. profile and contact info)
     social_network = SocialNetwork.objects.filter(userID=user.pk)
     social_network_links = []
@@ -239,7 +242,8 @@ def signup_user(request, format=None):
                     print ("CONTACT INFO COULD NOT BE CREATED.")
                     return Response("Could not create Contact Info.", status=status.HTTP_400_BAD_REQUEST)
 
-                return Response("USERNAME and EMAIL UNIQUE!", status=status.HTTP_201_CREATED)
+                data = get_user_data(user.username)
+                return Response(data, status=status.HTTP_201_CREATED)
             except:
                 return Response("Could not create User.", status=status.HTTP_400_BAD_REQUEST)
     
@@ -303,7 +307,8 @@ def update_profile(request, format=None):
 
     # Updating User Profile
     try:
-        profile["user_category"] = UserCategory.objects.get(name=profile["user_category"]).id
+        if (profile["user_category"] != ""):
+            profile["user_category"] = UserCategory.objects.get(name=profile["user_category"]).id
         print (profile)
         userprofile_serializer = UserProfileSerializer(data=profile)
     except:

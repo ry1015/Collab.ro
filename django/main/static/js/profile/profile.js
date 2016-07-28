@@ -57,24 +57,26 @@ function createProfile(info){
                         cell.innerHTML = "<textarea id='" + attributes[i][j-1] +"'>";
                     else if (attributes[i][j-1] == "User Category")
                     {
-                        var select = "<select id='"+ attributes[i][j-1] + "'>";
-                        var empty = false;
+                        var options = "";
+                        var found = false;
                         if (categories.length != 0){
                             for (var i in categories)
                             {
-                                if (categories[i] == user_profile.user_category)
-                                    select+="<option selected>" + categories[i] + "</option>";
-                                else if (!empty && user_profile.user_category == "")
-                                {
-                                    select+="<option selected>" + categories[0] + "</option>";
-                                    empty = true;
+                                if (categories[i] == user_profile.user_category){
+                                    options+="<option selected>" + categories[i] + "</option>";
+                                    found = true;
+                                    break;
                                 }
                                 else
-                                    select+="<option>" + categories[i] + "</option>";
+                                    options+="<option>" + categories[i] + "</option>";
                             }
+                            if (!found)
+                                options = "<option selected>--------</option>" + options;
                         } else {
-                            select+="<option selected>--------</option>";
+                            options = "<option selected>--------</option>" + options;
                         }
+                        var select = "<select id='"+ attributes[i][j-1] + "'>";
+                        select += options;
                         select += "</select>";
                         cell.innerHTML = select;
                     }

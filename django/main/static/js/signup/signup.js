@@ -3,10 +3,10 @@
 // *******************************************
 window.onload = function()
 {
-    var sign_up_div = document.getElementById("signup-body");
-    var header_div = createHeader(); //header.js
-    sign_up_div.appendChild(header_div);
-    createSignupForm();
+    // var sign_up_div = document.getElementById("signup-body");
+    // var header_div = createHeader(); //header.js
+    // sign_up_div.appendChild(header_div);
+    // createSignupForm();
 }
 
 // Add click event listner to signup-button
@@ -19,8 +19,17 @@ function addSignUpEvent(){
 // Create Sign up Form
 function createSignupForm()
 {
+    // Empty existing divs
+    var login_div = document.getElementById("login-div");
+    var signup_body = document.getElementById("signup-div");
+
+    if (login_div.innerHTML != "")
+        login_div.innerHTML = "";
+
+    if (signup_body.innerHTML != "")
+        signup_body.innerHTML = "";
     var attributes = ["Username", "Password", "Email"];
-    var signup_body = document.getElementById("signup-body");
+    // var signup_body = document.getElementById("signup-div");
     var signup_form_div = document.createElement("div");
     signup_form_div.id = "signup-form";
 

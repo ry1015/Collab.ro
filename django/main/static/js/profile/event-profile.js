@@ -93,7 +93,9 @@ function updateEvent(){
     var email = document.getElementById("Email").value;
     var biography = document.getElementById("Biography").value;
     var user_category = document.getElementById("User Category").value;
-    
+    if (user_category == "--------")
+        user_category = "";
+
     var phone_number = document.getElementById("Phone").value;
     var address = document.getElementById("Address").value;
     var data = {};

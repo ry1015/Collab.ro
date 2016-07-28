@@ -22,7 +22,7 @@ class Music (models.Model):
     status = models.CharField(max_length=7, default="public")
 
     def __str__(self):
-        preview = "(" + self.artist_name + ") " + self.title
+        preview = "(" + self.userID.username + ") " + self.title
         return preview
 
 # Account table

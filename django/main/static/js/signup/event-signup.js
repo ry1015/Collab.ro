@@ -4,7 +4,8 @@ var user;
 function signUp(){
     console.log("SOMEONE HAS SIGNED UP!");
     var processSignupRequest = function(result){
-        console.log(result);
+        current_user = result;
+        showHome(current_user);
     }
 
     var url = "api/signup_user";

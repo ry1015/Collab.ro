@@ -3,7 +3,7 @@
 function attachEventToLogin(event)
 {
     if (event.keyCode == 13)
-        document.getElementById("login_button").click();
+        loginEvent();
 }
 
 // Authenticates user when user enters username and password
