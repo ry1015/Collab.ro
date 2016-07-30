@@ -35,46 +35,28 @@ def get_track_comments(request, format=None):
 
     # Get Track Comments
     try:
-<<<<<<< HEAD
-        comments = TrackComment.objects.filter(musicID=music).order_by('timestamp')
+        comments = TrackComment.objects.filter(musicID=music).order_by('-timestamp')
     except:
         Response("No Track Comments.", status=status.HTTP_400_BAD_REQUEST)
 
     print("---------------------------------")
     print(comments)
-=======
-        comments = TrackComment.objects.filter(musicID=music).order_by("-timestamp")
-    except:
-        Response("No Track Comments.", status=status.HTTP_400_BAD_REQUEST)
-
-    # print ("COMMENTS")
-    # print (comments)
->>>>>>> e6f743199f6a781d63e463d2b251302e1f8c6e0c
     data = []
     if (len(comments) > 0):
         # Grab all parents
-        
         for comment in comments:
-<<<<<<< HEAD
-            tmp = {}
-            tmp["comment"] = comment.comments
-            tmp["recipient"] = UserSerializer(comment.recipient).data
-            tmp["sender"] = UserSerializer(comment.sender).data
-            tmp["timestamp"] = comment.timestamp
-            data.append(tmp)
-=======
             parent = {}
             if(comment.comment_parent_id == None):
                 parent = TrackCommentSerializer(comment).data
                 parent["id"] = comment.id
                 parent["child"] = []
+                parent["comment_parent_id"] = comment.comment_parent_id
                 data.append(parent)
 
         for parent in data:
             for comment in comments:
                 if (comment.comment_parent_id == parent["id"]):
                     parent["child"].append(TrackCommentSerializer(comment).data)
->>>>>>> e6f743199f6a781d63e463d2b251302e1f8c6e0c
     else:
         print ("NO COMMENTS")
     data.append({"filename": selected_track})
