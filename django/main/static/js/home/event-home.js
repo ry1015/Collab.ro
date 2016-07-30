@@ -27,20 +27,39 @@ function newProjectEvent(){
 }
 
 function saveProjectEvent(){
+	var username = current_user.user.username;
 	console.log("Save clicked");
 	var processProject = function(result)
 	{
-        current_user = result;
-        console.log("CURRENT USER");
-		console.log(current_user);
+        console.log("Project saved");
+        loadProjects(username);
 	}
 	
 	var url = "api/add_project";
     var data = 
     {
-        "username": "admin", //user reference
+        "username": username,
         "project_name": document.getElementById("project_name_field").value
     };
     
-    postRequest(url, JSON.stringify(data), processProject); //ajax.js  
+    data = JSON.stringify(data);
+    postRequest(url, data, processProject);
+}
+
+function loadProjects(username){
+	var username = current_user.user.username;
+	console.log("Loading projects");
+	var processProjects = function(result)
+	{
+        console.log("Projects loaded")
+	}
+	
+	var url = "api/get_projects";
+    var data = 
+    {
+        "username": username
+    };
+    
+    data = JSON.stringify(data);
+    postRequest(url, data, processProjects);
 }

@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from main import views
+from main.projects import projects
 from main.user_tracks import user_tracks
 from main.track_comments import track_comments
 urlpatterns = [
@@ -16,7 +17,8 @@ urlpatterns = [
     url(r'^api/add-social-network', views.add_social_network),
     url(r'^api/get-tracks', user_tracks.get_user_tracks),
     url(r'^api/get-track-comments', track_comments.get_track_comments),
-    url(r'^api/add_project', views.add_project),
+    url(r'^api/add_project', projects.add_project),
+    url(r'^api/get_projects', projects.get_projects),
     # url(r'^api/userprofiles/$', views.userprofile_list),
     # url(r'^api/userprofile/(?P<pk>[0-9]+)/$', views.userprofile_detail),
     # url(r'^api/userprofiles$', user.userprofile_list),
