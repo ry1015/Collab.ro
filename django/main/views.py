@@ -197,13 +197,6 @@ def login(request, format=None):
             for obj in UserCategory.objects.all():
                 categories.append(obj.name)
 
-            print (categories)
-            # data={
-            #     "contact_info": contact_info_serializer.data,
-            #     "profile": user_profile,
-            #     "user": UserSerializer(user).data,
-            #     "categories": categories
-            # }
             data = get_user_data(username)
             return Response(data, status=status.HTTP_201_CREATED)
         else:

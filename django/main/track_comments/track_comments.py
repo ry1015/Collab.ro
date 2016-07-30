@@ -32,13 +32,12 @@ def get_track_comments(request, format=None):
 
     # Get Track Comments
     try:
-        comments = TrackComment.objects.filter(musicID=music)
+        comments = TrackComment.objects.filter(musicID=music).order_by('timestamp')
     except:
         Response("No Track Comments.", status=status.HTTP_400_BAD_REQUEST)
 
-    print ("COMMENTS")
-    print (comments)
-    print (len(comments))
+    print("---------------------------------")
+    print(comments)
     data = []
     if (len(comments) > 0):
         for comment in comments:
@@ -46,6 +45,7 @@ def get_track_comments(request, format=None):
             tmp["comment"] = comment.comments
             tmp["recipient"] = UserSerializer(comment.recipient).data
             tmp["sender"] = UserSerializer(comment.sender).data
+            tmp["timestamp"] = comment.timestamp
             data.append(tmp)
     else:
         print ("NO COMMENTS")

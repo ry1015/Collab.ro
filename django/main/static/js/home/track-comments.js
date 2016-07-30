@@ -22,15 +22,22 @@ function createTrackCommentSection(track_comments){
             temp_comment_div.remove();
     }
 
-    console.log("TRACK COMMENTS");
-    console.log(track_comments);
-
     var comment_div = document.createElement("div");
     comment_div.id = COMMENT_DIV_ID;
     comment_div.setAttribute("class", "center");
 
     var comment_table = document.createElement("table");
     comment_table.id = COMMENT_TABLE_ID
+
+    console.log("----------------------------------");
+    var filename="";
+    console.log(track_comments);
+    for (var i in track_comments){
+        if (track_comments[i]["filename"] != null)
+            filename = track_comments[i]["filename"];
+            break;
+    }
+
 
     row = comment_table.insertRow(comment_table.rows.length);
     cell = row.insertCell(0);
