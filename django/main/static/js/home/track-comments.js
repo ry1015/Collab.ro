@@ -14,6 +14,8 @@ function createTrackCommentSection(track_comments){
     console.log("-------------------------------------------------------")
     console.log("CREATING TRACK COMMENTS");
 
+    document.getElementById("track-list-table").style.visibility = "hidden";
+    document.getElementById("project_table").style.visibility = "hidden";
     var track_list_parent = document.getElementById(TRACK_LIST_DIV_ID);
     var parent_table = document.getElementById(COMMENT_TABLE_ID);
 
@@ -28,7 +30,9 @@ function createTrackCommentSection(track_comments){
     var comment_div = document.createElement("div");
     comment_div.id = COMMENT_DIV_ID;
     comment_div.setAttribute("class", "center");
-
+    console.log("TRACK HEIGHT");
+    console.log(document.getElementById("track-list-div").clientHeight);
+    comment_div.style.marginTop = (-document.getElementById("track-list-div").clientHeight/2) + "px";
     var comment_table = document.createElement("table");
     comment_table.id = COMMENT_TABLE_ID
     console.log(track_comments);
@@ -45,7 +49,6 @@ function createTrackCommentSection(track_comments){
     row = comment_table.insertRow(comment_table.rows.length);
     cell = row.insertCell(0);
     cell.id = filename;
-    cell.width = "50px";
     cell.style.border = "1px solid black";
     cell.style.textAlign = "center";
     console.log("FILENAME");

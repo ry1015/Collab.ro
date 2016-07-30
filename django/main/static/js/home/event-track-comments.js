@@ -39,6 +39,8 @@ function traceClick(event){
             console.log("OUTSIDE TABLE");
             var delete_table = document.getElementById("comment-div");
             delete_table.parentNode.removeChild(delete_table);
+            document.getElementById("track-list-table").style.visibility = "visible";
+            document.getElementById("project_table").style.visibility = "visible";
             }
         }
     }
