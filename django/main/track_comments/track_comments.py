@@ -48,15 +48,17 @@ def get_track_comments(request, format=None):
             parent = {}
             if(comment.comment_parent_id == None):
                 parent = TrackCommentSerializer(comment).data
+                parent["sender"] = User.objects.get(id=parent["sender"]).username
                 parent["id"] = comment.id
                 parent["child"] = []
-                parent["comment_parent_id"] = comment.comment_parent_id
                 data.append(parent)
 
         for parent in data:
             for comment in comments:
                 if (comment.comment_parent_id == parent["id"]):
-                    parent["child"].append(TrackCommentSerializer(comment).data)
+                    child_data = TrackCommentSerializer(comment).data
+                    child_data["sender"] = User.objects.get(id=comment.sender.id).username
+                    parent["child"].append(child_data)
     else:
         print ("NO COMMENTS")
     data.append({"filename": selected_track})
