@@ -64,12 +64,27 @@ function createTrackCommentSection(track_comments){
             row = comment_table.insertRow(comment_table.rows.length);
             cell = row.insertCell(0);
             cell.style.border = "1px solid black";
+            var div = document.createElement("div");
+            var a = document.createElement("a");
+            a.id = track_comments[i]["sender"]
+            a.href = "#";
+            a.innerHTML = track_comments[i]["sender"];
+            a.style.color = "lightblue";
+            a.style.fontWeight = "bold";
+            a.style.fontSize = "22px";
             var span = document.createElement("span");
-            var text = track_comments[i]["sender"] + "&nbsp;&nbsp;&nbsp;&nbsp;(" + track_comments[i]["timestamp"] + ")<br/>";
-            text+=track_comments[i]["comments"];
-            span.innerHTML = text;
-            cell.appendChild(span);
+            span.innerHTML = "&nbsp;(" + track_comments[i]["timestamp"] + ")";
+            span.style.fontSize = "10px";
 
+            div.appendChild(a);
+            div.appendChild(span);
+            cell.appendChild(div);
+
+            div = document.createElement("div");
+            var text = track_comments[i]["comments"];
+            div.innerHTML = text;
+            cell.appendChild(div);
+            
             // Insert replies
             for (var j in track_comments[i]["child"]){
                 row = comment_table.insertRow(comment_table.rows.length);
