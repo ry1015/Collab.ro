@@ -6,6 +6,7 @@ from django.core.validators import RegexValidator
 class Project (models.Model):
     userID = models.ForeignKey(User)
     name = models.CharField(max_length=200)
+    timestamp = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
         preview = "(" + str(self.userID) + ") " + str(self.name)
