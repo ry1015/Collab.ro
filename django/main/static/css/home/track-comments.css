@@ -7,15 +7,36 @@
 }
 
 #comment-div{
-    width: 800px;
+    width: 60%;
 }
 
 #comment-table-id {
     border: 1px solid black;
     border-collapse: collapse;
-    width: 800px;
+}
+
+#input-table-id {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#post-comment-div {
+    margin-bottom: 10px;
+}
+
+#user-comment-input {
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 97%;
 }
 
 .response {
     padding-left: 45px;
+}
+
+.user-comments {
+    color: lightblue;
+    font-weight: bold;
+    font-size: 22px;
 }

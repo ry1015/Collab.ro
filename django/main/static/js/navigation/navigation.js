@@ -23,8 +23,8 @@ function createNavigationBar()
         if (nav_links[i] != "Search")
             cell.innerHTML = "<a id='"+ nav_links[i] + "' class='add-pointer'>" + nav_links[i] + "</a>";
         else{
-            cell.innerHTML = "<input type='text' placeholder='Search artist or music title'>";
-            cell.innerHTML += "<button id='Search' class='add-pointer'>Search</button>";
+            cell.innerHTML = "<input type=text id=search_input placeholder='Search artist or music title'>";
+            cell.innerHTML += "<button id=Search class='add-pointer'>Search</button>";
         }
     }   
 
