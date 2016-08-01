@@ -1,7 +1,12 @@
 var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
 var PARENT_DIVS = ["body_div", "navigation-div"];
 var HTML_TAG = "HTML";
+var USER_COMMENT_INPUT = "user-comment-input";
+var COMMENT_TABLE_ID = "comment-table-id";
 
+function cancelComment(){
+    console.log("CANCEL COMMENT");
+}
 // Get all comments associated to a particular track
 // track, selected track
 function getAllTrackComments(track){
@@ -22,18 +27,49 @@ function getAllTrackComments(track){
     getRequest(url, data, processAllTrackComments);
 }
 
-function showPost(){
-    console.log("INPUT CLICKED");
-    document.getElementById("user-comment-input").removeEventListener('click', showPost, false);
+// Post comment
+function postComment(){
+    console.log("-------------------------------------------");
+    console.log("POST COMMENT");
+    // selected_track is found in track-comments.js
 
-    var post_comment_div = document.getElementById("post-comment-div");
-    var button = document.createElement("button");
-    button.innerHTML = "POST";
-    post_comment_div.appendChild(button);
+    var comment = document.getElementById(USER_COMMENT_INPUT).value;
+    var processPostComment = function(result){
+        console.log(result);
+    };
 
-    var button = document.createElement("button");
-    button.innerHTML = "CANCEL";
-    post_comment_div.appendChild(button);    
+    var url = "api/post-track-comment";
+    var data = {
+        "username": current_user.user.username,
+        "comment": comment,
+        "track_filename": selected_track
+    };
+    var row_index = document.getElementById(USER_COMMENT_INPUT).parentNode.parentNode.rowIndex + 1;
+    var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
+    console.log("ROW INDEX");
+    console.log(row_index);
+    var cell = row.insertCell(0);
+    cell.style.border = "1px solid black";
+    var div = document.createElement("div");
+    var a = document.createElement("a");
+    a.id = current_user.user.username;
+    a.href = "#";
+    a.innerHTML = current_user.user.username;
+    a.setAttribute("class", "user-comments");
+    var span = document.createElement("span");
+    span.innerHTML = "&nbsp;(" + new Date().toString() + ")";
+    span.style.fontSize = "10px";
+
+    div.appendChild(a);
+    div.appendChild(span);
+    cell.appendChild(div);
+
+    div = document.createElement("div");
+    var text = comment;
+    div.innerHTML = text;
+    cell.appendChild(div);
+
+    postRequest(url, data, processPostComment);
 }
 
 // Tracks every user click
@@ -42,9 +78,7 @@ function showPost(){
 function traceClick(event){
     var parent_found = findParentNode(event.target);
 
-    if (parent_found)
-        console.log("INSIDE TABLE");
-    else
+    if (!parent_found)
     {
         console.log("OUTSIDE TABLE");
         var delete_table = document.getElementById("comment-div");

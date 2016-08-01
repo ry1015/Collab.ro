@@ -1,13 +1,21 @@
 var COMMENT_DIV_ID = "comment-div";
 var COMMENT_TABLE_ID = "comment-table-id";
+var POST_COMMENT_BUTTON_ID = "post-comment-button";
+var CANCEL_COMMENT_BUTTON_ID = "cancel-comment-button";
 var TRACK_LIST_DIV_ID = "track-list-div";
 var INPUT_TABLE_ID = "input-table-id";
+var selected_track = "";
+
 // Add event listener to every click a user makes when track comment section is activated
 function addCommentEventListener(){
     document.addEventListener('click', traceClick, false); //event-track-comments.js
-    document.getElementById("user-comment-input").addEventListener('click', showPost, false); //event-track-comments.js
+    document.getElementById("user-comment-input").addEventListener('click', showPost, false);
 }
 
+function addPostCommentEventListener(){
+    document.getElementById(POST_COMMENT_BUTTON_ID).addEventListener('click', postComment, false);
+    document.getElementById(CANCEL_COMMENT_BUTTON_ID).addEventListener('click', cancelComment, false);
+}
 // Creates a comment div for the associated track
 // track, associated user track
 // called in event-track-comments.js
@@ -55,6 +63,7 @@ function createTrackCommentSection(track_comments){
     var track = new Audio("media/" + filename);
     track.controls = true;
     track.id = filename;
+    selected_track = filename;
     cell.appendChild(track);
 
     // Create user input
@@ -65,7 +74,8 @@ function createTrackCommentSection(track_comments){
     input.id = "user-comment-input";
     input.setAttribute("type", "text");
     input.placeholder = "Share a creative comment...";
-
+    // input.value = "i love mah music";
+    
     var post_comment_div = document.createElement("div");
     post_comment_div.id = "post-comment-div";
     cell.appendChild(input);
@@ -131,4 +141,22 @@ function createTrackCommentSection(track_comments){
     console.log("END OF CREATING TRACK COMMENTS");
     console.log("-------------------------------------------------------")
     
+}
+
+// Create POST and CANCEL Buttons
+function showPost(){
+    console.log("INPUT CLICKED");
+    document.getElementById("user-comment-input").removeEventListener('click', showPost, false);
+
+    var post_comment_div = document.getElementById("post-comment-div");
+    var button = document.createElement("button");
+    button.innerHTML = "POST";
+    button.id = POST_COMMENT_BUTTON_ID;
+    post_comment_div.appendChild(button);
+
+    var button = document.createElement("button");
+    button.innerHTML = "CANCEL";
+    button.id = CANCEL_COMMENT_BUTTON_ID;
+    post_comment_div.appendChild(button);
+    addPostCommentEventListener();
 }

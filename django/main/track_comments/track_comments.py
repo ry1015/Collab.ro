@@ -66,3 +66,31 @@ def get_track_comments(request, format=None):
     print ("END GET TRACK COMMENTS")
     print ("------------------------------------------------------------")
     return Response(data, status=status.HTTP_200_OK)
+
+# Store track comments
+@api_view(['POST'])
+def post_track_comment(request, format=None):
+    pprint.pprint (request.POST)
+    username = request.POST.get("username")
+    comment = request.POST.get("comment")
+    track_filename = request.POST.get("track_filename")
+
+    try:
+        user = User.objects.get(username=username)
+    except:
+        print("COULD NOT FIND USER")
+        return Response("COULD NOT FIND USER", status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        music = Music.objects.get(filename=track_filename)
+    except:
+        print("COULD NOT FIND MUSIC")
+        return Response("COULD NOT FIND MUSIC", status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        track_comment = TrackComment.objects.create(musicID=music, comments=comment, sender=user)
+    except:
+        print("COULD NOT CREATE TRACK COMMENT")
+        return Response("COULD NOT CREATE TRACK COMMENT", status=status.HTTP_400_BAD_REQUEST)
+
+    return Response("SUCCESS", status=status.HTTP_200_OK)
