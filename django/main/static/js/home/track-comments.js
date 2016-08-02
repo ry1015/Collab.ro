@@ -12,6 +12,7 @@ function addCommentEventListener(){
     document.getElementById("user-comment-input").addEventListener('click', showPost, false);
 }
 
+// Add event listener 
 function addPostCommentEventListener(){
     document.getElementById(POST_COMMENT_BUTTON_ID).addEventListener('click', postComment, false);
     document.getElementById(CANCEL_COMMENT_BUTTON_ID).addEventListener('click', cancelComment, false);
@@ -75,7 +76,7 @@ function createTrackCommentSection(track_comments){
     input.setAttribute("type", "text");
     input.placeholder = "Share a creative comment...";
     // input.value = "i love mah music";
-    
+
     var post_comment_div = document.createElement("div");
     post_comment_div.id = "post-comment-div";
     cell.appendChild(input);
@@ -146,17 +147,19 @@ function createTrackCommentSection(track_comments){
 // Create POST and CANCEL Buttons
 function showPost(){
     console.log("INPUT CLICKED");
-    document.getElementById("user-comment-input").removeEventListener('click', showPost, false);
+    // document.getElementById("user-comment-input").removeEventListener('click', showPost, false);
 
     var post_comment_div = document.getElementById("post-comment-div");
-    var button = document.createElement("button");
-    button.innerHTML = "POST";
-    button.id = POST_COMMENT_BUTTON_ID;
-    post_comment_div.appendChild(button);
+    if (post_comment_div.innerHTML == ""){
+        var button = document.createElement("button");
+        button.innerHTML = "POST";
+        button.id = POST_COMMENT_BUTTON_ID;
+        post_comment_div.appendChild(button);
 
-    var button = document.createElement("button");
-    button.innerHTML = "CANCEL";
-    button.id = CANCEL_COMMENT_BUTTON_ID;
-    post_comment_div.appendChild(button);
-    addPostCommentEventListener();
+        var button = document.createElement("button");
+        button.innerHTML = "CANCEL";
+        button.id = CANCEL_COMMENT_BUTTON_ID;
+        post_comment_div.appendChild(button);
+        addPostCommentEventListener();
+    }
 }

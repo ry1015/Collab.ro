@@ -50,7 +50,7 @@ function createUserTrackList(parent_node){
 
         var comment = document.createElement("img");
         comment.setAttribute("class", COMMENT_CLASS);
-        comment.src = "media/comment.ico";
+        comment.src = "media/comment.png";
 
         cell = row.insertCell(1);
         cell.appendChild(comment);

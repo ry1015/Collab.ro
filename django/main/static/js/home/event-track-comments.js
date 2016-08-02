@@ -1,11 +1,20 @@
 var COMMENT_SECTION_PARENT_IDS = ["comment-table-id", "comment-div"];
-var PARENT_DIVS = ["body_div", "navigation-div"];
+var PARENT_DIVS = ["body_div", "navigation-div", "post-comment-div"];
 var HTML_TAG = "HTML";
 var USER_COMMENT_INPUT = "user-comment-input";
 var COMMENT_TABLE_ID = "comment-table-id";
+var POST_COMMENT_DIV_ID = "post-comment-div";
+var IGNORE = ["cancel-comment-button", "post-comment-button"];
 
+// Cancel comment
 function cancelComment(){
     console.log("CANCEL COMMENT");
+    var button_div = document.getElementById(POST_COMMENT_DIV_ID);
+    if (button_div.innerHTML != "")
+        button_div.innerHTML = "";
+    var comment_input = document.getElementById(USER_COMMENT_INPUT);
+    if (comment_input.value != "")
+        comment_input.value = ""
 }
 // Get all comments associated to a particular track
 // track, selected track
@@ -23,7 +32,6 @@ function getAllTrackComments(track){
     {
         "filename": track
     }
-    // data = JSON.stringify(data);
     getRequest(url, data, processAllTrackComments);
 }
 
@@ -35,41 +43,44 @@ function postComment(){
 
     var comment = document.getElementById(USER_COMMENT_INPUT).value;
     var processPostComment = function(result){
+        document.getElementById(USER_COMMENT_INPUT).value = "";
         console.log(result);
     };
 
-    var url = "api/post-track-comment";
-    var data = {
-        "username": current_user.user.username,
-        "comment": comment,
-        "track_filename": selected_track
-    };
-    var row_index = document.getElementById(USER_COMMENT_INPUT).parentNode.parentNode.rowIndex + 1;
-    var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
-    console.log("ROW INDEX");
-    console.log(row_index);
-    var cell = row.insertCell(0);
-    cell.style.border = "1px solid black";
-    var div = document.createElement("div");
-    var a = document.createElement("a");
-    a.id = current_user.user.username;
-    a.href = "#";
-    a.innerHTML = current_user.user.username;
-    a.setAttribute("class", "user-comments");
-    var span = document.createElement("span");
-    span.innerHTML = "&nbsp;(" + new Date().toString() + ")";
-    span.style.fontSize = "10px";
+    if (comment != ""){
+        var url = "api/post-track-comment";
+        var data = {
+            "username": current_user.user.username,
+            "comment": comment,
+            "track_filename": selected_track
+        };
+        var row_index = document.getElementById(USER_COMMENT_INPUT).parentNode.parentNode.rowIndex + 1;
+        var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
+        console.log("ROW INDEX");
+        console.log(row_index);
+        var cell = row.insertCell(0);
+        cell.style.border = "1px solid black";
+        var div = document.createElement("div");
+        var a = document.createElement("a");
+        a.id = current_user.user.username;
+        a.href = "#";
+        a.innerHTML = current_user.user.username;
+        a.setAttribute("class", "user-comments");
+        var span = document.createElement("span");
+        span.innerHTML = "&nbsp;(" + new Date().toString() + ")";
+        span.style.fontSize = "10px";
 
-    div.appendChild(a);
-    div.appendChild(span);
-    cell.appendChild(div);
+        div.appendChild(a);
+        div.appendChild(span);
+        cell.appendChild(div);
 
-    div = document.createElement("div");
-    var text = comment;
-    div.innerHTML = text;
-    cell.appendChild(div);
+        div = document.createElement("div");
+        var text = comment;
+        div.innerHTML = text;
+        cell.appendChild(div);
 
-    postRequest(url, data, processPostComment);
+        postRequest(url, data, processPostComment);
+    }
 }
 
 // Tracks every user click
@@ -94,7 +105,9 @@ function traceClick(event){
 }
 
 function findParentNode(node){
-    if (node.tagName == HTML_TAG || PARENT_DIVS.includes(node.id))
+    if (IGNORE.includes(node.id))
+        return true;
+    else if (PARENT_DIVS.includes(node.id) || node.tagName == HTML_TAG)
         return false;
     else if (COMMENT_SECTION_PARENT_IDS.includes(node.id))
         return true;
