@@ -16,6 +16,11 @@
     width: 100%;
 }
 
+#comment-reply-input{
+    width: 99%;
+    margin-top: 5px;
+}
+
 #input-table-id {
     width: 100%;
     border-collapse: collapse;
@@ -24,6 +29,7 @@
 #post-comment-div {
     margin-bottom: 10px;
 }
+
 
 #user-comment-input {
     height: 30px;

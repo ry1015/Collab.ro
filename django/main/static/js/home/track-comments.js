@@ -5,22 +5,29 @@ var CANCEL_COMMENT_BUTTON_ID = "cancel-comment-button";
 var TRACK_LIST_DIV_ID = "track-list-div";
 var INPUT_TABLE_ID = "input-table-id";
 var selected_track = "";
-
+var REPLY_ID = "reply-button";
 // Add event listener to every click a user makes when track comment section is activated
 function addCommentEventListener(){
     document.addEventListener('click', traceClick, false); //event-track-comments.js
     document.getElementById("user-comment-input").addEventListener('click', showPost, false);
+
+    var reply_buttons = document.getElementsByClassName(REPLY_ID);
+    for (var i = 0; i < reply_buttons.length; i++){
+        reply_buttons[i].addEventListener('click', replyToComment, false); //event-track-comments.js
+    }
+    
 }
 
 // Add event listener 
 function addPostCommentEventListener(){
-    document.getElementById(POST_COMMENT_BUTTON_ID).addEventListener('click', postComment, false);
-    document.getElementById(CANCEL_COMMENT_BUTTON_ID).addEventListener('click', cancelComment, false);
+    document.getElementById(POST_COMMENT_BUTTON_ID).addEventListener('click', postComment, false); //event-track-comments.js
+    document.getElementById(CANCEL_COMMENT_BUTTON_ID).addEventListener('click', cancelComment, false); //event-track-comments.js
 }
 // Creates a comment div for the associated track
 // track, associated user track
 // called in event-track-comments.js
-function createTrackCommentSection(track_comments){
+function createTrackCommentSection(track_comments)
+{
     console.log("-------------------------------------------------------")
     console.log("START OF CREATING TRACK COMMENTS");
 
@@ -53,8 +60,6 @@ function createTrackCommentSection(track_comments){
         }
     }
 
-    
-
     // Create track row
     var row = comment_table.insertRow(comment_table.rows.length);
     var cell = row.insertCell(0);
@@ -84,8 +89,10 @@ function createTrackCommentSection(track_comments){
     cell.style.textAlign = "center";
 
     // Insert track comments
-    for (var i in track_comments){
-        if (track_comments[i]["filename"] == undefined){
+    for (var i in track_comments)
+    {
+        if (track_comments[i]["filename"] == undefined)
+        {
             row = comment_table.insertRow(comment_table.rows.length);
             cell = row.insertCell(0);
             cell.style.border = "1px solid black";
@@ -103,13 +110,24 @@ function createTrackCommentSection(track_comments){
             div.appendChild(span);
             cell.appendChild(div);
 
+            // Insert comment
             div = document.createElement("div");
             var text = track_comments[i]["comments"];
             div.innerHTML = text;
             cell.appendChild(div);
             
+            // Insert reply button
+            div = document.createElement("div");
+            var button = document.createElement("button");
+            button.setAttribute("class", REPLY_ID);
+            var text = document.createTextNode("REPLY");
+            button.appendChild(text);
+            div.appendChild(button);
+            cell.appendChild(div);
+
             // Insert replies
-            for (var j in track_comments[i]["child"]){
+            for (var j in track_comments[i]["child"])
+            {
                 row = comment_table.insertRow(comment_table.rows.length);
                 cell = row.insertCell(0);
                 cell.style.border = "1px solid black";
@@ -127,10 +145,20 @@ function createTrackCommentSection(track_comments){
                 div.appendChild(span);
                 cell.appendChild(div);
 
+                // Insert comment
                 div = document.createElement("div");
                 div.innerHTML = track_comments[i]["child"][j]["comments"];
                 cell.appendChild(div);
                 cell.setAttribute("class", "response")
+
+                // Insert reply button
+                div = document.createElement("div");
+                var button = document.createElement("button");
+                button.setAttribute("class", REPLY_ID);
+                var text = document.createTextNode("REPLY");
+                button.appendChild(text);
+                div.appendChild(button);
+                cell.appendChild(div);
             }
         }
     }
@@ -141,16 +169,17 @@ function createTrackCommentSection(track_comments){
     addCommentEventListener();
     console.log("END OF CREATING TRACK COMMENTS");
     console.log("-------------------------------------------------------")
-    
 }
 
 // Create POST and CANCEL Buttons
-function showPost(){
+function showPost()
+{
     console.log("INPUT CLICKED");
     // document.getElementById("user-comment-input").removeEventListener('click', showPost, false);
 
     var post_comment_div = document.getElementById("post-comment-div");
-    if (post_comment_div.innerHTML == ""){
+    if (post_comment_div.innerHTML == "")
+    {
         var button = document.createElement("button");
         button.innerHTML = "POST";
         button.id = POST_COMMENT_BUTTON_ID;

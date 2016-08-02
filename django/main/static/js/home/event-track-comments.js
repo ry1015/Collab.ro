@@ -5,7 +5,7 @@ var USER_COMMENT_INPUT = "user-comment-input";
 var COMMENT_TABLE_ID = "comment-table-id";
 var POST_COMMENT_DIV_ID = "post-comment-div";
 var IGNORE = ["cancel-comment-button", "post-comment-button"];
-
+var TD_MAX_NUM_CHILDREN = 4;
 // Cancel comment
 function cancelComment(){
     console.log("CANCEL COMMENT");
@@ -56,8 +56,7 @@ function postComment(){
         };
         var row_index = document.getElementById(USER_COMMENT_INPUT).parentNode.parentNode.rowIndex + 1;
         var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
-        console.log("ROW INDEX");
-        console.log(row_index);
+
         var cell = row.insertCell(0);
         cell.style.border = "1px solid black";
         var div = document.createElement("div");
@@ -81,6 +80,40 @@ function postComment(){
 
         postRequest(url, data, processPostComment);
     }
+}
+
+// Reply to comment
+function replyToComment(){
+    console.log("-----------------------------------------------------------------")
+    console.log("START REPLY TO COMMENT");
+    // var tr_depth = findTRDepth(this) - 1;
+    // var node = this;
+    // for (var i = 0; i < tr_depth; i++){
+    //     node = node.parentNode;
+    // }
+
+    // var row_index = node.rowIndex + 1;
+    // var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
+
+    // var cell = row.insertCell(0);
+    
+    var node = this;
+    while (node.tagName != "TD"){
+        node = node.parentNode;
+    }
+
+    if (node.children.length < TD_MAX_NUM_CHILDREN){
+        var div = document.createElement("div");
+        var input = document.createElement("input");
+        input.id = "comment-reply-input";
+        input.setAttribute("type", "text");
+
+
+        div.setAttribute("class", "response");
+        div.appendChild(input);
+        node.appendChild(div);
+    }
+    console.log("END REPLY TO COMMENT");
 }
 
 // Tracks every user click
@@ -113,4 +146,13 @@ function findParentNode(node){
         return true;
     else
         return findParentNode(node.parentNode)
+}
+
+function findTRDepth(node){
+    if (node.tagName == null)
+        return 0;
+    else if (node.tagName == "TR")
+        return 1;
+    else
+        return 1 + findTRDepth(node.parentNode);
 }
