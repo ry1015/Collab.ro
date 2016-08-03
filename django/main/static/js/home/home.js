@@ -2,7 +2,7 @@
 var HOME_DIV_ID = "home_div";
 var PROJ_DIV_ID = "project_div";
 var PROJECT_TABLE_ID = "project_table";
-var PROJECT_LIST_TABLE_ID = "project_list_table";
+var PROJECT_TABLE_BODY_ID = "project_table_body";
 var BODY_DIV_ID = "body_div";
 var CURRENT_TRACKS_ID = "current-tracks-div";
 var NEW_PROJECT_ID = "new_project";
@@ -43,17 +43,20 @@ function createProject(parent_node){
     var attributes = [];
     var project_node = document.createElement("div");
     project_node.id = PROJ_DIV_ID;
+    project_node.className = "projectDiv";
 
     var project_table = document.createElement("table");
     project_table.id = PROJECT_TABLE_ID;
-    project_table.style.border = "1px dashed lightblue";
+    
     var header = project_table.createTHead();
     var row = header.insertRow();
     var cell = row.insertCell(0);
     cell.innerHTML = "<b>PROJECT</b>";
     cell = row.insertCell(1);
     cell.innerHTML = "<button id=new_project>ADD PROJECT</button>";
-    project_table.createTBody();
+    
+    var body = project_table.createTBody();
+    body.id = PROJECT_TABLE_BODY_ID;
     
     project_node.appendChild(project_table);
     parent_node.appendChild(project_node);
@@ -107,17 +110,37 @@ var processProjectData = function(result)
 {
     console.log("Project data loaded");
     var projectData = result;
-	$("#project_table tbody tr").remove(); //removes rows from project_table
-	
-	var projects_list_table = document.getElementById(PROJECT_TABLE_ID);
-	var rowLength = projects_list_table.rows.length;
+	var projects_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
+	while(projects_table_body.rows.length > 0) {
+	    projects_table_body.deleteRow(0);
+    }
 
 	for (i = 0; i < projectData.length; i++){
 		console.log("Inserting row");
-		projectRow = projects_list_table.insertRow();
+		projectRow = projects_table_body.insertRow();
 		projectRow.id = "project_row_" + projectData[i]["id"];
-		var cell = projectRow.insertCell();
+		projectRow.className = "projectRow";
+		var cell = projectRow.insertCell(0);
+		var project_item_table = document.createElement("table"); //TODO: Think of better name
+		project_item_table.id = "project_item_table_" + projectData[i]["id"];
+		cell.appendChild(project_item_table);
+		var header = project_item_table.createTHead();
+		var row = header.insertRow();
+		cell = row.insertCell(0);
 		cell.innerHTML = "<b>" + projectData[i]["name"] + "</b>";
+		
+		var body = project_item_table.createTBody();
+		row = body.insertRow();
+		cell = row.insertCell(0);
+		cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
+		cell = row.insertCell(1);
+		cell.innerHTML = "<p> Stem PlaceHolder </p>"; 
+		cell = row.insertCell(2);
+        cell.innerHTML = "<p> Delete </p>";
+		
+		
+//		cell = projectRow.insertCell(1);
+//		cell.innerHTML = "<p>" + "Track Place Holder" + "</p>";
 	}
 }
 

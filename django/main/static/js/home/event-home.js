@@ -14,8 +14,7 @@ function newProjectEvent(){
     // cell = row.insertCell(0);
     // cell.innerHTML = "<input placeholder='UPLOAD STEM'>";
 
-     row = project_table.insertRow(project_table.rows.length);
-     cell = row.insertCell(0);
+     cell = row.insertCell(1);
      cell.innerHTML = "<button id='save_button'>SAVE</button>";
 
     var parent_projects_table = document.getElementById("project_table");
@@ -31,7 +30,7 @@ function saveProjectEvent(){
 	var processProject = function(result)
 	{
         console.log("Project saved");
-        loadProjects(username);
+        refreshProjects();
 	}
 	
 	var url = "api/add_project";
@@ -43,7 +42,6 @@ function saveProjectEvent(){
     
     data = JSON.stringify(data);
     postRequest(url, data, processProject);
-    refreshProjects();
 }
 
 
