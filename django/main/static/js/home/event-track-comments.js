@@ -4,8 +4,11 @@ var HTML_TAG = "HTML";
 var USER_COMMENT_INPUT = "user-comment-input";
 var COMMENT_TABLE_ID = "comment-table-id";
 var POST_COMMENT_DIV_ID = "post-comment-div";
-var IGNORE = ["cancel-comment-button", "post-comment-button"];
+var IGNORE_IDS = ["cancel-comment-button", "post-comment-button"];
+var INGORE_CLASSES = ["cancel-reply-button"]
 var TD_MAX_NUM_CHILDREN = 4;
+var COMMENT_REPLY_INPUT_ID = "comment-reply-input";
+
 // Cancel comment
 function cancelComment(){
     console.log("CANCEL COMMENT");
@@ -16,6 +19,24 @@ function cancelComment(){
     if (comment_input.value != "")
         comment_input.value = ""
 }
+
+// Cancel reply to comment
+function cancelReplyComment(){
+    console.log("-------------------------------------------");
+    console.log("START CANCEL REPLY TO COMMENT CLICKED");
+    var parent_node = this;
+    var delete_node = this;
+    while (parent_node.tagName != "TD")
+        parent_node = parent_node.parentNode;
+
+    while (delete_node.className != "response")
+        delete_node = delete_node.parentNode;
+
+    parent_node.removeChild(delete_node);
+    console.log("-------------------------------------------");
+    console.log("END CANCEL REPLY TO COMMENT CLICKED");
+}
+
 // Get all comments associated to a particular track
 // track, selected track
 function getAllTrackComments(track){
@@ -82,38 +103,66 @@ function postComment(){
     }
 }
 
-// Reply to comment
-function replyToComment(){
-    console.log("-----------------------------------------------------------------")
-    console.log("START REPLY TO COMMENT");
-    // var tr_depth = findTRDepth(this) - 1;
-    // var node = this;
-    // for (var i = 0; i < tr_depth; i++){
-    //     node = node.parentNode;
-    // }
+// Post reply
+function postReplyComment(){
+    console.log("-------------------------------------------");
+    console.log("REPLY TO COMMENT CLICKED");
+    // selected_track is found in track-comments.js
 
-    // var row_index = node.rowIndex + 1;
-    // var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
+    var comment = document.getElementById(COMMENT_REPLY_INPUT_ID).value;
+    var processReplyComment = function(result){
+        document.getElementById(COMMENT_REPLY_INPUT_ID).value = "";
+        console.log(result);
+    };
 
-    // var cell = row.insertCell(0);
-    
-    var node = this;
-    while (node.tagName != "TD"){
-        node = node.parentNode;
-    }
+    if (comment != ""){
+        var url = "api/post-reply-comment";
+        var data = {
+            "username": current_user.user.username,
+            "comment": comment,
+            "track_filename": selected_track
+        };
+        var comment_reply_node = document.getElementById(COMMENT_REPLY_INPUT_ID);
+        while (comment_reply_node.tagName != "TR")
+            comment_reply_node = comment_reply_node.parentNode;
 
-    if (node.children.length < TD_MAX_NUM_CHILDREN){
+        while (comment_reply_node != null)
+            if (comment_reply_node.childNodes[0].className != "response")
+                break;
+            else
+                comment_reply_node = comment_reply_node.nextSibling;
+            
+        var row_index = 0;
+        if (comment_reply_node == null)
+            row_index = document.getElementById(COMMENT_TABLE_ID).rows.length;
+        else
+            row_index = comment_reply_node.rowIndex + 1;
+        var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
+
+        var cell = row.insertCell(0);
+        cell.style.border = "1px solid black";
+        cell.setAttribute("class", "response");
         var div = document.createElement("div");
-        var input = document.createElement("input");
-        input.id = "comment-reply-input";
-        input.setAttribute("type", "text");
+        var a = document.createElement("a");
+        a.id = current_user.user.username;
+        a.href = "#";
+        a.innerHTML = current_user.user.username;
+        a.setAttribute("class", "user-comments");
+        var span = document.createElement("span");
+        span.innerHTML = "&nbsp;(" + new Date().toString() + ")";
+        span.style.fontSize = "10px";
 
+        div.appendChild(a);
+        div.appendChild(span);
+        cell.appendChild(div);
 
-        div.setAttribute("class", "response");
-        div.appendChild(input);
-        node.appendChild(div);
+        div = document.createElement("div");
+        var text = comment;
+        div.innerHTML = text;
+        cell.appendChild(div);
+
+        // postRequest(url, data, processReplyComment);
     }
-    console.log("END REPLY TO COMMENT");
 }
 
 // Tracks every user click
@@ -138,7 +187,9 @@ function traceClick(event){
 }
 
 function findParentNode(node){
-    if (IGNORE.includes(node.id))
+    if (INGORE_CLASSES.includes(node.className))
+        return true;
+    else if (IGNORE_IDS.includes(node.id))
         return true;
     else if (PARENT_DIVS.includes(node.id) || node.tagName == HTML_TAG)
         return false;

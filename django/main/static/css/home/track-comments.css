@@ -6,6 +6,10 @@
     right: 0;
 }
 
+#button-div-reply{
+    text-align: center;
+    margin-top: 5px;
+}
 #comment-div{
     width: 60%;
 }
@@ -17,7 +21,7 @@
 }
 
 #comment-reply-input{
-    width: 99%;
+    width: 98%;
     margin-top: 5px;
 }
 

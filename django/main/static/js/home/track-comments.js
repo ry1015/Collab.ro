@@ -6,6 +6,9 @@ var TRACK_LIST_DIV_ID = "track-list-div";
 var INPUT_TABLE_ID = "input-table-id";
 var selected_track = "";
 var REPLY_ID = "reply-button";
+var POST_REPLY_CLASS = "post-reply-button";
+var CANCEL_REPLY_CLASS = "cancel-reply-button";
+
 // Add event listener to every click a user makes when track comment section is activated
 function addCommentEventListener(){
     document.addEventListener('click', traceClick, false); //event-track-comments.js
@@ -13,16 +16,30 @@ function addCommentEventListener(){
 
     var reply_buttons = document.getElementsByClassName(REPLY_ID);
     for (var i = 0; i < reply_buttons.length; i++){
-        reply_buttons[i].addEventListener('click', replyToComment, false); //event-track-comments.js
+        reply_buttons[i].addEventListener('click', createReplyToCommentSection, false);
     }
     
 }
 
-// Add event listener 
+// Add post comment event listener 
 function addPostCommentEventListener(){
     document.getElementById(POST_COMMENT_BUTTON_ID).addEventListener('click', postComment, false); //event-track-comments.js
     document.getElementById(CANCEL_COMMENT_BUTTON_ID).addEventListener('click', cancelComment, false); //event-track-comments.js
 }
+
+// Add reply event listener
+function addReplyToCommentEventListener(){
+    var post_replies = document.getElementsByClassName(POST_REPLY_CLASS);
+    for (var i = 0; i < post_replies.length; i++){
+        post_replies[i].addEventListener('click', postReplyComment, false); //event-track-comments.js
+    }
+
+    var cancel_replies = document.getElementsByClassName(CANCEL_REPLY_CLASS);
+    for (var i = 0; i < cancel_replies.length; i++){
+        cancel_replies[i].addEventListener('click', cancelReplyComment, false); //event-track-comments.js
+    }
+}
+
 // Creates a comment div for the associated track
 // track, associated user track
 // called in event-track-comments.js
@@ -126,7 +143,8 @@ function createTrackCommentSection(track_comments)
             cell.appendChild(div);
 
             // Insert replies
-            for (var j in track_comments[i]["child"])
+            var child_length = track_comments[i]["child"].length;
+            for (var j = child_length - 1; j >= 0; j--)
             {
                 row = comment_table.insertRow(comment_table.rows.length);
                 cell = row.insertCell(0);
@@ -169,6 +187,47 @@ function createTrackCommentSection(track_comments)
     addCommentEventListener();
     console.log("END OF CREATING TRACK COMMENTS");
     console.log("-------------------------------------------------------")
+}
+
+// Create reply to comment input
+function createReplyToCommentSection(){
+    console.log("-----------------------------------------------------------------")
+    console.log("START REPLY TO COMMENT");
+    var node = this;
+    while (node.tagName != "TD"){
+        node = node.parentNode;
+    }
+
+    if (node.children.length < TD_MAX_NUM_CHILDREN){
+        var div = document.createElement("div");
+        var input = document.createElement("input");
+        input.id = "comment-reply-input";
+        input.setAttribute("type", "text");
+
+
+        div.setAttribute("class", "response");
+        div.appendChild(input);
+        node.appendChild(div);
+
+        var button_div = document.createElement("div");
+        button_div.id = "button-div-reply";
+        var post_reply = document.createElement("button");
+        post_reply.innerHTML = "POST";
+        post_reply.setAttribute("class", POST_REPLY_CLASS);
+
+        var cancel_reply = document.createElement("button");
+        cancel_reply.innerHTML = "CANCEL";
+        cancel_reply.setAttribute("class", CANCEL_REPLY_CLASS);
+
+        button_div.appendChild(post_reply);
+        button_div.appendChild(cancel_reply);
+        div.appendChild(button_div);
+        node.appendChild(div);
+
+        addReplyToCommentEventListener();
+    }
+    console.log("END REPLY TO COMMENT");
+    console.log("-----------------------------------------------------------------")
 }
 
 // Create POST and CANCEL Buttons
