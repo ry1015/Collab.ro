@@ -196,6 +196,9 @@ function createReplyToCommentSection(){
     console.log("-----------------------------------------------------------------")
     console.log("START REPLY TO COMMENT");
     var node = this;
+    if (node.offsetTop > window.innerHeight)
+        window.scroll(0, node.offsetTop);
+
     while (node.tagName != "TD"){
         node = node.parentNode;
     }
@@ -226,6 +229,8 @@ function createReplyToCommentSection(){
         div.appendChild(button_div);
         node.appendChild(div);
 
+        if (post_reply.getBoundingClientRect().bottom > window.innerHeight)
+            window.scroll(0, post_reply.getBoundingClientRect().bottom);
         addReplyToCommentEventListener();
     }
     console.log("END REPLY TO COMMENT");

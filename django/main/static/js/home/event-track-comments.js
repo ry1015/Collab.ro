@@ -103,6 +103,14 @@ function postComment(){
     }
 }
 
+// Get a node's TD
+// node, a node
+function getTD(node){
+    while (node.tagName != "TD")
+        node = node.parentNode;
+    return node;
+}
+
 // Get a node's TR
 // node, a node
 function getTR(node){
@@ -127,9 +135,9 @@ function postReplyComment(){
     // selected_track is found in track-comments.js
     var comment_node = this.parentNode.previousSibling;
     var processReplyComment = function(result){
-        comment_node.innerHTML = "";
-        console.log(comment_node);
-        console.log(result);
+        var parent = getTD(comment_node);
+        var child = comment_node.parentNode;
+        parent.removeChild(child);
     };
 
     if (comment_node.value != ""){
@@ -186,7 +194,20 @@ function postReplyComment(){
         div.innerHTML = text;
         cell.appendChild(div);
 
-        // postRequest(url, data, processReplyComment);
+        // Insert reply button
+        div = document.createElement("div");
+        var button = document.createElement("button");
+        button.setAttribute("class", REPLY_ID);
+        button.addEventListener('click', createReplyToCommentSection, false);
+        var text = document.createTextNode("REPLY");
+        button.appendChild(text);
+        div.appendChild(button);
+        cell.appendChild(div);
+
+        if (button.getBoundingClientRect().bottom > window.innerHeight)
+            window.scroll(0, button.getBoundingClientRect().bottom);
+        
+        postRequest(url, data, processReplyComment);
     }
 }
 

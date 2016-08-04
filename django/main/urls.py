@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^api/get-tracks', user_tracks.get_user_tracks),
     url(r'^api/get-track-comments', track_comments.get_track_comments),
     url(r'^api/post-track-comment', track_comments.post_track_comment),
+    url(r'^api/post-reply-comment', track_comments.post_reply),
     url(r'^api/add_project', projects.add_project),
     url(r'^api/get_projects', projects.get_projects),
     # url(r'^api/userprofiles/$', views.userprofile_list),

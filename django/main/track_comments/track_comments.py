@@ -67,6 +67,12 @@ def get_track_comments(request, format=None):
     print ("------------------------------------------------------------")
     return Response(data, status=status.HTTP_200_OK)
 
+# Store reply
+@api_view(['POST'])
+def post_reply(request, format=None):
+    pprint.pprint(request.POST)
+    return Response("SUCCESS", status=status.HTTP_200_OK)
+
 # Store track comments
 @api_view(['POST'])
 def post_track_comment(request, format=None):
