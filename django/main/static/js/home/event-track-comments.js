@@ -8,7 +8,7 @@ var IGNORE_IDS = ["cancel-comment-button", "post-comment-button"];
 var INGORE_CLASSES = ["cancel-reply-button"]
 var TD_MAX_NUM_CHILDREN = 4;
 var COMMENT_REPLY_INPUT_ID = "comment-reply-input";
-
+var track_comments = "";
 // Cancel comment
 function cancelComment(){
     console.log("CANCEL COMMENT");
@@ -45,7 +45,7 @@ function getAllTrackComments(track){
     var track_username = split_track[1];
     
     var processAllTrackComments = function(result){
-        var track_comments = result;
+        track_comments = result;
         createTrackCommentSection(track_comments); //track-comments.js
     }
 
@@ -103,40 +103,65 @@ function postComment(){
     }
 }
 
+// Get a node's TR
+// node, a node
+function getTR(node){
+    while (node.tagName != "TR")
+        node = node.parentNode;
+    return node;
+}
+
+// Checks if a node's tr is a child of a track comment
+// node, the node that needs to be checked
+function isNodeChild(node){
+    if (node.getAttribute("cid") == null)
+        return true;
+    else
+       return false;
+}
+
 // Post reply
 function postReplyComment(){
     console.log("-------------------------------------------");
     console.log("REPLY TO COMMENT CLICKED");
     // selected_track is found in track-comments.js
-
-    var comment = document.getElementById(COMMENT_REPLY_INPUT_ID).value;
+    var comment_node = this.parentNode.previousSibling;
     var processReplyComment = function(result){
-        document.getElementById(COMMENT_REPLY_INPUT_ID).value = "";
+        comment_node.innerHTML = "";
+        console.log(comment_node);
         console.log(result);
     };
 
-    if (comment != ""){
+    if (comment_node.value != ""){
         var url = "api/post-reply-comment";
         var data = {
             "username": current_user.user.username,
-            "comment": comment,
+            "comment": comment_node.value,
             "track_filename": selected_track
         };
-        var comment_reply_node = document.getElementById(COMMENT_REPLY_INPUT_ID);
-        while (comment_reply_node.tagName != "TR")
-            comment_reply_node = comment_reply_node.parentNode;
 
-        while (comment_reply_node != null)
-            if (comment_reply_node.childNodes[0].className != "response")
-                break;
-            else
-                comment_reply_node = comment_reply_node.nextSibling;
-            
-        var row_index = 0;
-        if (comment_reply_node == null)
-            row_index = document.getElementById(COMMENT_TABLE_ID).rows.length;
-        else
-            row_index = comment_reply_node.rowIndex + 1;
+        // var comment_reply_node = comment_node;
+
+        var comment_table = document.getElementById(COMMENT_TABLE_ID);
+        var tr_node = getTR(comment_node);
+        var child = isNodeChild(tr_node);
+
+        // If child, find the 
+        if (child){
+            if (tr_node.rowIndex + 1 != comment_table.rows.length){
+                while (tr_node.nextSibling.getAttribute("cid") == null)
+                    tr_node = tr_node.nextSibling;
+            }
+        } 
+        else {
+            // If row is last element table, nextsibling is null which will cause error
+            if (tr_node.rowIndex + 1 != comment_table.rows.length){
+                while (tr_node.nextSibling.getAttribute("cid") == null)
+                    tr_node = tr_node.nextSibling;
+            }
+        }
+
+        var row_index = tr_node.rowIndex + 1;
         var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
 
         var cell = row.insertCell(0);
@@ -157,7 +182,7 @@ function postReplyComment(){
         cell.appendChild(div);
 
         div = document.createElement("div");
-        var text = comment;
+        var text = comment_node.value;
         div.innerHTML = text;
         cell.appendChild(div);
 
