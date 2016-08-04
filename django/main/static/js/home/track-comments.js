@@ -111,9 +111,11 @@ function createTrackCommentSection(track_comments)
         if (track_comments[i]["filename"] == undefined)
         {
             row = comment_table.insertRow(comment_table.rows.length);
+            row.setAttribute("cid", track_comments[i]["id"]);
             cell = row.insertCell(0);
             cell.style.border = "1px solid black";
             div = document.createElement("div");
+
             a = document.createElement("a");
             a.id = track_comments[i]["sender"]
             a.href = "#";
