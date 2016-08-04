@@ -75,9 +75,9 @@ class SocialNetwork(models.Model):
 
 # Track Comments
 class TrackComment(models.Model):
-    musicID = models.ForeignKey(Music, blank=True, null=True)
+    musicID = models.ForeignKey(Music)
     comments = models.TextField(blank=True)
-    sender = models.ForeignKey(User, blank=True)
+    sender = models.ForeignKey(User)
     comment_parent_id = models.PositiveIntegerField(blank=True, null=True)
     timestamp = models.DateTimeField(default=timezone.now)
     
