@@ -84,3 +84,15 @@ class TrackComment(models.Model):
     def __str__(self):
         preview = "[ID: " + str(self.id) + "][" + str(self.timestamp) + "]" + "(" + str(self.musicID) + ")" + ": SENDER: " + str(self.sender) + "--> PARENT: " + str(self.comment_parent_id)
         return preview
+
+class Stem(models.Model):
+    userID = models.ForeignKey(User)
+    projectID = models.ForeignKey(Project)
+    title = models.CharField(max_length=200)
+    category = models.CharField(max_length=200)
+    filename = models.FileField(max_length=200, blank=True)
+    upload_date = models.DateTimeField(default=timezone.now)
+	
+	def __str__(self):
+        preview = "(" + str(self.userID) + ") " + self.title
+        return preview
