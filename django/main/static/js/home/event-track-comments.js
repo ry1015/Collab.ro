@@ -103,6 +103,14 @@ function postComment(){
     }
 }
 
+// Get a node's TD
+// node, a node
+function getTD(node){
+    while (node.tagName != "TD")
+        node = node.parentNode;
+    return node;
+}
+
 // Get a node's TR
 // node, a node
 function getTR(node){
@@ -127,39 +135,30 @@ function postReplyComment(){
     // selected_track is found in track-comments.js
     var comment_node = this.parentNode.previousSibling;
     var processReplyComment = function(result){
-        comment_node.innerHTML = "";
-        console.log(comment_node);
+        var parent = getTD(comment_node);
+        var child = comment_node.parentNode;
+        parent.removeChild(child);
         console.log(result);
     };
 
     if (comment_node.value != ""){
         var url = "api/post-reply-comment";
-        var data = {
-            "username": current_user.user.username,
-            "comment": comment_node.value,
-            "track_filename": selected_track
-        };
-
-        // var comment_reply_node = comment_node;
-
         var comment_table = document.getElementById(COMMENT_TABLE_ID);
         var tr_node = getTR(comment_node);
         var child = isNodeChild(tr_node);
 
-        // If child, find the 
-        if (child){
-            if (tr_node.rowIndex + 1 != comment_table.rows.length){
-                while (tr_node.nextSibling.getAttribute("cid") == null)
-                    tr_node = tr_node.nextSibling;
-            }
-        } 
-        else {
-            // If row is last element table, nextsibling is null which will cause error
-            if (tr_node.rowIndex + 1 != comment_table.rows.length){
-                while (tr_node.nextSibling.getAttribute("cid") == null)
-                    tr_node = tr_node.nextSibling;
-            }
-        }
+        var data = {
+            "username": current_user.user.username,
+            "comment": comment_node.value,
+            "track_filename": selected_track,
+            "parent": tr_node.getAttribute("cid")
+        };
+        console.log(data);
+
+        // If tr_node.nextSibling == null, last message has been reached
+        if (tr_node.nextSibling != null)
+            while (tr_node.nextSibling.getAttribute("cid") == null)
+                tr_node = tr_node.nextSibling;
 
         var row_index = tr_node.rowIndex + 1;
         var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
@@ -186,7 +185,20 @@ function postReplyComment(){
         div.innerHTML = text;
         cell.appendChild(div);
 
-        // postRequest(url, data, processReplyComment);
+        // Insert reply button
+        div = document.createElement("div");
+        var button = document.createElement("button");
+        button.setAttribute("class", REPLY_ID);
+        button.addEventListener('click', createReplyToCommentSection, false);
+        var text = document.createTextNode("REPLY");
+        button.appendChild(text);
+        div.appendChild(button);
+        cell.appendChild(div);
+
+        if (button.getBoundingClientRect().bottom > window.innerHeight)
+            window.scroll(0, button.getBoundingClientRect().bottom);
+
+        postRequest(url, data, processReplyComment);
     }
 }
 

@@ -62,15 +62,44 @@ def get_track_comments(request, format=None):
     else:
         print ("NO COMMENTS")
     data.append({"filename": selected_track})
-    pprint.pprint(data)
     print ("END GET TRACK COMMENTS")
     print ("------------------------------------------------------------")
     return Response(data, status=status.HTTP_200_OK)
 
+# Store reply
+@api_view(['POST'])
+def post_reply(request, format=None):
+    print ("------------------------------------------------------------")
+    print ("START POST REPLY")
+    try:
+        user = User.objects.get(username=request.POST.get("username"))
+    except:
+        return Response("USER INVALID", status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        music = Music.objects.get(filename=request.POST.get("track_filename"))
+    except:
+        return Response("MUSIC INVALID", status=status.HTTP_400_BAD_REQUEST)
+
+    data = {}
+    data["musicID"] = music.id
+    data["comments"] = request.POST.get("comment")
+    data["sender"] = user.id
+    data["comment_parent_id"] = int(request.POST.get("parent"))
+
+    serializer = TrackCommentSerializer(data=data)
+    print ("END POST REPLY")
+    print ("------------------------------------------------------------")
+    if serializer.is_valid():
+        serializer.save()
+        return Response("SUCCESS", status=status.HTTP_200_OK)
+    else:
+        return Response("SERIALIZER INVALID", status=status.HTTP_400_BAD_REQUEST)
+    
+
 # Store track comments
 @api_view(['POST'])
 def post_track_comment(request, format=None):
-    pprint.pprint (request.POST)
     username = request.POST.get("username")
     comment = request.POST.get("comment")
     track_filename = request.POST.get("track_filename")

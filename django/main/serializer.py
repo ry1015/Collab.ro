@@ -20,4 +20,4 @@ class ContactInformationSerializer(serializers.ModelSerializer):
 class TrackCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrackComment
-        fields = ('sender', 'comment_parent_id', 'comments', 'timestamp')
+        fields = ('sender', 'comment_parent_id', 'comments', 'timestamp', 'musicID')
