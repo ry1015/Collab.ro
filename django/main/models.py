@@ -93,6 +93,6 @@ class Stem(models.Model):
     filename = models.FileField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
 	
-	def __str__(self):
+    def __str__(self):
         preview = "(" + str(self.userID) + ") " + self.title
         return preview
