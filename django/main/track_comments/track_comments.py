@@ -39,8 +39,6 @@ def get_track_comments(request, format=None):
     except:
         Response("No Track Comments.", status=status.HTTP_400_BAD_REQUEST)
 
-    print("---------------------------------")
-    print(comments)
     data = []
     if (len(comments) > 0):
         # Grab all parents
@@ -55,7 +53,7 @@ def get_track_comments(request, format=None):
 
         for parent in data:
             for comment in comments:
-                if (comment.comment_parent_id == parent["id"]):
+                if (comment.comment_parent_id != None and comment.comment_parent_id == parent["id"]):
                     child_data = TrackCommentSerializer(comment).data
                     child_data["sender"] = User.objects.get(id=comment.sender.id).username
                     parent["child"].append(child_data)
@@ -85,8 +83,8 @@ def post_reply(request, format=None):
     data["musicID"] = music.id
     data["comments"] = request.POST.get("comment")
     data["sender"] = user.id
-    data["comment_parent_id"] = int(request.POST.get("parent"))
-
+    data["comment_parent_id"] = request.POST.get("parent")
+    pprint.pprint(data)
     serializer = TrackCommentSerializer(data=data)
     print ("END POST REPLY")
     print ("------------------------------------------------------------")

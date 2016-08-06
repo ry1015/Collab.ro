@@ -128,6 +128,14 @@ function isNodeChild(node){
        return false;
 }
 
+// Find reply's parent
+// node, reply node
+function findParent(node){
+    node = getTR(node);
+    while (node.getAttribute("cid") == null)
+        node = node.previousSibling
+    return node;
+}
 // Post reply
 function postReplyComment(){
     console.log("-------------------------------------------");
@@ -146,12 +154,19 @@ function postReplyComment(){
         var comment_table = document.getElementById(COMMENT_TABLE_ID);
         var tr_node = getTR(comment_node);
         var child = isNodeChild(tr_node);
+        var parent_val = "";
+
+        if (child){
+            var current_node = findParent(comment_node);
+            parent_val = current_node.getAttribute("cid");
+        } else
+            parent_val = tr_node.getAttribute("cid")
 
         var data = {
             "username": current_user.user.username,
             "comment": comment_node.value,
             "track_filename": selected_track,
-            "parent": tr_node.getAttribute("cid")
+            "parent": parent_val
         };
         console.log(data);
 
