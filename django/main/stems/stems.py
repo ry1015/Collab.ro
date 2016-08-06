@@ -10,22 +10,24 @@ import json
 
 @api_view(['POST'])
 def upload_stem(request, format=None):
-    print("Uploading Stem")
+    print("Processing Stem")
     username = request.POST.get("username")
     stem_name = request.POST.get("stem_name")
     category = request.POST.get("category")
-    filename = request.FILES("file")
+    filename = request.FILES.get("filename")
 	
-	try:
+    print(username)
+    try:
         user = User.objects.get(username=username)
     except:
         return Response("Upload Stem Error. Username Does Not Exist.")
     try:
-        project = Project.objects.get(userID=user)
+        project = Project.objects.get(userID=user, name="Test Project")
+        print(project)
     except:
         return Response("Upload Stem Error. Project Does Not Exist.")
     try:
-        stem = Stems.object.create(userID=user, projectID=project, title=stem_name, category=category, filename=filename)
+        stem = Stem.objects.create(userID=user, projectID=project, title=stem_name, category=category, filename=filename)
     except:
         return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
     stem.save()

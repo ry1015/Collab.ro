@@ -14,18 +14,18 @@ function newProjectEvent(){
     // cell = row.insertCell(0);
     // cell.innerHTML = "<input placeholder='UPLOAD STEM'>";
     
-    row = new_project_table.insertRow(new_project_table.rows.length);
-	 cell = row.insertCell(0);
-	 cell.innerHTML = "STEMS:<input id='stem_title' placeholder='ENTER TITLE'>";
-	 cell = row.insertCell(1);
-	 cell.innerHTML = "Category:<select id='stem_category'> <option value='drums'>Drums" +
-	                           "<option value='guitar'>Guitar" +
-						       "<option value='producer'>Producer" +
-							   "<option value='vocal'>Vocal";
-	 cell = row.insertCell(2);
-	 cell.innerHTML = "<input id='stem_upload' type='file'>";
-	 cell = row.insertCell(3);
-	 cell.innerHTML = "<button id='upload_button'>UPLOAD</button";
+    // row = project_table.insertRow(project_table.rows.length);
+	// cell = row.insertCell(0);
+	// cell.innerHTML = "STEMS:<input id='stem_title' placeholder='ENTER TITLE'>";
+	// cell = row.insertCell(1);
+	// cell.innerHTML = "Category:<select id='stem_category'> <option value='drums'>Drums" +
+	//                           "<option value='guitar'>Guitar" +
+	//					       "<option value='producer'>Producer" +
+	//						   "<option value='vocal'>Vocal";
+	// cell = row.insertCell(2);
+	// cell.innerHTML = "<input id='stem_upload' type='file'>";
+	// cell = row.insertCell(3);
+	// cell.innerHTML = "<button id='upload_button'>UPLOAD</button";
 	
      row = project_table.insertRow(project_table.rows.length);
      cell = row.insertCell(0);
