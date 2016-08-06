@@ -211,7 +211,7 @@ function postReplyComment(){
         cell.appendChild(div);
 
         if (button.getBoundingClientRect().bottom > window.innerHeight)
-            window.scroll(0, button.getBoundingClientRect().bottom);
+            window.scroll(0, button.getBoundingClientRect().top);
 
         postRequest(url, data, processReplyComment);
     }

@@ -8,6 +8,7 @@ var selected_track = "";
 var REPLY_ID = "reply-button";
 var POST_REPLY_CLASS = "post-reply-button";
 var CANCEL_REPLY_CLASS = "cancel-reply-button";
+var MARGIN = 148;
 
 // Add event listener to every click a user makes when track comment section is activated
 function addCommentEventListener(){
@@ -191,13 +192,22 @@ function createTrackCommentSection(track_comments)
     console.log("-------------------------------------------------------")
 }
 
+function getPosition(elem) {
+    var position = 0;
+    elem = getTR(elem); // event-track-comments.js
+
+    while (elem.previousSibling != null){
+        position += elem.clientHeight;
+        elem = elem.previousSibling;
+    }
+    return position;
+}
+
 // Create reply to comment input
 function createReplyToCommentSection(){
     console.log("-----------------------------------------------------------------")
     console.log("START REPLY TO COMMENT");
     var node = this;
-    if (node.offsetTop > window.innerHeight)
-        window.scroll(0, node.offsetTop);
 
     while (node.tagName != "TD"){
         node = node.parentNode;
@@ -229,8 +239,14 @@ function createReplyToCommentSection(){
         div.appendChild(button_div);
         node.appendChild(div);
 
-        if (post_reply.getBoundingClientRect().bottom > window.innerHeight)
-            window.scroll(0, post_reply.getBoundingClientRect().bottom);
+        var total = getPosition(div);
+
+        total += MARGIN;
+        console.log("NEW POSITION: " + total);
+        if (total > window.innerHeight){
+            var diff = total - window.innerHeight;
+            window.scroll(0, diff);
+        }
         addReplyToCommentEventListener();
     }
     console.log("END REPLY TO COMMENT");
