@@ -85,6 +85,7 @@ class TrackComment(models.Model):
         preview = "[ID: " + str(self.id) + "][" + str(self.timestamp) + "]" + "(" + str(self.musicID) + ")" + ": SENDER: " + str(self.sender) + "--> PARENT: " + str(self.comment_parent_id)
         return preview
 
+# User Project Stems
 class Stem(models.Model):
     userID = models.ForeignKey(User)
     projectID = models.ForeignKey(Project)
@@ -94,5 +95,5 @@ class Stem(models.Model):
     upload_date = models.DateTimeField(default=timezone.now)
 	
     def __str__(self):
-        preview = "(" + str(self.userID) + ") " + self.title
+        preview = "[ID: " + str(self.id) + "]" + "(" + str(self.userID) + ")" + self.title
         return preview
