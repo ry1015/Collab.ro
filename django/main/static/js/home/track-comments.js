@@ -186,12 +186,13 @@ function createTrackCommentSection(track_comments)
 
     comment_div.appendChild(comment_table);
     track_list_parent.appendChild(comment_div);
-    // document.getElementById("user-comment-input").style.width = "90%";
     addCommentEventListener();
     console.log("END OF CREATING TRACK COMMENTS");
     console.log("-------------------------------------------------------")
 }
 
+// Gets rough estimate of the current position of an element
+// elem, an element
 function getPosition(elem) {
     var position = 0;
     elem = getTR(elem); // event-track-comments.js
@@ -203,11 +204,21 @@ function getPosition(elem) {
     return position;
 }
 
+function closeOtherReplyDiv(){
+    var other_reply_divs = document.getElementsByClassName("response");
+    for (var i = 0; i < other_reply_divs.length; ++i){
+        if (other_reply_divs[i].tagName == "DIV"){
+            var parent_node = other_reply_divs[i].parentNode;
+            parent_node.removeChild(other_reply_divs[i]);
+        }
+    }
+}
 // Create reply to comment input
 function createReplyToCommentSection(){
     console.log("-----------------------------------------------------------------")
     console.log("START REPLY TO COMMENT");
     var node = this;
+    closeOtherReplyDiv();
 
     while (node.tagName != "TD"){
         node = node.parentNode;
@@ -240,13 +251,13 @@ function createReplyToCommentSection(){
         node.appendChild(div);
 
         var total = getPosition(div);
-
-        total += MARGIN;
-        console.log("NEW POSITION: " + total);
-        if (total > window.innerHeight){
+        var rec = div.getBoundingClientRect();
+        if (rec.bottom > window.innerHeight){
+            total += MARGIN;
             var diff = total - window.innerHeight;
             window.scroll(0, diff);
         }
+        
         addReplyToCommentEventListener();
     }
     console.log("END REPLY TO COMMENT");

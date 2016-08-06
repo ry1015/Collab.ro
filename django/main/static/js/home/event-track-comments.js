@@ -172,7 +172,7 @@ function postReplyComment(){
 
         // If tr_node.nextSibling == null, last message has been reached
         if (tr_node.nextSibling != null)
-            while (tr_node.nextSibling.getAttribute("cid") == null)
+            while (tr_node.nextSibling != null && tr_node.nextSibling.getAttribute("cid") == null)
                 tr_node = tr_node.nextSibling;
 
         var row_index = tr_node.rowIndex + 1;
@@ -210,8 +210,12 @@ function postReplyComment(){
         div.appendChild(button);
         cell.appendChild(div);
 
-        if (button.getBoundingClientRect().bottom > window.innerHeight)
-            window.scroll(0, button.getBoundingClientRect().top);
+        var total = getPosition(div);
+        if (button.getBoundingClientRect().bottom > window.innerHeight){
+            total += MARGIN;
+            var diff = total - window.innerHeight;
+            window.scroll(0, diff);
+        }
 
         postRequest(url, data, processReplyComment);
     }
