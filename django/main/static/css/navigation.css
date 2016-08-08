@@ -1,6 +1,23 @@
 #navigation-div table {
     margin-left: auto;
     margin-right: auto;
+    width: 70%;
+}
+
+#navigation-div table tr td{
+    text-align: center;
+}
+
+#navigation-div table tr td:not(:nth-child(3)){
+    width: 10%;
+}
+
+#navigation-div table tr td:nth-child(3){
+    width: 70%;
+}
+
+#search_input {
+    width: 90%;
 }
 .add-pointer:hover {
     cursor: pointer;
