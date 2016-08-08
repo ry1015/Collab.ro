@@ -119,5 +119,6 @@ def post_track_comment(request, format=None):
     except:
         print("COULD NOT CREATE TRACK COMMENT")
         return Response("COULD NOT CREATE TRACK COMMENT", status=status.HTTP_400_BAD_REQUEST)
-
-    return Response("SUCCESS", status=status.HTTP_200_OK)
+    data = {}
+    data["cid"] = track_comment.id
+    return Response(data, status=status.HTTP_200_OK)

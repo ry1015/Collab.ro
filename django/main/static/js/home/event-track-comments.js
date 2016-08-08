@@ -61,11 +61,12 @@ function postComment(){
     console.log("-------------------------------------------");
     console.log("POST COMMENT");
     // selected_track is found in track-comments.js
-
+    var row_num = "";
     var comment = document.getElementById(USER_COMMENT_INPUT).value;
     var processPostComment = function(result){
         document.getElementById(USER_COMMENT_INPUT).value = "";
-        console.log(result);
+        var table_comments = document.getElementById(COMMENT_TABLE_ID);
+        table_comments.childNodes[0].childNodes[row_num].setAttribute("cid", result["cid"]);
     };
 
     if (comment != ""){
@@ -99,6 +100,16 @@ function postComment(){
         div.innerHTML = text;
         cell.appendChild(div);
 
+        // Insert reply button
+        div = document.createElement("div");
+        var button = document.createElement("button");
+        button.setAttribute("class", REPLY_ID);
+        button.addEventListener('click', createReplyToCommentSection, false);
+        var text = document.createTextNode("REPLY");
+        button.appendChild(text);
+        div.appendChild(button);
+        cell.appendChild(div);
+        row_num = getTR(cell).rowIndex;
         postRequest(url, data, processPostComment);
     }
 }
