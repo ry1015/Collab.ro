@@ -35,10 +35,6 @@ function createNavigationBar()
 // Creates the user profile page
 function openProfilePage()
 {
-    console.log("NAV PROFILE BUTTON CLICKED!");
-    // console.log("CURRENT USER PROFILE: ");
-    // console.log(current_user.profile);
-    console.log("----------------------------------")
     var body_div = document.getElementById(BODY_DIV_ID);
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
@@ -78,7 +74,6 @@ function openProfilePage()
 // Creates the user home page
 function openHomePage()
 {
-    console.log("HOME BUTTON CLICKED!");
     var body_div = document.getElementById(BODY_DIV_ID);
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";

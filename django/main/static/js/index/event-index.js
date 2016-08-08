@@ -9,7 +9,6 @@ function attachEventToLogin(event)
 // Authenticates user when user enters username and password
 function loginEvent()
 {
-    console.log("Login Button Clicked!");
     var processUser = function(result)
     {
         var user = result;

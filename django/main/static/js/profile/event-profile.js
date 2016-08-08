@@ -1,6 +1,5 @@
 // Add a user's social network site
 function addSocialNetworkSite(){
-    console.log("ADD SOCIAL NETWORK");
     var sn_node = document.getElementById(this.id);
     var sn_index = sn_node.parentNode.parentNode.rowIndex;
     var table = document.getElementById("social_network_table");
@@ -17,7 +16,6 @@ function addSocialNetworkSite(){
     }
 
     var processAddedSocialSite = function(result){
-        console.log("USER'S SOCIAL SITE ADDED!");
         current_user = result;
         console.log("CURRENT USER");
         console.log(current_user);
@@ -54,8 +52,6 @@ function addSocialNetworkSite(){
 
 // Delete a user's social network
 function deleteSocialNetworkSite(){
-    console.log("DELETE SOCIAL NETWORK");
-
     // Delete row from Social Network Table
     var sn_node = document.getElementById(this.id);
     var sn_index = sn_node.parentNode.parentNode.rowIndex;
@@ -88,7 +84,6 @@ function deleteSocialNetworkSite(){
 
 // Update event when a user changes their info/profile
 function updateEvent(){
-    console.log("UPDATE BUTTON CLICKED!");
     var password = document.getElementById("Password").value;
     var email = document.getElementById("Email").value;
     var biography = document.getElementById("Biography").value;

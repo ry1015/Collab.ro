@@ -18,6 +18,7 @@ function getUserTracks(parent_node){
 }
 
 // Show comments associated to a track
+// Called at track-list.js
 function showTrackComments(){
     var track = this.parentNode.previousSibling.childNodes[0].id;
     getAllTrackComments(track); //event-track-comments.js

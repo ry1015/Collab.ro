@@ -9,6 +9,8 @@ var REPLY_ID = "reply-button";
 var POST_REPLY_CLASS = "post-reply-button";
 var CANCEL_REPLY_CLASS = "cancel-reply-button";
 var MARGIN = 148;
+var TRACK_PREVIOUS_ID = "track-previous";
+var TRACK_NEXT_ID = "track-next";
 
 // Add event listener to every click a user makes when track comment section is activated
 function addCommentEventListener(){
@@ -39,6 +41,12 @@ function addReplyToCommentEventListener(){
     for (var i = 0; i < cancel_replies.length; i++){
         cancel_replies[i].addEventListener('click', cancelReplyComment, false); //event-track-comments.js
     }
+}
+
+// Add event listeners to previous and next buttons
+function addTrackNavigationEventListener(){
+    document.getElementById(TRACK_PREVIOUS_ID).addEventListener('click', previousTrack, false); //event-track-comments.js
+    document.getElementById(TRACK_NEXT_ID).addEventListener('click', nextTrack, false); //event-track-comments.js
 }
 
 // Creates a comment div for the associated track
@@ -80,7 +88,11 @@ function createTrackCommentSection(track_comments)
 
     // Create track row
     var row = comment_table.insertRow(comment_table.rows.length);
-    var cell = row.insertCell(0);
+    var cell_previous = row.insertCell(0);
+    // cell_previous.innerHTML = "PREVIOUS";
+    cell_previous.id = TRACK_PREVIOUS_ID;
+
+    cell = row.insertCell(1);
     cell.id = filename;
     cell.style.border = "1px solid black";
     cell.style.textAlign = "center";
@@ -90,9 +102,14 @@ function createTrackCommentSection(track_comments)
     selected_track = filename;
     cell.appendChild(track);
 
+    cell_next = row.insertCell(2);
+    // cell_next.innerHTML = "NEXT";
+    cell_next.id = TRACK_NEXT_ID;
+
     // Create user input
     row = comment_table.insertRow(comment_table.rows.length);
     cell = row.insertCell(0);
+    cell.colSpan = "3";
 
     var input = document.createElement("input");
     input.id = "user-comment-input";
@@ -114,6 +131,7 @@ function createTrackCommentSection(track_comments)
             row = comment_table.insertRow(comment_table.rows.length);
             row.setAttribute("cid", track_comments[i]["id"]);
             cell = row.insertCell(0);
+            cell.colSpan = "3";
             cell.style.border = "1px solid black";
             div = document.createElement("div");
 
@@ -151,6 +169,7 @@ function createTrackCommentSection(track_comments)
             {
                 row = comment_table.insertRow(comment_table.rows.length);
                 cell = row.insertCell(0);
+                cell.colSpan = "3";
                 cell.style.border = "1px solid black";
                 div = document.createElement("div");
                 a = document.createElement("a");
@@ -187,6 +206,7 @@ function createTrackCommentSection(track_comments)
     comment_div.appendChild(comment_table);
     track_list_parent.appendChild(comment_div);
     addCommentEventListener();
+    addTrackNavigationEventListener();
     console.log("END OF CREATING TRACK COMMENTS");
     console.log("-------------------------------------------------------")
 }

@@ -39,6 +39,7 @@ function cancelReplyComment(){
 
 // Get all comments associated to a particular track
 // track, selected track
+// called at event-track-list.js
 function getAllTrackComments(track){
     var url = "api/get-track-comments";
     var split_track = track.split("_");
@@ -65,6 +66,10 @@ function postComment(){
     var comment = document.getElementById(USER_COMMENT_INPUT).value;
     var processPostComment = function(result){
         document.getElementById(USER_COMMENT_INPUT).value = "";
+        var post_comment_div = document.getElementById(POST_COMMENT_DIV_ID);
+        if (post_comment_div.innerHTML != "")
+            post_comment_div.innerHTML = "";
+
         var table_comments = document.getElementById(COMMENT_TABLE_ID);
         table_comments.childNodes[0].childNodes[row_num].setAttribute("cid", result["cid"]);
     };
@@ -80,6 +85,7 @@ function postComment(){
         var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
 
         var cell = row.insertCell(0);
+        cell.colSpan = "3";
         cell.style.border = "1px solid black";
         var div = document.createElement("div");
         var a = document.createElement("a");
@@ -190,6 +196,7 @@ function postReplyComment(){
         var row = document.getElementById(COMMENT_TABLE_ID).insertRow(row_index);
 
         var cell = row.insertCell(0);
+        cell.colSpan = "3";
         cell.style.border = "1px solid black";
         cell.setAttribute("class", "response");
         var div = document.createElement("div");
@@ -229,6 +236,68 @@ function postReplyComment(){
         }
 
         postRequest(url, data, processReplyComment);
+    }
+}
+
+function findChildNode(node, tag_name){
+    var tmp = node;
+    while (tmp.tagName != tag_name.toUpperCase()){
+        tmp = tmp.firstChild;
+    }
+    return tmp;
+}
+
+function getTrackListChildNodes(parent){
+    return parent.childNodes[0].childNodes[0].childNodes;
+}
+
+function nextTrack(){
+    console.log("-------------------------------------------------------")
+    console.log("NEXT TRACK CLICKED");
+    var current_track = this.previousSibling.id;
+    var track_table = document.getElementById(TRACK_LIST_DIV_ID);
+    var tracks = getTrackListChildNodes(track_table);
+    var index = Number.MAX_VALUE;
+    var tracks_size = tracks.length;
+    var next_node = null;
+
+    for (var i=0; i < tracks_size; ++i){
+        if (tracks[i].innerHTML.includes(current_track)){
+            if (i+1 < tracks_size){
+                index = i + 1;
+                next_node = findChildNode(tracks[i+1], "audio");
+                break;
+            }
+        }
+    }
+
+    if (index < tracks_size){
+        getAllTrackComments(next_node.id);
+    }
+}
+
+function previousTrack(){
+    console.log("-------------------------------------------------------")
+    console.log("PREVIOUS TRACK CLICKED");
+    var current_track = this.nextSibling.id;
+    var track_table = document.getElementById(TRACK_LIST_DIV_ID);
+    var tracks = getTrackListChildNodes(track_table);
+    var index = -1;
+    var tracks_size = tracks.length;
+    var previous_node = null;
+
+    for (var i=tracks_size-1; i >= 0; --i){
+        if (tracks[i].innerHTML.includes(current_track)){
+            if (i-1 >= 0){
+                index = i - 1;
+                previous_node = findChildNode(tracks[i-1], "audio");
+                break;
+            }
+        }
+    }
+
+    if (index >= 0){
+        getAllTrackComments(previous_node.id);
     }
 }
 

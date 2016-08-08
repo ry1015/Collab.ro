@@ -34,6 +34,31 @@
     margin-bottom: 10px;
 }
 
+#track-previous, #track-next {
+    width: 10%;
+}
+
+#track-previous {
+    background-image:url('../../../media/go-previous.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#track-previous:hover {
+    cursor: pointer;
+}
+
+#track-next {
+    background-image:url('../../../media/go-next.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#track-next:hover {
+    cursor: pointer;
+}
 
 #user-comment-input {
     height: 30px;
