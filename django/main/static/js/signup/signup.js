@@ -14,6 +14,7 @@ window.onload = function()
 function addSignUpEvent(){
     document.getElementById("signup-button").addEventListener('click', signUp, false);
     document.getElementById("username-signup").addEventListener('input', checkUsernameAvailability, false);
+    document.getElementById("cancel-signup-button").addEventListener('click', openLoginPage, false); //navigation.js
 }
 
 // Create Sign up Form
@@ -58,10 +59,15 @@ function createSignupForm()
     }
     var row = table.insertRow(table.rows.length);
     var cell = row.insertCell();
+    cell.colSpan = 2;
     var signup_button = document.createElement("button");
     signup_button.id = "signup-button";
     signup_button.innerHTML = "Sign Up";
+    var cancel_button = document.createElement("button");
+    cancel_button.id = "cancel-signup-button";
+    cancel_button.innerHTML = "Cancel";
     cell.appendChild(signup_button);
+    cell.appendChild(cancel_button);
 
     signup_form_div.appendChild(table);
     signup_body.appendChild(signup_form_div);

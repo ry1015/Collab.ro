@@ -11,13 +11,15 @@
     margin-top: 5px;
 }
 #comment-div{
-    width: 60%;
+    width: 100%;
 }
 
 #comment-table-id {
     border: 1px solid black;
     border-collapse: collapse;
-    width: 100%;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #comment-reply-input{
@@ -36,6 +38,7 @@
 
 #track-previous, #track-next {
     width: 10%;
+    min-width: 30px;
 }
 
 #track-previous {

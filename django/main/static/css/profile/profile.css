@@ -7,6 +7,9 @@
     cursor: pointer;
 }
 
+#div-user-profile {
+    margin-top: 30px;
+}
 #social_network_button{
     width: 17px;
     margin-bottom: -4px;
