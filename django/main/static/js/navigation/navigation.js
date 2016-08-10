@@ -7,6 +7,7 @@ function addNavigationEventListener()
     document.getElementById("Profile").addEventListener('click', openProfilePage, false);
     document.getElementById("Search").addEventListener('click', openSearchPage, false);
     document.getElementById("Logout").addEventListener('click', openLoginPage, false);
+    document.getElementById("search_input").addEventListener('keyup', lookUpInput, false);
 }
 
 // Creates the navigation bar
