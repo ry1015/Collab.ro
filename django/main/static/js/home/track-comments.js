@@ -56,6 +56,7 @@ function createTrackCommentSection(track_comments)
 {
     console.log("-------------------------------------------------------")
     console.log("START OF CREATING TRACK COMMENTS");
+    
 
     document.getElementById("track-list-table").style.visibility = "hidden";
     document.getElementById("project_table").style.visibility = "hidden";
