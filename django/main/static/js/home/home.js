@@ -6,6 +6,7 @@ var PROJECT_TABLE_BODY_ID = "project_table_body";
 var BODY_DIV_ID = "body_div";
 var CURRENT_TRACKS_ID = "current-tracks-div";
 var NEW_PROJECT_ID = "new_project";
+var DELETE_PROJECT_ID = "delete_project";
 
 // Add click event when new_project id is clicked
 function addProjectButtonEventListener(){
@@ -136,7 +137,12 @@ var processProjectData = function(result)
 		cell = row.insertCell(1);
 		cell.innerHTML = "<p> Stem PlaceHolder </p>"; 
 		cell = row.insertCell(2);
-        cell.innerHTML = "<p> Delete </p>";
+        var deleteButton = document.createElement("button");
+        deleteButton.id = DELETE_PROJECT_ID;
+        deleteButton.innerHTML = "Delete";
+        var data = projectData[i]["id"];
+        deleteButton.addEventListener('click', function() { deleteProjectEvent(data); }, false);
+        cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 		
 		
 //		cell = projectRow.insertCell(1);

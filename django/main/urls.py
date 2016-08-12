@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^api/post-track-comment', track_comments.post_track_comment),
     url(r'^api/add_project', projects.add_project),
     url(r'^api/get_projects', projects.get_projects),
+    url(r'^api/delete_project', projects.delete_project),
     # url(r'^api/userprofiles/$', views.userprofile_list),
     # url(r'^api/userprofile/(?P<pk>[0-9]+)/$', views.userprofile_detail),
     # url(r'^api/userprofiles$', user.userprofile_list),

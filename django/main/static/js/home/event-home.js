@@ -44,5 +44,23 @@ function saveProjectEvent(){
     postRequest(url, data, processProject);
 }
 
+function deleteProjectEvent(id){
+	console.log("Delete project " + id + " clicked.");
+	var processProject = function(result)
+	{
+        console.log("Project " + id + " deleted.");
+        refreshProjects();
+	}
+	
+	var url = "api/delete_project";
+    var data = 
+    {
+        "id":id
+    };
+    
+    data = JSON.stringify(data);
+    deleteRequest(url, data, processProject);
+}
+
 
 
