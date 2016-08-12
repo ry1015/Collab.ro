@@ -59,7 +59,7 @@ function createTrackCommentSection(track_comments)
     
 
     document.getElementById("track-list-table").style.visibility = "hidden";
-    document.getElementById("project_table").style.visibility = "hidden";
+    document.getElementById("project_div").style.visibility = "hidden";
     var track_list_parent = document.getElementById(TRACK_LIST_DIV_ID);
     var parent_table = document.getElementById(COMMENT_TABLE_ID);
 

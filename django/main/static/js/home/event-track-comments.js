@@ -316,7 +316,7 @@ function traceClick(event){
         else{
             delete_table.parentNode.removeChild(delete_table);
             document.getElementById("track-list-table").style.visibility = "visible";
-            document.getElementById("project_table").style.visibility = "visible";
+            document.getElementById("project_div").style.visibility = "visible";
             document.removeEventListener('click', traceClick, false);
         }
     }
