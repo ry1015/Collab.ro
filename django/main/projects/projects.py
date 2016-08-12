@@ -52,7 +52,7 @@ def get_projects(request, format=None):
     if(len(projects) > 0):
         data = []
         for project in projects:
-            data.append({project.id, project.name})
+            data.append({"id":project.id, "name":project.name})
     else:
         print ("NO PROJECTS")
     print(data)
@@ -60,4 +60,21 @@ def get_projects(request, format=None):
     print ("------------------------------------------------------------")
     return Response(data, status=status.HTTP_200_OK)
     
+@api_view(['DELETE'])
+def delete_project(request, format=None):
+    print ("------------------------------------------------------------")
+    print ("START DELETE PROJECT")
+    data = json.loads(request.body.decode("utf-8"))
+    id = data["id"]
+    
+    try:
+        project = Project.objects.get(id=id)
+        project.delete()
+    except:
+        return Response("Could Not Delete Project.", status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    print ("END DELETE PROJECT")
+    print ("------------------------------------------------------------")
+    return Response(data, status=status.HTTP_200_OK)
     

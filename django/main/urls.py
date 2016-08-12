@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^api/post-reply-comment', track_comments.post_reply),
     url(r'^api/add_project', projects.add_project),
     url(r'^api/get_projects', projects.get_projects),
+    url(r'^api/delete_project', projects.delete_project),
     url(r'^api/get-search-results', search.get_user_input_results),
 	# url(r'^api/upload_stem', stems.upload_stem),
     # url(r'^api/userprofiles/$', views.userprofile_list),

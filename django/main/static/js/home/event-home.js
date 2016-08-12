@@ -29,6 +29,8 @@ function newProjectEvent(){
 	
      row = project_table.insertRow(project_table.rows.length);
      cell = row.insertCell(0);
+
+     cell = row.insertCell(1);
      cell.innerHTML = "<button id='save_button'>SAVE</button>";
 
     var parent_projects_table = document.getElementById("project_table");
@@ -45,7 +47,7 @@ function saveProjectEvent(){
 	var processProject = function(result)
 	{
         console.log("Project saved");
-        loadProjects(username);
+        refreshProjects();
 	}
 	
 	var url = "api/add_project";
@@ -57,7 +59,24 @@ function saveProjectEvent(){
     
     data = JSON.stringify(data);
     postRequest(url, data, processProject);
-    refreshProjects();
+}
+
+function deleteProjectEvent(id){
+	console.log("Delete project " + id + " clicked.");
+	var processProject = function(result)
+	{
+        console.log("Project " + id + " deleted.");
+        refreshProjects();
+	}
+	
+	var url = "api/delete_project";
+    var data = 
+    {
+        "id":id
+    };
+    
+    data = JSON.stringify(data);
+    deleteRequest(url, data, processProject);
 }
 
 
