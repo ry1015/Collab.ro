@@ -1,6 +1,8 @@
-#project_table {
+#project_div {
     margin-left: auto;
     margin-right: auto;
+    border: 2px solid black;
+    width: 65%;
 }
 
 #track-list-table {
