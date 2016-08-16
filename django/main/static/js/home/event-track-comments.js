@@ -1,5 +1,5 @@
 var COMMENT_SECTION_PARENT_IDS = ["comment-table-id"];
-var PARENT_DIVS = ["body_div", "navigation-div", "comment-div"];
+var PARENT_DIVS = ["body_div", "navigation-div", "comment-div", "project_div"];
 var HTML_TAG = "HTML";
 var USER_COMMENT_INPUT = "user-comment-input";
 var COMMENT_TABLE_ID = "comment-table-id";
@@ -316,7 +316,7 @@ function traceClick(event){
         else{
             delete_table.parentNode.removeChild(delete_table);
             document.getElementById("track-list-table").style.visibility = "visible";
-            document.getElementById("project_table").style.visibility = "visible";
+            document.getElementById("project_div").style.visibility = "visible";
             document.removeEventListener('click', traceClick, false);
         }
     }
