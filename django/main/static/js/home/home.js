@@ -7,6 +7,7 @@ var BODY_DIV_ID = "body_div";
 var CURRENT_TRACKS_ID = "current-tracks-div";
 var NEW_PROJECT_ID = "new_project";
 var DELETE_PROJECT_ID = "delete_project";
+var home_data;
 
 // Add click event when new_project id is clicked
 function addProjectButtonEventListener(){
@@ -109,29 +110,30 @@ function showHome(user){
 
 var processProjectData = function(result)
 {
+	home_data = result;
     console.log("Project data loaded");
-    var projectData = result;
 	var projects_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
 	while(projects_table_body.rows.length > 0) {
 	    projects_table_body.deleteRow(0);
     }
 
-	for (i = 0; i < projectData.length; i++){
+	for (i = 0; i < home_data.length; i++){
 		console.log("Inserting row");
 		projectRow = projects_table_body.insertRow();
-		projectRow.id = "project_row_" + projectData[i]["id"];
+		projectRow.id = "project_row_" + home_data[i]["id"];
 		projectRow.className = "projectRow";
 		var cell = projectRow.insertCell(0);
 		var project_item_table = document.createElement("table"); //TODO: Think of better name
-		project_item_table.id = "project_item_table_" + projectData[i]["id"];
+		project_item_table.id = "project_item_table_" + home_data[i]["id"];
 		cell.appendChild(project_item_table);
 		var header = project_item_table.createTHead();
 		var row = header.insertRow();
 		cell = row.insertCell(0);
-		cell.innerHTML = "<b>" + projectData[i]["name"] + "</b>";
+		cell.innerHTML = "<b>" + home_data[i]["name"] + "</b>";
 		
 		var body = project_item_table.createTBody();
 		row = body.insertRow();
+		row.className
 		cell = row.insertCell(0);
 		cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
 		cell = row.insertCell(1);
@@ -139,9 +141,10 @@ var processProjectData = function(result)
 		cell = row.insertCell(2);
         var deleteButton = document.createElement("button");
         deleteButton.id = DELETE_PROJECT_ID;
+        deleteButton.value = home_data[i]["id"];
         deleteButton.innerHTML = "Delete";
-        var data = projectData[i]["id"];
-        deleteButton.addEventListener('click', function() { deleteProjectEvent(data); }, false);
+        console.log("Creating delete button: " + deleteButton.value	)
+        deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
         cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 		
 		
