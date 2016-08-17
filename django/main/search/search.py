@@ -11,6 +11,10 @@ from startup.settings import MEDIA_ROOT
 import os
 import pprint
 import re
+import operator
+from django.db.models import Q
+from functools import reduce
+
 
 ''' MUST FIND THE FOLLOWING:
     1. Project Name
@@ -22,11 +26,51 @@ import re
 # Get user input results
 @api_view(['GET'])
 def get_user_input_results(request, format=None):
+    print("------------------------------------------")
+    print ("START USER INPUT RESULTS")
+    results = {}
+
     data = request.GET.get("input")
     terms = normalize_query(data)
+    user = getUserFromList(terms)
 
+    if (user != None): # user found
+        terms.remove(user[0])
+        user = user[1]
+        q = reduce(operator.and_, (Q(name__icontains = term) for term in terms), Q(userID=user))
+    else:
+        q = reduce(operator.and_, (Q(name__icontains = term) for term in terms))
 
-    return Response(terms, status=status.HTTP_200_OK)
+    projects = []
+    proj_list = Project.objects.filter(q)
+    ids = []
+    for proj in proj_list:
+        tmp = {}
+        tmp["title"] = proj.name
+        tmp["artist"] = proj.userID.username
+        ids.append(proj.id)
+        projects.append(tmp)
+
+    if (user != None):
+        q = reduce(operator.or_, (Q(name__icontains = term) for term in terms), Q(userID=user))
+    else:
+        q = reduce(operator.or_, (Q(name__icontains = term) for term in terms))
+
+    other_projects = []
+    or_proj_list = Project.objects.filter(q).exclude(id__in=ids)
+    for proj in or_proj_list:
+        tmp = {}
+        tmp["title"] = proj.name
+        tmp["artist"] = proj.userID.username
+        ids.append(proj.id)
+        other_projects.append(tmp)
+
+    results["exact_projects"] = projects
+    results["other_projects"] = other_projects
+
+    print ("END USER INPUT RESULTS")
+    print("------------------------------------------")
+    return Response(results, status=status.HTTP_200_OK)
 
 
 # Splits the query string in invidual keywords, getting rid of unecessary spaces
@@ -40,22 +84,18 @@ def normalize_query(query_string,
 
     return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
 
-# Get all projects by a given user
-# _user, user
-def getProjectsByUser(_user):
-    projects = []
-    try:
-        user = User.objects.get(username=_user)
-    except:
-        return None
 
-    try:
-        projects = Projects.objects.filter(userID=user)
-    except:
-        return None
+# Get user from a list
+# _list, a list of terms
+def getUserFromList(_list):
+    user = None
+    for item in _list:
+        try:
+            user = User.objects.get(username=item.lower())
+        except Exception:
+            pass
 
-    return projects
+        if (user != None):
+            return [item, user]
+    return None
 
-def getProjectsByTitle(_title):
-    projects = Projects.objects.filter(name=_title)
-    return projects

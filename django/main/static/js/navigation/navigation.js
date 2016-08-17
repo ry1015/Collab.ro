@@ -17,6 +17,7 @@ function createNavigationBar()
     var navigation_div = document.createElement("div");
     navigation_div.id = "navigation-div";
     var table = document.createElement("table");
+    table.id = "navigation-table";
     var row = table.insertRow(table.rows.length);
     
     for (var i in nav_links){

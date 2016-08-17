@@ -1,0 +1,11 @@
+#search-results-div {
+    z-index: 100;
+    position: absolute;
+    background-color: black;
+    color: white;
+    width: 60%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}

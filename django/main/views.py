@@ -68,7 +68,7 @@ def delete_social_network(request, format=None):
 
 # Get all user information i.e. profile, contact info, all possible user category
 def get_user_data(username):
-    user = User.objects.get(username=username)
+    user = User.objects.get(username=username.lower())
 
     # User Profile
     try:
@@ -132,7 +132,7 @@ def get_user_data(username):
 def login(request, format=None):
     if request.method == "GET":
         print ("INSIDE LOGIN!")
-        username = request.GET.get("username")
+        username = request.GET.get("username").lower()
         password = request.GET.get("password")
         user = authenticate(username=username, password=password)
         if user is not None:
@@ -181,18 +181,18 @@ def login(request, format=None):
 def signup_user(request, format=None):
     try:
         print ("Checking username")
-        user = User.objects.get(username=request.POST.get("username"))
+        user = User.objects.get(username=request.POST.get("username").lower())
         if (user):
             return Response("Username exists.", status=status.HTTP_400_BAD_REQUEST)
     except:
         try:
             print ("Checking email")
-            user = User.objects.get(email=request.POST.get("email"))
+            user = User.objects.get(email=request.POST.get("email").lower())
             if (user):
                 return Response("Email exists.", status=status.HTTP_400_BAD_REQUEST)
         except:
             try:
-                user = User.objects.create_user(request.POST.get("username"), email=request.POST.get("email"), password=request.POST.get("password"))
+                user = User.objects.create_user(request.POST.get("username").lower(), email=request.POST.get("email").lower(), password=request.POST.get("password"))
                 print ("USER PK")
                 print (user.pk)
                 try:
@@ -233,12 +233,12 @@ def update_profile(request, format=None):
     if (user_info["email"]):
         # Check if email already exists
         try:
-            temp_user = User.objects.get(email=user_info["email"])
+            temp_user = User.objects.get(email=user_info["email"].lower())
             if (temp_user):
                 return Response("Email already exists.", status=status.HTTP_400_BAD_REQUEST)
         except:
             print ("Updating Email")
-            user.email = user_info["email"]
+            user.email = user_info["email"].lower()
             user.save()
     
     if (user_info["password"]):
