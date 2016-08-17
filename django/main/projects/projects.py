@@ -5,17 +5,22 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
-from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project
+from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem
 import json
 
 @api_view(['POST'])
 def add_project(request, format=None):
     print ("Adding Project")
-    print (request.body)
-    data = json.loads(request.body.decode("utf-8"))
-    print (data)
-    username = data["username"]
-    project_name = data["project_name"]
+    # print (request.body)
+    # data = json.loads(request.body.decode("utf-8"))
+    # print (data)
+    # username = data["username"]
+    # project_name = data["project_name"]
+    username = request.POST.get("username")
+    project_name = request.POST.get("project_name")
+    stem_name = request.POST.get("stem_name")
+    category = request.POST.get("category")
+    filename = request.FILES.get("filename")
     
     try:
         user = User.objects.get(username=username)
@@ -29,7 +34,12 @@ def add_project(request, format=None):
             new_project = Project.objects.create(userID=user, name=project_name)
         except:
             return Response("Project Error. Cannot Create New Project")
-        
+        try:
+            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_name, category=category, filename=filename)
+        except:
+            return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
+        new_stem.save()
+		
         data = new_project.id
         return Response(data, status=status.HTTP_200_OK)
     

@@ -95,5 +95,5 @@ class Stem(models.Model):
     upload_date = models.DateTimeField(default=timezone.now)
 	
     def __str__(self):
-        preview = "[ID: " + str(self.id) + "]" + "(" + str(self.userID) + ")" + self.title
+        preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
         return preview

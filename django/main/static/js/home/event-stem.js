@@ -5,7 +5,7 @@ function uploadStemEvent() {
     var username = current_user.user.username;
     var stemCategory = document.getElementById("stem_category");
     var selectedStemCategoryIndex = stemCategory.selectedIndex
-	var selectedStemCategory = StemCategory.options[selectedStemCategoryIndex].value
+	var selectedStemCategory = stemCategory.options[selectedStemCategoryIndex].value
 	var stem_name = document.getElementById("stem_title").value
 	var filename = document.getElementById("stem_upload")
 	

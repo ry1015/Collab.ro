@@ -7,8 +7,10 @@
 }
 
 .projectRow {
-    outline: 1px dashed blue;
+    /*outline: 1px dashed blue;*/
+    outline: 1px solid blue;
     outline-spacing: 1px;
+	margin: 1px;
 }
 
 #project_table {
