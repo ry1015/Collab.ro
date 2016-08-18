@@ -2,6 +2,11 @@ var SEARCH_INPUT_ID = "search_input";
 var NAVIGATION_DIV_ID = "navigation-div";
 var _timer = 0;
 
+// Add Event Listeners
+function addSearchEventListener(){
+    document.addEventListener('click', traceSearchClick, false);
+}
+
 // Look up user search input and add a delay after each keyup
 function lookUpInput(){
     var user_input = document.getElementById(SEARCH_INPUT_ID).value;
@@ -73,5 +78,18 @@ function showSearchResults(results){
     }
     child.appendChild(table);
     parent.appendChild(child);
+    addSearchEventListener();
     console.log(results);
+}
+
+function findSearchDivParent(node){
+    var current = node;
+    while (current.tagName != "DIV"){
+        current = current.parentNode;
+    }
+}
+
+function traceSearchClick(){
+    var parent = findSearchDivParent(event.target);
+    console.log(event.target);
 }
