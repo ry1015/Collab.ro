@@ -11,7 +11,6 @@ var COMMENT_REPLY_INPUT_ID = "comment-reply-input";
 var track_comments = "";
 // Cancel comment
 function cancelComment(){
-    console.log("CANCEL COMMENT");
     var button_div = document.getElementById(POST_COMMENT_DIV_ID);
     if (button_div.innerHTML != "")
         button_div.innerHTML = "";
@@ -22,8 +21,6 @@ function cancelComment(){
 
 // Cancel reply to comment
 function cancelReplyComment(){
-    console.log("-------------------------------------------");
-    console.log("START CANCEL REPLY TO COMMENT CLICKED");
     var parent_node = this;
     var delete_node = this;
     while (parent_node.tagName != "TD")
@@ -33,8 +30,6 @@ function cancelReplyComment(){
         delete_node = delete_node.parentNode;
 
     parent_node.removeChild(delete_node);
-    console.log("-------------------------------------------");
-    console.log("END CANCEL REPLY TO COMMENT CLICKED");
 }
 
 // Get all comments associated to a particular track
@@ -59,8 +54,6 @@ function getAllTrackComments(track){
 
 // Post comment
 function postComment(){
-    console.log("-------------------------------------------");
-    console.log("POST COMMENT");
     // selected_track is found in track-comments.js
     var row_num = "";
     var comment = document.getElementById(USER_COMMENT_INPUT).value;
@@ -155,15 +148,12 @@ function findParent(node){
 }
 // Post reply
 function postReplyComment(){
-    console.log("-------------------------------------------");
-    console.log("REPLY TO COMMENT CLICKED");
     // selected_track is found in track-comments.js
     var comment_node = this.parentNode.previousSibling;
     var processReplyComment = function(result){
         var parent = getTD(comment_node);
         var child = comment_node.parentNode;
         parent.removeChild(child);
-        console.log(result);
     };
 
     if (comment_node.value != ""){
@@ -185,7 +175,6 @@ function postReplyComment(){
             "track_filename": selected_track,
             "parent": parent_val
         };
-        console.log(data);
 
         // If tr_node.nextSibling == null, last message has been reached
         if (tr_node.nextSibling != null)
@@ -252,8 +241,6 @@ function getTrackListChildNodes(parent){
 }
 
 function nextTrack(){
-    console.log("-------------------------------------------------------")
-    console.log("NEXT TRACK CLICKED");
     var current_track = this.previousSibling.id;
     var track_table = document.getElementById(TRACK_LIST_DIV_ID);
     var tracks = getTrackListChildNodes(track_table);
@@ -277,8 +264,6 @@ function nextTrack(){
 }
 
 function previousTrack(){
-    console.log("-------------------------------------------------------")
-    console.log("PREVIOUS TRACK CLICKED");
     var current_track = this.nextSibling.id;
     var track_table = document.getElementById(TRACK_LIST_DIV_ID);
     var tracks = getTrackListChildNodes(track_table);
@@ -309,7 +294,6 @@ function traceClick(event){
 
     if (!parent_found)
     {
-        console.log("OUTSIDE TABLE");
         var delete_table = document.getElementById("comment-div");
         if (delete_table == null || event.target.id == "Search")
             document.removeEventListener('click', traceClick, false);

@@ -22,7 +22,6 @@ function deleteSocialNetworkEventListener(){
 // Create User Profile Table
 // info, user profile table
 function createProfile(info){
-    console.log("INSIDE CREATEPROFILE");
     var user_creds = current_user.user;
     var user_profile = current_user.profile;
     var categories = current_user.categories.sort();
@@ -83,9 +82,7 @@ function createProfile(info){
                     else if (attributes[i][j-1] == "Social Network")
                     {
 
-                        console.log("Social Networks");
                         var social_network_list = attributes[i][j];
-                        console.log(social_network_list);
                         var sn_table = document.createElement("table");
                         
                         // Add table rows for social network
@@ -106,7 +103,6 @@ function createProfile(info){
                         sn_cell.innerHTML = "<img src='media/add_button.png' id='social_network_button'>";
                         table_node+=sn_table.innerHTML;
                         table_node+="</table>";
-                        // console.log(table_node);
                         cell.innerHTML = table_node;
                     }
                     else
@@ -127,9 +123,6 @@ function createProfile(info){
 // Create User Information Table
 // user_info, user information table
 function createInfo(info){
-    console.log("INSIDE CREATEINFO");
-    // console.log("CURRENT USER");
-    // console.log(current_user);
     var user_info = current_user.contact_info;
     var attributes = [
         ["Phone Number", user_info.phone_number],

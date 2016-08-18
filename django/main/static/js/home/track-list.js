@@ -22,7 +22,6 @@ function pauseEventListener(){
 // Create a track list div
 // parent_node, parent to append the track list div
 function createTrackList(parent_node){
-    console.log("CREATING TRACK LIST");
     var track_list_div = document.createElement("div");
     track_list_div.id = TRACK_LIST_DIV_ID;
     getUserTracks(parent_node); //event-track-list.js

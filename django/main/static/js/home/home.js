@@ -86,7 +86,6 @@ function isEmpty(some_list){
 // info contains address, phone_number, and address
 // user contains username, password, and email
 function showHome(user){
-    console.log("INSIDE SHOWHOME");
     var login = document.getElementById("login");
     if (login.innerHTML != "")
         login.innerHTML = "";
@@ -113,14 +112,12 @@ function showHome(user){
 var processProjectData = function(result)
 {
 	home_data = result;
-    console.log("Project data loaded");
 	var projects_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
 	while(projects_table_body.rows.length > 0) {
 	    projects_table_body.deleteRow(0);
     }
 
 	for (i = 0; i < home_data.length; i++){
-		console.log("Inserting row");
 		projectRow = projects_table_body.insertRow();
 		projectRow.id = "project_row_" + home_data[i]["id"];
 		projectRow.className = "projectRow";
@@ -145,7 +142,6 @@ var processProjectData = function(result)
         deleteButton.id = DELETE_PROJECT_ID;
         deleteButton.value = home_data[i]["id"];
         deleteButton.innerHTML = "Delete";
-        console.log("Creating delete button: " + deleteButton.value	)
         deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
         cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 		
@@ -157,7 +153,6 @@ var processProjectData = function(result)
 
 function refreshProjects(){
 	var username = current_user.user.username;
-	console.log("Refreshing projects");
 	
 	var url = "api/get_projects";
     var data = 
@@ -166,7 +161,6 @@ function refreshProjects(){
     };
     
     data = JSON.stringify(data);
-    console.log("Loading project data")
     postRequest(url, data, processProjectData);
 }
 

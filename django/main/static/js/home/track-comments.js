@@ -54,10 +54,6 @@ function addTrackNavigationEventListener(){
 // called in event-track-comments.js
 function createTrackCommentSection(track_comments)
 {
-    console.log("-------------------------------------------------------")
-    console.log("START OF CREATING TRACK COMMENTS");
-    
-
     document.getElementById("track-list-table").style.visibility = "hidden";
     document.getElementById("project_div").style.visibility = "hidden";
     var track_list_parent = document.getElementById(TRACK_LIST_DIV_ID);
@@ -208,8 +204,6 @@ function createTrackCommentSection(track_comments)
     track_list_parent.appendChild(comment_div);
     addCommentEventListener();
     addTrackNavigationEventListener();
-    console.log("END OF CREATING TRACK COMMENTS");
-    console.log("-------------------------------------------------------")
 }
 
 // Gets rough estimate of the current position of an element
@@ -236,8 +230,6 @@ function closeOtherReplyDiv(){
 }
 // Create reply to comment input
 function createReplyToCommentSection(){
-    console.log("-----------------------------------------------------------------")
-    console.log("START REPLY TO COMMENT");
     var node = this;
     closeOtherReplyDiv();
 
@@ -281,16 +273,11 @@ function createReplyToCommentSection(){
         
         addReplyToCommentEventListener();
     }
-    console.log("END REPLY TO COMMENT");
-    console.log("-----------------------------------------------------------------")
 }
 
 // Create POST and CANCEL Buttons
 function showPost()
 {
-    console.log("INPUT CLICKED");
-    // document.getElementById("user-comment-input").removeEventListener('click', showPost, false);
-
     var post_comment_div = document.getElementById("post-comment-div");
     if (post_comment_div.innerHTML == "")
     {

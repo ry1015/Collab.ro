@@ -1,5 +1,8 @@
 var SEARCH_INPUT_ID = "search_input";
 var NAVIGATION_DIV_ID = "navigation-div";
+var SEARCH_RESULTS_IGNORE_IDS = ["search-results-div"];
+var SEARCH_RESULTS_CLASS = "search-results-class";
+var SEARCH_RESULTS_IGNORE_CLASSES = [SEARCH_RESULTS_CLASS];
 var _timer = 0;
 
 // Add Event Listeners
@@ -58,6 +61,7 @@ function showSearchResults(results){
         row = table.insertRow(table.rows.length);
         cell = row.insertCell(0)
         div = document.createElement("div");
+        div.setAttribute("class", SEARCH_RESULTS_CLASS);
         elem = document.createElement("a");
         text = document.createTextNode(results["exact_projects"][i]["artist"] + " - " + results["exact_projects"][i]["title"]);
         elem.appendChild(text);
@@ -79,17 +83,27 @@ function showSearchResults(results){
     child.appendChild(table);
     parent.appendChild(child);
     addSearchEventListener();
-    console.log(results);
 }
 
 function findSearchDivParent(node){
     var current = node;
+    if (node.tagName == "HTML")
+        return node;
+
     while (current.tagName != "DIV"){
         current = current.parentNode;
     }
+    return current;
 }
 
 function traceSearchClick(){
     var parent = findSearchDivParent(event.target);
-    console.log(event.target);
+    if (!(SEARCH_RESULTS_IGNORE_IDS.includes(parent.id) || SEARCH_RESULTS_IGNORE_CLASSES.includes(parent.className))){
+        parent = document.getElementById(NAVIGATION_DIV_ID);
+        if (parent.children.length > 1){
+            var child = document.getElementById("search-results-div");
+            parent.removeChild(child);
+        }
+        document.removeEventListener('click', traceSearchClick, false);
+    }
 }
