@@ -12,11 +12,13 @@ function newProjectEvent(){
     // cell.innerHTML = "<input placeholder='UPLOAD STEM'>";
     
      var row = project_table.insertRow(0);
+     row.className = "projectRow";
      row.id = NEW_PROJECT_ROW_ID;
      var cell = row.insertCell(0);
      var new_project_table = document.createElement("table");
+     new_project_table.className = "projectTable";
      
-     new_project_table.className = NEW_PROJECT_TABLE_ID;
+     new_project_table.id = NEW_PROJECT_TABLE_ID;
      cell.appendChild(new_project_table);
      
      row = new_project_table.insertRow(0);

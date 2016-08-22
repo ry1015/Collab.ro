@@ -9,7 +9,15 @@
 }
 
 .projectRow {
-    outline: 1px solid blue;
+	margin: 1px;
+	width: 350px;
+    
+}
+
+.projectTable {
+	outline: 1px solid blue;
     outline-spacing: 1px;
-    margin: 1px;
+    width: 475px;
+    margin-left: auto;
+    mergin-right: auto;
 }

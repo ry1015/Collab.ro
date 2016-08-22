@@ -49,20 +49,20 @@ function createProject(parent_node){
     project_node.id = PROJ_DIV_ID;
     project_node.className = "projectDiv";
 
-    var project_table = document.createElement("table");
-    project_table.id = PROJECT_TABLE_ID;
+    var project_list_table = document.createElement("table");
+    project_list_table.id = PROJECT_TABLE_ID;
     
-    var header = project_table.createTHead();
+    var header = project_list_table.createTHead();
     var row = header.insertRow();
     var cell = row.insertCell(0);
     cell.innerHTML = "<b>PROJECT</b>";
     cell = row.insertCell(1);
     cell.innerHTML = "<button id=new_project>ADD PROJECT</button>";
     
-    var body = project_table.createTBody();
+    var body = project_list_table.createTBody();
     body.id = PROJECT_TABLE_BODY_ID;
     
-    project_node.appendChild(project_table);
+    project_node.appendChild(project_list_table);
     parent_node.appendChild(project_node);
     addProjectButtonEventListener();
     refreshProjects();
@@ -122,31 +122,61 @@ var processProjectData = function(result)
 	for (i = 0; i < home_data.length; i++){
 		console.log("Inserting row");
 		projectRow = projects_table_body.insertRow();
-		projectRow.id = "project_row_" + home_data[i]["id"];
+		var project_id = home_data[i]["id"];
+		projectRow.id = "project_row_" + project_id;
 		projectRow.className = "projectRow";
 		var cell = projectRow.insertCell(0);
-		var project_item_table = document.createElement("table"); //TODO: Think of better name
-		project_item_table.id = "project_item_table_" + home_data[i]["id"];
-		cell.appendChild(project_item_table);
-		var header = project_item_table.createTHead();
+		
+		//Create Project Table
+		var project_table = document.createElement("table");
+		project_table.className = "projectTable";
+		project_table.id = "project_table_" + project_id;
+		cell.appendChild(project_table);
+		
+		//Create Project Table Header & Title
+		var header = project_table.createTHead();
 		var row = header.insertRow();
-		cell = row.insertCell(0);
+		cell = row.insertCell();
 		cell.innerHTML = "<b>" + home_data[i]["name"] + "</b>";
 		
-		var body = project_item_table.createTBody();
+        //Create Project Table Body
+		var body = project_table.createTBody();
 		row = body.insertRow();
-		row.className
-		cell = row.insertCell(0);
+		var trackCell = row.insertCell();
+		row = body.insertRow();
+		var stemCell = row.insertCell();
+		
+		
+		//Create Track Table
+		var trackTable = document.createElement("table");
+		trackCell.appendChild(trackTable);
+		header = trackTable.createTHead();
+		row = header.insertRow();
+		cell = row.insertCell();
 		cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
-		cell = row.insertCell(1);
+		body = trackTable.createTBody();
+		//TODO: Load Track List Here
+		
+		//Create Stem Table
+		
+		var trackTable = document.createElement("table");
+		stemCell.appendChild(trackTable);
+        header = trackTable.createTHead();
+        row = header.insertRow();
+        cell = row.insertCell();
 		cell.innerHTML = "<p> Stem PlaceHolder </p>"; 
-		cell = row.insertCell(2);
+		body = trackTable.createTBody();
+		//TODO: Load Stem List Here
+		
+		//Create Delete Button
         var deleteButton = document.createElement("button");
         deleteButton.id = DELETE_PROJECT_ID;
-        deleteButton.value = home_data[i]["id"];
+        deleteButton.value = project_id;
         deleteButton.innerHTML = "Delete";
         console.log("Creating delete button: " + deleteButton.value	)
         deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
+        row = body.insertRow();
+        cell = row.insertCell();
         cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 		
 		
