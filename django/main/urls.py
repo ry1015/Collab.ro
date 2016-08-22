@@ -4,9 +4,9 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from main import views
 from main.projects import projects
-from main.user_tracks import user_tracks
 from main.track_comments import track_comments
 from main.stems import stems 
+from main.tracks import tracks
 from main.search import search
 urlpatterns = [
     url(r'^$', views.index),
@@ -17,7 +17,6 @@ urlpatterns = [
     url(r'^api/update-profile', views.update_profile),
     url(r'^api/delete-social-network', views.delete_social_network),
     url(r'^api/add-social-network', views.add_social_network),
-    url(r'^api/get-tracks', user_tracks.get_user_tracks),
     url(r'^api/get-track-comments', track_comments.get_track_comments),
     url(r'^api/post-track-comment', track_comments.post_track_comment),
     url(r'^api/post-reply-comment', track_comments.post_reply),
@@ -25,6 +24,7 @@ urlpatterns = [
     url(r'^api/get_projects', projects.get_projects),
     url(r'^api/delete_project', projects.delete_project),
     url(r'^api/get-search-results', search.get_user_input_results),
+    url(r'api/upload_track', tracks.upload_track),
 	# url(r'^api/upload_stem', stems.upload_stem),
     # url(r'^api/userprofiles/$', views.userprofile_list),
     # url(r'^api/userprofile/(?P<pk>[0-9]+)/$', views.userprofile_detail),

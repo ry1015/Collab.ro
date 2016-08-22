@@ -9,7 +9,7 @@ class Project (models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        preview = "(" + str(self.userID) + ") " + str(self.name)
+        preview = "[ID: " + str(self.id) + "]" + "(" + str(self.userID) + ")" + self.name
         return preview
 
 
@@ -94,6 +94,19 @@ class Stem(models.Model):
     filename = models.FileField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
 	
+    def __str__(self):
+        preview = "[ID: " + str(self.id) + "]" + "(" + str(self.userID) + ")" + self.title
+        return preview
+    
+# User Project Tracks
+class Track(models.Model):
+    userID = models.ForeignKey(User)
+    projectID = models.ForeignKey(Project)
+    title = models.CharField(max_length=200)
+    genre = models.CharField(max_length=200)
+    filename = models.FileField(max_length=200, blank=True)
+    upload_date = models.DateTimeField(default=timezone.now)
+    
     def __str__(self):
         preview = "[ID: " + str(self.id) + "]" + "(" + str(self.userID) + ")" + self.title
         return preview
