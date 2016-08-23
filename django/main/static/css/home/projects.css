@@ -13,7 +13,21 @@
 	margin: 1px;
 }
 
+.new_project_table {
+    border: 1px dashed black;
+}
+
+
 #project_table {
     margin-left: auto;
     margin-right: auto;
+}
+
+#new_project {
+    background-image: url("../../../media/add_project_button.jpg");
+    width: 17px;
+    height: 17px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-left: 10px;
 }

@@ -9,3 +9,11 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.search-results-class {
+    border: 1px solid white;
+}
+
+.search-results-class:hover {
+    cursor: pointer;
+}

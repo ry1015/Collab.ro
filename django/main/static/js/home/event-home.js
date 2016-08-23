@@ -10,30 +10,68 @@ function newProjectEvent(){
     // row = new_project_table.insertRow(new_project_table.rows.length);
     // cell = row.insertCell(0);
     // cell.innerHTML = "<input placeholder='UPLOAD STEM'>";
+
+    var row = project_table.insertRow(0);
+    row.id = NEW_PROJECT_ROW_ID;
+    var cell = row.insertCell(0);
+    var new_project_table = document.createElement("table");
+
+    new_project_table.className = NEW_PROJECT_TABLE_ID;
+    cell.appendChild(new_project_table);
+
+    // TITLE ROW
+    row = new_project_table.insertRow(new_project_table.rows.length); //use new_project_table.rows.length to append row to the last index
+    cell = row.insertCell(0);
+    var text = document.createTextNode("TITLE");
+    cell.appendChild(text);
+
+    cell = row.insertCell(1);
+    // Please move style to css file
+    cell.colSpan = 3;
+    cell.style.width = "100%";
+    var input = document.createElement("INPUT");
+    input.id = "project_name_field";
+    input.value = "Test Project";
+    input.style.width = "100%";
+    cell.appendChild(input);
+
+
+    // INSERT TRACKS ROW
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    text = document.createTextNode("TRACK");
+    cell.appendChild(text);
+
+    cell = row.insertCell(1);
+    input = document.createElement("INPUT");
+    input.id = "track_title";
+    input.placeholder = "Enter track title";
+    cell.appendChild(input);
+
+
+    // STEMS ROW
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    text = document.createTextNode("STEMS");
+    cell.appendChild(text);
+
+    cell = row.insertCell(1);
+    input = document.createElement("INPUT");
+    input.id = "stem_title";
+    input.placeholder = "Enter steam title";
+    cell.appendChild(input);
+
+    cell = row.insertCell(2);
+    cell.innerHTML = "<select id='stem_category'> \
+                        <option value=''>Category\
+                        <option value='drums'>Drums\
+                        <option value='guitar'>Guitar\
+                        <option value='producer'>Producer\
+                        <option value='vocal'>Vocal";
+
     
-     var row = project_table.insertRow(0);
-     row.id = NEW_PROJECT_ROW_ID;
-     var cell = row.insertCell(0);
-     var new_project_table = document.createElement("table");
-	 
-	 new_project_table.className = NEW_PROJECT_TABLE_ID;
-	 cell.appendChild(new_project_table);
-	 
-     row = new_project_table.insertRow(0);
-     cell = row.insertCell(0);
-     cell.innerHTML = "<input id='project_name_field' value='Test Project'>";	 
-     row = new_project_table.insertRow(1);
-     cell = row.insertCell(0);
-     cell.innerHTML = "STEMS:<input id='stem_title' placeholder='ENTER TITLE'>";
-     row = new_project_table.insertRow(2);
-     cell = row.insertCell(0);
-	 cell.innerHTML = "Category:<select id='stem_category'> <option value='drums'>Drums" +
-	                           "<option value='guitar'>Guitar" +
-						       "<option value='producer'>Producer" +
-							   "<option value='vocal'>Vocal";
-     row = new_project_table.insertRow(3);
-	 cell = row.insertCell(0);
-	 cell.innerHTML = "<input id='stem_upload' type='file'>";
+    cell = row.insertCell(3);
+    cell.innerHTML = "<input id='stem_upload' type='file'>";
 //     row = new_project_table.insertRow(4);
 //     cell = row.insertCell(0);
 //     cell.innerHTML = "<button id='upload_button'>UPLOAD</button";
@@ -41,42 +79,42 @@ function newProjectEvent(){
 //     row = new_project_table.insertRow(project_table.rows.length);
 //     cell = row.insertCell(5);
 
-     row = new_project_table.insertRow(4);
-	 cell = row.insertCell(0);
-     cell.innerHTML = "<button id='save_button'>SAVE</button>";
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.innerHTML = "<button id='save_button'>SAVE</button>";
 
     var parent_projects_table = document.getElementById("project_table");
     row = parent_projects_table.insertRow(parent_projects_table.rows.length);
     parent_projects_table.appendChild(project_table);
     
-//	document.getElementById("upload_button").addEventListener('click', uploadStemEvent, false);
+//  document.getElementById("upload_button").addEventListener('click', uploadStemEvent, false);
     document.getElementById("save_button").addEventListener('click', saveProjectEvent, false);
 }
 
 function saveProjectEvent(){
-	var username = current_user.user.username;
-	var project_name = document.getElementById("project_name_field").value;
-	var stemCategory = document.getElementById("stem_category");
+  var username = current_user.user.username;
+  var project_name = document.getElementById("project_name_field").value;
+  var stemCategory = document.getElementById("stem_category");
     var selectedStemCategoryIndex = stemCategory.selectedIndex;
-	var selectedStemCategory = stemCategory.options[selectedStemCategoryIndex].value;
-	var stem_name = document.getElementById("stem_title").value;
-	var filename = document.getElementById("stem_upload");
-	console.log("Save clicked");
-	var processProject = function(result)
-	{
+  var selectedStemCategory = stemCategory.options[selectedStemCategoryIndex].value;
+  var stem_name = document.getElementById("stem_title").value;
+  var filename = document.getElementById("stem_upload");
+  console.log("Save clicked");
+  var processProject = function(result)
+  {
         console.log("Project saved with id: " + result);
-		var element = document.getElementById(NEW_PROJECT_ROW_ID).outerHTML = "";
-		delete element;
+    var element = document.getElementById(NEW_PROJECT_ROW_ID).outerHTML = "";
+    delete element;
         refreshProjects();
-	}
-	
-	var url = "api/add_project";
-	var formData = new FormData();
-	formData.append("username", username);
-	formData.append("project_name", project_name);
-	formData.append("category", selectedStemCategory);
-	formData.append("stem_name", stem_name);
-	formData.append("filename", filename.files[0]);
+  }
+  
+  var url = "api/add_project";
+  var formData = new FormData();
+  formData.append("username", username);
+  formData.append("project_name", project_name);
+  formData.append("category", selectedStemCategory);
+  formData.append("stem_name", stem_name);
+  formData.append("filename", filename.files[0]);
     /* var data = 
     {
         "username": username,
@@ -106,14 +144,14 @@ function postProjectRequest(url, data, callback){
 }
 
 function deleteProjectEvent(id){
-	console.log("Delete project " + id + " clicked.");
-	var processProject = function(result)
-	{
+  console.log("Delete project " + id + " clicked.");
+  var processProject = function(result)
+  {
         console.log("Project " + id + " deleted.");
         refreshProjects();
-	}
-	
-	var url = "api/delete_project";
+  }
+  
+  var url = "api/delete_project";
     var data = 
     {
         "id":id

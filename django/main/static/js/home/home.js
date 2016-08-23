@@ -55,10 +55,17 @@ function createProject(parent_node){
     var header = project_table.createTHead();
     var row = header.insertRow();
     var cell = row.insertCell(0);
-    cell.innerHTML = "<b>PROJECT</b>";
-    cell = row.insertCell(1);
-    cell.innerHTML = "<button id=new_project>ADD PROJECT</button>";
-    
+    var b = document.createElement("B");
+
+    var text = document.createTextNode("PROJECT");
+    b.appendChild(text);
+    cell.appendChild(b);
+    var span= document.createElement("SPAN");
+    var button = document.createElement("IMG");
+    button.id = "new_project";
+    span.appendChild(button);
+    cell.appendChild(span);
+
     var body = project_table.createTBody();
     body.id = PROJECT_TABLE_BODY_ID;
     

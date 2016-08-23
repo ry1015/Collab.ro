@@ -62,10 +62,10 @@ function showSearchResults(results){
         cell = row.insertCell(0)
         div = document.createElement("div");
         div.setAttribute("class", SEARCH_RESULTS_CLASS);
-        elem = document.createElement("a");
         text = document.createTextNode(results["exact_projects"][i]["artist"] + " - " + results["exact_projects"][i]["title"]);
-        elem.appendChild(text);
-        div.appendChild(elem);
+        div.setAttribute("u", results["exact_projects"][i]["artist"]);
+        div.setAttribute("t", results["exact_projects"][i]["title"]);
+        div.appendChild(text);
         cell.appendChild(div);
     }
     child.appendChild(table);
