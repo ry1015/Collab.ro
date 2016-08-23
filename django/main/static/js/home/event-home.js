@@ -48,6 +48,11 @@ function newProjectEvent(){
     input.placeholder = "Enter track title";
     cell.appendChild(input);
 
+    cell = row.insertCell(2);
+    input = document.createElement("INPUT");
+    input.type = "file";
+    input.id = "track_upload";
+    cell.appendChild(input);
 
     // STEMS ROW
     row = new_project_table.insertRow(new_project_table.rows.length);
@@ -62,13 +67,12 @@ function newProjectEvent(){
     cell.appendChild(input);
 
     cell = row.insertCell(2);
-    cell.innerHTML = "<select id='stem_category'> \
-                        <option value=''>Category\
-                        <option value='drums'>Drums\
-                        <option value='guitar'>Guitar\
-                        <option value='producer'>Producer\
-                        <option value='vocal'>Vocal";
-
+    cell.innerHTML = "<select id='stem_category'>"+
+                        "<option value=''>Category"+
+                        "<option value='drums'>Drums"+
+                        "<option value='guitar'>Guitar"+
+                        "<option value='producer'>Producer"+
+                        "<option value='vocal'>Vocal";
     
     cell = row.insertCell(3);
     cell.innerHTML = "<input id='stem_upload' type='file'>";
