@@ -1,6 +1,8 @@
+.empty_cell {
+    height: 12px;
+}
 .projectDiv {
     border: 2px solid black;
-    width: 65%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -14,13 +16,13 @@
 
 .new_project_table {
     border: 1px dashed black;
+    width: 100%;
 }
 
 
 #project_table {
     margin-left: auto;
     margin-right: auto;
-    width: 80%;
 }
 
 #new_project {

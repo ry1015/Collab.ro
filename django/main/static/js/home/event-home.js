@@ -1,6 +1,9 @@
 // Add new project
 function newProjectEvent(){
     console.log("ADD NEW PROJECT!");
+    var new_project_exist = document.getElementById("new_project_row");
+    if (new_project_exist != undefined)
+      return
     var project_table = document.getElementById(PROJECT_TABLE_ID).getElementsByTagName('tbody')[0];
      
     // row = new_project_table.insertRow(new_project_table.rows.length);
@@ -19,6 +22,7 @@ function newProjectEvent(){
     new_project_table.className = NEW_PROJECT_TABLE_ID;
     cell.appendChild(new_project_table);
 
+
     // TITLE ROW
     row = new_project_table.insertRow(new_project_table.rows.length); //use new_project_table.rows.length to append row to the last index
     cell = row.insertCell(0);
@@ -27,13 +31,16 @@ function newProjectEvent(){
 
     cell = row.insertCell(1);
     // Please move style to css file
-    cell.colSpan = 3;
     cell.style.width = "100%";
     var input = document.createElement("INPUT");
     input.id = "project_name_field";
     input.value = "Test Project";
-    input.style.width = "100%";
     cell.appendChild(input);
+
+    // Extra spacing
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.setAttribute("class", "empty_cell");
 
 
     // INSERT TRACKS ROW
@@ -48,11 +55,21 @@ function newProjectEvent(){
     input.placeholder = "Enter track title";
     cell.appendChild(input);
 
-    cell = row.insertCell(2);
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+
+    cell = row.insertCell(1);
     input = document.createElement("INPUT");
     input.type = "file";
     input.id = "track_upload";
     cell.appendChild(input);
+
+    // Extra spacing
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.setAttribute("class", "empty_cell");
+
 
     // STEMS ROW
     row = new_project_table.insertRow(new_project_table.rows.length);
@@ -66,7 +83,11 @@ function newProjectEvent(){
     input.placeholder = "Enter steam title";
     cell.appendChild(input);
 
-    cell = row.insertCell(2);
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+
+    cell = row.insertCell(1);
     cell.innerHTML = "<select id='stem_category'>"+
                         "<option value=''>Category"+
                         "<option value='drums'>Drums"+
@@ -74,7 +95,10 @@ function newProjectEvent(){
                         "<option value='producer'>Producer"+
                         "<option value='vocal'>Vocal";
     
-    cell = row.insertCell(3);
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+    cell = row.insertCell(1);
     cell.innerHTML = "<input id='stem_upload' type='file'>";
 //     row = new_project_table.insertRow(4);
 //     cell = row.insertCell(0);
