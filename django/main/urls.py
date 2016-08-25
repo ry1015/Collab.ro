@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^api/delete_project', projects.delete_project),
     url(r'^api/get-search-results', search.get_user_input_results),
     url(r'^api/session', views.session),
+    url(r'^api/logout', views.logout),
 	# url(r'^api/upload_stem', stems.upload_stem),
     # url(r'^api/userprofiles/$', views.userprofile_list),
     # url(r'^api/userprofile/(?P<pk>[0-9]+)/$', views.userprofile_detail),

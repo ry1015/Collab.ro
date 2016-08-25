@@ -6,7 +6,7 @@ function addNavigationEventListener()
     document.getElementById("Home").addEventListener('click', openHomePage, false);
     document.getElementById("Profile").addEventListener('click', openProfilePage, false);
     document.getElementById("Search").addEventListener('click', openSearchPage, false);
-    document.getElementById("Logout").addEventListener('click', openLoginPage, false);
+    document.getElementById("Logout").addEventListener('click', logOutUser, false);
     document.getElementById("search_input").addEventListener('keyup', lookUpInput, false);
 }
 
@@ -94,8 +94,16 @@ function openSearchPage()
 }
 
 // Redirects to login page
-function openLoginPage()
+function openLoginPage(result)
 {
     current_user={};
     location.reload();
+}
+
+// Logs out current user
+function logOutUser(){
+    var data = {};
+    var url = 'api/logout';
+    data["username"] = current_user.username;
+    postRequest(url, data, openLoginPage);
 }

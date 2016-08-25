@@ -33,9 +33,10 @@ def session(request, format=None):
             data = get_user_data(user.username)
         except:
             Response (None, status=status.HTTP_200_OK)
+        print (data)
         return Response(data, status=status.HTTP_200_OK)
     else:
-        return Response(None, status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
 
 # Redirects to signup page
 def signup(request):
@@ -201,6 +202,13 @@ def login(request, format=None):
             print("The username and password were incorrect.")
 
     return Response("Login Failed.", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def logout(request, format=None):
+    request.session.flush()
+    data = {}
+    return Response(data, status.HTTP_200_OK)
 
 # Signs up a user
 @api_view(['GET', 'POST'])
