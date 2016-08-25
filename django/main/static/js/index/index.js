@@ -3,7 +3,9 @@
 // *******************************************
 window.onload = function()
 {
-    var current_user = "";
+    var session_found = false;
+    var current_user;
+
     var login_div = document.getElementById("login");
 
     var header_div = createHeader(); //header.js
@@ -14,6 +16,13 @@ window.onload = function()
     var signup_node = createSignup();
     login_div.appendChild(signup_node);
     addIndexEventListener();
+    checkSession(processSession);
+}
+
+// Process Session
+function processSession(result){
+    current_user = result;
+    showHome(current_user);
 }
 
 // Add event listeners to username and password inputs and login button

@@ -25,3 +25,11 @@ function loginEvent()
     
     getRequest(url, data, processUser); //ajax.js    
 }
+
+// Checks User Session
+function checkSession(processSession){
+    var url = "api/session";
+    var data = {};
+
+    getRequest(url, data, processSession) //ajax.js
+}

@@ -11,7 +11,31 @@ import json
 # Create your views here.
 # Redirects to index page
 def index(request):
-    return render_to_response('html/index.html')
+    # print(request.session.get('member_id'))
+    if(request.session.get('member_id') != None):
+        user_id = request.session.get('member_id')
+        try:
+            user = User.objects.get(pk=user_id)
+        except:
+            return render(request, 'html/index.html')
+    return render(request, 'html/index.html')
+
+@api_view(['GET'])
+def session(request, format=None):
+    print ("----------------------------------------------------")
+    print ("SESSION CALLED")
+
+    print ("MEMBER ID:",request.session.get('member_id'))
+    data = {}
+    if (request.session.get('member_id')):
+        try:
+            user = User.objects.get(pk=request.session.get('member_id'))
+            data = get_user_data(user.username)
+        except:
+            Response (None, status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
+    else:
+        return Response(None, status=status.HTTP_200_OK)
 
 # Redirects to signup page
 def signup(request):
@@ -169,6 +193,8 @@ def login(request, format=None):
                 categories.append(obj.name)
 
             data = get_user_data(username)
+            request.session['member_id'] = user.id
+            request.session.set_expiry(300)
             return Response(data, status=status.HTTP_201_CREATED)
         else:
             # the authentication system was unable to verify the username and password
