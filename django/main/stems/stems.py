@@ -12,6 +12,7 @@ import json
 def upload_stem(request, format=None):
     print("Processing Stem")
     username = request.POST.get("username")
+    proj_id = request.POST.get("proj_id")
     stem_name = request.POST.get("stem_name")
     category = request.POST.get("category")
     filename = request.FILES.get("filename")
@@ -22,13 +23,15 @@ def upload_stem(request, format=None):
     except:
         return Response("Upload Stem Error. Username Does Not Exist.")
     try:
-        project = Project.objects.get(userID=user, name="Test Project")
+        project = Project.objects.get(userID=user, id=proj_id)
         print(project)
     except:
         return Response("Upload Stem Error. Project Does Not Exist.")
     try:
-        stem = Stem.objects.create(userID=user, projectID=project, title=stem_name, category=category, filename=filename)
+        new_stem = Stem.objects.create(userID=user, projectID=project, title=stem_name, category=category, filename=filename)
     except:
         return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
-    stem.save()
-    return Response({}, status=status.HTTP_200_OK)
+    new_stem.save()
+	
+    data = project.name
+    return Response(data, status=status.HTTP_200_OK)

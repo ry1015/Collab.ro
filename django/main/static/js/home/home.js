@@ -9,6 +9,9 @@ var BODY_DIV_ID = "body_div";
 var CURRENT_TRACKS_ID = "current-tracks-div";
 var NEW_PROJECT_ID = "new_project";
 var DELETE_PROJECT_ID = "delete_project";
+var STEM_TABLE_ID = "stem_table_";
+var NEW_STEM_ROW_ID = "new_stem_row_";
+var NEW_STEM_TABLE_ID = "new_stem_table";
 var home_data;
 
 // Add click event when new_project id is clicked
@@ -49,10 +52,10 @@ function createProject(parent_node){
     project_node.id = PROJ_DIV_ID;
     project_node.className = "projectDiv";
 
-    var project_table = document.createElement("table");
-    project_table.id = PROJECT_TABLE_ID;
+    var project_list_table = document.createElement("table"); //copied over from update_project_html branch
+    project_list_table.id = PROJECT_TABLE_ID; //copied over from update_project_html branch
     
-    var header = project_table.createTHead();
+    var header = project_list_table.createTHead(); //copied over from update_project_html branch
     var row = header.insertRow();
     var cell = row.insertCell(0);
     var b = document.createElement("B");
@@ -66,10 +69,10 @@ function createProject(parent_node){
     span.appendChild(button);
     cell.appendChild(span);
 
-    var body = project_table.createTBody();
+    var body = project_list_table.createTBody(); //copied over from update_project_html branch
     body.id = PROJECT_TABLE_BODY_ID;
     
-    project_node.appendChild(project_table);
+    project_node.appendChild(project_list_table); //copied over from update_project_html branch
     parent_node.appendChild(project_node);
     addProjectButtonEventListener();
     refreshProjects();
@@ -125,34 +128,70 @@ var processProjectData = function(result)
     }
 
 	for (i = 0; i < home_data.length; i++){
-		projectRow = projects_table_body.insertRow();
-		projectRow.id = "project_row_" + home_data[i]["id"];
-		projectRow.className = "projectRow";
-		var cell = projectRow.insertCell(0);
-		var project_item_table = document.createElement("table"); //TODO: Think of better name
-		project_item_table.id = "project_item_table_" + home_data[i]["id"];
-		cell.appendChild(project_item_table);
-		var header = project_item_table.createTHead();
-		var row = header.insertRow();
-		cell = row.insertCell(0);
-		cell.innerHTML = "<b>" + home_data[i]["name"] + "</b>";
+        projectRow = projects_table_body.insertRow();
+        var project_id = home_data[i]["id"]; //copied over from update_project_html branch
+        projectRow.id = "project_row_" + project_id; //copied over from update_project_html branch
+        projectRow.className = "projectRow";
+        var cell = projectRow.insertCell(0);
 		
-		var body = project_item_table.createTBody();
-		row = body.insertRow();
-		row.className
-		cell = row.insertCell(0);
-		cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
-		cell = row.insertCell(1);
-		cell.innerHTML = "<p> Stem PlaceHolder </p>"; 
-		cell = row.insertCell(2);
+		//Create Project Table
+        var project_table = document.createElement("table");
+        project_table.className = "projectTable";
+        project_table.id = "project_table_" +project_id;
+        cell.appendChild(project_table);
+		
+		//Create Project Table Header & Title
+        var header = project_table.createTHead();
+        var row = header.insertRow();
+        cell = row.insertCell(0);
+        cell.innerHTML = "<b>" + home_data[i]["name"] + "</b>";
+		
+		//Create Delete Button
         var deleteButton = document.createElement("button");
         deleteButton.id = DELETE_PROJECT_ID;
-        deleteButton.value = home_data[i]["id"];
-        deleteButton.innerHTML = "Delete";
+        deleteButton.value = project_id;
+		deleteButton.innerHTML = "Delete";
         deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
-        cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
+		var span = document.createElement("SPAN");
+		span.appendChild(deleteButton);
+		cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
+				
+		//Create Project Table Body
+        var body = project_table.createTBody();
+        row = body.insertRow();
+        var trackCell = row.insertCell();
+        row = body.insertRow();
+        var stemCell = row.insertCell();
 		
+		//Create Track Table
+        var trackTable = document.createElement("table");
+        trackCell.appendChild(trackTable);
+		header = trackTable.createTHead();
+        row = header.insertRow();
+        cell = row.insertCell();
+        cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
+		//cell = row.insertCell(1);
+        body = trackTable.createTBody();
+		//TODO: Load Track List Here
 		
+		//Create Stem Table
+        var stemTable = document.createElement("table");
+		stemTable.id = STEM_TABLE_ID + project_id;
+        stemCell.appendChild(stemTable);
+        header = stemTable.createTHead();
+        row = header.insertRow();
+        cell = row.insertCell();
+		var span = document.createElement("SPAN");
+		var addStemButton = document.createElement("IMG");
+		addStemButton.id = "add_stem_" + project_id;
+		addStemButton.className = "add_stem";
+		addStemButton.addEventListener('click', function() { addNewStemEvent(this.id); }, false);
+        cell.innerHTML = "Stem PlaceHolder";
+		span.appendChild(addStemButton);
+		cell.appendChild(span);
+        body = stemTable.createTBody();
+		//TODO: Load Stem List Here
+				
 //		cell = projectRow.insertCell(1);
 //		cell.innerHTML = "<p>" + "Track Place Holder" + "</p>";
 	}

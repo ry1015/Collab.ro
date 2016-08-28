@@ -15,11 +15,14 @@ function newProjectEvent(){
     // cell.innerHTML = "<input placeholder='UPLOAD STEM'>";
 
     var row = project_table.insertRow(0);
-    row.id = NEW_PROJECT_ROW_ID;
+	row.className = "projectRow"; //copied over from update_project_html branch
+    row.id = NEW_PROJECT_ROW_ID; 
     var cell = row.insertCell(0);
     var new_project_table = document.createElement("table");
-
+    new_project_table.className = "projectTable"; //new
+	
     new_project_table.className = NEW_PROJECT_TABLE_ID;
+	new_project_table.id = NEW_PROJECT_TABLE_ID; //copied over from update_project_html branch
     cell.appendChild(new_project_table);
 
 
@@ -106,34 +109,46 @@ function newProjectEvent(){
 
 //     row = new_project_table.insertRow(project_table.rows.length);
 //     cell = row.insertCell(5);
-
+    
+	// Extra spacing
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.setAttribute("class", "empty_cell");
+	
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
     cell.innerHTML = "<button id='save_button'>SAVE</button>";
+	cell = row.insertCell(1);
+	cell.innerHTML = "<button id='cancel_button'>CANCEL</button";
 
     var parent_projects_table = document.getElementById("project_table");
     row = parent_projects_table.insertRow(parent_projects_table.rows.length);
     parent_projects_table.appendChild(project_table);
     
-//  document.getElementById("upload_button").addEventListener('click', uploadStemEvent, false);
     document.getElementById("save_button").addEventListener('click', saveProjectEvent, false);
+	document.getElementById("cancel_button").addEventListener('click', cancelProjectEvent, false);
+}
+
+function cancelProjectEvent() {
+	var project_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
+	project_table_body.deleteRow(0); 
 }
 
 function saveProjectEvent(){
   var username = current_user.user.username;
   var project_name = document.getElementById("project_name_field").value;
   var stemCategory = document.getElementById("stem_category");
-    var selectedStemCategoryIndex = stemCategory.selectedIndex;
+  var selectedStemCategoryIndex = stemCategory.selectedIndex;
   var selectedStemCategory = stemCategory.options[selectedStemCategoryIndex].value;
   var stem_name = document.getElementById("stem_title").value;
   var filename = document.getElementById("stem_upload");
   console.log("Save clicked");
   var processProject = function(result)
   {
-        console.log("Project saved with id: " + result);
-    var element = document.getElementById(NEW_PROJECT_ROW_ID).outerHTML = "";
-    delete element;
-        refreshProjects();
+      console.log("Project saved with id: " + result);
+      var element = document.getElementById(NEW_PROJECT_ROW_ID).outerHTML = "";
+      delete element;
+      refreshProjects();
   }
   
   var url = "api/add_project";

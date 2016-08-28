@@ -8,21 +8,48 @@
 }
 
 .projectRow {
-    /*outline: 1px dashed blue;*/
+    margin: 1px;
+	width: 350px;
+}
+
+.projectTable {
     outline: 1px solid blue;
     outline-spacing: 1px;
-	margin: 1px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
-
 .new_project_table {
     border: 1px dashed black;
-    width: 100%;
+	width: 100%;
 }
 
+.new_stem_table {
+    border: 1px solid black;
+	width: 100%;
+}
+
+.add_stem {
+    background-image: url("../../../media/add_stem_button.png");
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-left: 10px;
+    margin-bottom: -3px;
+}
+
+.add_stem:hover {
+    cursor: pointer;
+}
 
 #project_table {
     margin-left: auto;
     margin-right: auto;
+}
+#delete_project {
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 #new_project {
