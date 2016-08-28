@@ -62,7 +62,7 @@ function createProject(parent_node){
     cell.appendChild(b);
     var span= document.createElement("SPAN");
     var button = document.createElement("IMG");
-    button.id = "new_project";
+    button.id = NEW_PROJECT_ID;
     span.appendChild(button);
     cell.appendChild(span);
 
