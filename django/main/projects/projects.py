@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
-from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem
+from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem, Track
 import json
 
 @api_view(['POST'])
@@ -18,9 +18,12 @@ def add_project(request, format=None):
     # project_name = data["project_name"]
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
+    genre = request.POST.get("genre")
+    track_name = request.POST.get("track_name")
+    track_filename = request.FILES.get("track_filename")
     stem_name = request.POST.get("stem_name")
     category = request.POST.get("category")
-    filename = request.FILES.get("filename")
+    stem_filename = request.FILES.get("stem_filename")
     
     try:
         user = User.objects.get(username=username)
@@ -35,12 +38,16 @@ def add_project(request, format=None):
         except:
             return Response("Project Error. Cannot Create New Project")
         try:
-            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_name, category=category, filename=filename)
+            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_name, category=category, filename=stem_filename)
         except:
             return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
         new_stem.save()
-		
-        data = new_project.id
+        try:
+            new_track = Track.objects.create(userID=user, projectID=new_project, title=track_name, genre=genre, filename=track_filename)
+        except:
+            return Response("Upload Track Error. Cannot upload track.", status=status.HTTP_400_BAD_REQUEST)
+        new_track.save()
+        data = {'id': new_project.id}
         return Response(data, status=status.HTTP_200_OK)
     
     if (project):

@@ -86,6 +86,19 @@ class TrackComment(models.Model):
         return preview
 
 # User Project Stems
+class Track(models.Model):
+    userID = models.ForeignKey(User)
+    projectID = models.ForeignKey(Project)
+    title = models.CharField(max_length=200)
+    genre = models.CharField(max_length=200)
+    filename = models.FileField(max_length=200, blank=True)
+    upload_date = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
+        return preview
+
+# User Project Stems
 class Stem(models.Model):
     userID = models.ForeignKey(User)
     projectID = models.ForeignKey(Project)

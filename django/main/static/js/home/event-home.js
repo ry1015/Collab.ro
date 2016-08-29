@@ -61,12 +61,24 @@ function newProjectEvent(){
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
     cell.width = "10%";
-
+    
     cell = row.insertCell(1);
-    input = document.createElement("INPUT");
-    input.type = "file";
-    input.id = "track_upload";
-    cell.appendChild(input);
+    cell.innerHTML = "<select id='track_genre'>"+
+                        "<option selected disabled>Genre</option>"+
+                        "<option value='jazz'>Jazz"+
+                        "<option value='metal'>Metal"+
+                        "<option value='pop'>Pop"+
+                        "<option value='rap'>Rap";
+
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+    
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+    cell = row.insertCell(1);
+    cell.innerHTML = "<input id='track_upload' type='file'>";
 
     // Extra spacing
     row = new_project_table.insertRow(new_project_table.rows.length);
@@ -92,7 +104,7 @@ function newProjectEvent(){
 
     cell = row.insertCell(1);
     cell.innerHTML = "<select id='stem_category'>"+
-                        "<option value=''>Category"+
+                        "<option selected disabled>Category</option>"+
                         "<option value='drums'>Drums"+
                         "<option value='guitar'>Guitar"+
                         "<option value='producer'>Producer"+
@@ -137,27 +149,37 @@ function cancelProjectEvent() {
 function saveProjectEvent(){
   var username = current_user.user.username;
   var project_name = document.getElementById("project_name_field").value;
+  
+  var trackGenre = document.getElementById("track_genre");
+  var selectedTrackGenreIndex = trackGenre.selectedIndex;
+  var selectedTrackGenre = trackGenre.options[selectedTrackGenreIndex].value;
+  var track_name = document.getElementById("track_title").value;
+  var track_filename = document.getElementById("track_upload");
+  
   var stemCategory = document.getElementById("stem_category");
   var selectedStemCategoryIndex = stemCategory.selectedIndex;
   var selectedStemCategory = stemCategory.options[selectedStemCategoryIndex].value;
   var stem_name = document.getElementById("stem_title").value;
-  var filename = document.getElementById("stem_upload");
+  var stem_filename = document.getElementById("stem_upload");
+  
   console.log("Save clicked");
   var processProject = function(result)
   {
-      console.log("Project saved with id: " + result);
+      console.log("Project saved with id: " + result["id"]);
       var element = document.getElementById(NEW_PROJECT_ROW_ID).outerHTML = "";
       delete element;
       refreshProjects();
   }
-  
   var url = "api/add_project";
   var formData = new FormData();
   formData.append("username", username);
   formData.append("project_name", project_name);
+  formData.append("genre", selectedTrackGenre);
+  formData.append("track_name", track_name);
+  formData.append("track_filename", track_filename.files[0]);
   formData.append("category", selectedStemCategory);
   formData.append("stem_name", stem_name);
-  formData.append("filename", filename.files[0]);
+  formData.append("stem_filename", stem_filename.files[0]);
     /* var data = 
     {
         "username": username,
@@ -165,6 +187,8 @@ function saveProjectEvent(){
     };
     
     data = JSON.stringify(data); */
+    
+    
     postProjectRequest(url, formData, processProject);
 }
 

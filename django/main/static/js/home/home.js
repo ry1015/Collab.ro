@@ -64,7 +64,7 @@ function createProject(parent_node){
     b.appendChild(text);
     cell.appendChild(b);
     var span= document.createElement("SPAN");
-    var button = document.createElement("IMG");
+    var button = document.createElement("BUTTON");
     button.id = NEW_PROJECT_ID;
     span.appendChild(button);
     cell.appendChild(span);
@@ -169,6 +169,11 @@ var processProjectData = function(result)
 		header = trackTable.createTHead();
         row = header.insertRow();
         cell = row.insertCell();
+        var span = document.createElement("SPAN");
+        var addTrackButton = document.createElement("IMG");
+        addTrackButton.id = "add_track_" + project_id;
+        addTrackButton.className = "add_track";
+        addTrackButton.addEventListener('click', function() { addNewTrackEvent(this.id); }, false);
         cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
 		//cell = row.insertCell(1);
         body = trackTable.createTBody();
@@ -181,7 +186,7 @@ var processProjectData = function(result)
         header = stemTable.createTHead();
         row = header.insertRow();
         cell = row.insertCell();
-		var span = document.createElement("SPAN");
+		span = document.createElement("SPAN");
 		var addStemButton = document.createElement("IMG");
 		addStemButton.id = "add_stem_" + project_id;
 		addStemButton.className = "add_stem";
