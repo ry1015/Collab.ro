@@ -5,11 +5,12 @@
     border: 2px solid black;
     margin-left: auto;
     margin-right: auto;
+	min-width: 400px;
 }
 
 .projectRow {
     margin: 1px;
-	min-width: 270px;
+	width: 350px;
 }
 
 .projectTable {
