@@ -7,6 +7,7 @@ class Project (models.Model):
     userID = models.ForeignKey(User)
     name = models.CharField(max_length=200)
     timestamp = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=7, default="public")
     
     def __str__(self):
         preview = "(" + str(self.userID) + ") " + str(self.name)
@@ -93,6 +94,7 @@ class Track(models.Model):
     genre = models.CharField(max_length=200)
     filename = models.FileField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=7, default="public")
     
     def __str__(self):
         preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
@@ -106,6 +108,7 @@ class Stem(models.Model):
     category = models.CharField(max_length=200)
     filename = models.FileField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=7, default="public")
 	
     def __str__(self):
         preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
