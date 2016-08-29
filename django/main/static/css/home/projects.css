@@ -5,6 +5,7 @@
     border: 2px solid black;
     margin-left: auto;
     margin-right: auto;
+	min-width: 400px;
 }
 
 .projectRow {
@@ -21,7 +22,7 @@
 }
 .new_project_table {
     border: 1px dashed black;
-	width: 100%;
+    width: 100%;
 }
 
 .new_stem_table {
