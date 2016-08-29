@@ -185,14 +185,17 @@ var processProjectData = function(result)
         header = stemTable.createTHead();
         row = header.insertRow();
         cell = row.insertCell();
-		span = document.createElement("SPAN");
+		var b = document.createElement("B");
+		var text = document.createTextNode("Stems");
+        b.appendChild(text);
+        cell.appendChild(b);
 		var addStemButton = document.createElement("IMG");
 		addStemButton.id = "add_stem_" + project_id;
 		addStemButton.className = "add_stem";
-		addStemButton.addEventListener('click', function() { addNewStemEvent(this.id); }, false);
-        cell.innerHTML = "Stem PlaceHolder";
-		span.appendChild(addStemButton);
-		cell.appendChild(span);
+		addStemButton.src = "media/add_stem_button.png";
+		addStemButton.addEventListener('click', function() { addNewStemEvent(this.id); }, false); // event-stem.js
+        // cell.innerHTML = "Stem PlaceHolder";
+		cell.appendChild(addStemButton);
         body = stemTable.createTBody();
 		//TODO: Load Stem List Here
 				

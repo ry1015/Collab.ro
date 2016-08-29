@@ -1,10 +1,10 @@
 // Uploads a Stem to current Project
-function addNewStemEvent(proj_id) {
+function addNewStemEvent(button_id) {
 	var new_stem_exist = document.getElementById(NEW_STEM_ROW_ID + proj_id);
 	if(new_stem_exist != undefined) {
 		return
 	}
-	// var proj_id = button_id.replace("add_stem_", "");
+    var proj_id = button_id.replace("add_stem_", "");
 	var stem_table_body= document.getElementById(STEM_TABLE_ID + proj_id).getElementsByTagName('tbody')[0];
 	if(stem_table_body.hasChildNodes()) {
 	    stem_table_body.innerHTML = "";	
