@@ -9,7 +9,7 @@
 
 .projectRow {
     margin: 1px;
-	width: 350px;
+	min-width: 270px;
 }
 
 .projectTable {
@@ -21,7 +21,7 @@
 }
 .new_project_table {
     border: 1px dashed black;
-	width: 100%;
+    width: 100%;
 }
 
 .new_stem_table {

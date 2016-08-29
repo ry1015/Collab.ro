@@ -64,7 +64,7 @@ function createProject(parent_node){
     b.appendChild(text);
     cell.appendChild(b);
     var span= document.createElement("SPAN");
-    var button = document.createElement("IMG");
+    var button = document.createElement("BUTTON");
     button.id = "new_project";
     span.appendChild(button);
     cell.appendChild(span);
@@ -182,10 +182,11 @@ var processProjectData = function(result)
         row = header.insertRow();
         cell = row.insertCell();
 		var span = document.createElement("SPAN");
-		var addStemButton = document.createElement("IMG");
+		var addStemButton = document.createElement("BUTTON");
 		addStemButton.id = "add_stem_" + project_id;
 		addStemButton.className = "add_stem";
-		addStemButton.addEventListener('click', function() { addNewStemEvent(this.id); }, false);
+		addStemButton.value = project_id;
+		addStemButton.addEventListener('click', function() { addNewStemEvent(this.value); }, false);
         cell.innerHTML = "Stem PlaceHolder";
 		span.appendChild(addStemButton);
 		cell.appendChild(span);
