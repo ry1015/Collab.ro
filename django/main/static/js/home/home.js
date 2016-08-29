@@ -63,11 +63,10 @@ function createProject(parent_node){
     var text = document.createTextNode("PROJECT");
     b.appendChild(text);
     cell.appendChild(b);
-    var span= document.createElement("SPAN");
-    var button = document.createElement("BUTTON");
-    button.id = "new_project";
-    span.appendChild(button);
-    cell.appendChild(span);
+    var img= document.createElement("IMG");
+    img.id = "new_project";
+    img.src = "media/add_project_button.png";
+    cell.appendChild(img);;
 
     var body = project_list_table.createTBody(); //copied over from update_project_html branch
     body.id = PROJECT_TABLE_BODY_ID;
