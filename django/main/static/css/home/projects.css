@@ -30,12 +30,17 @@
 	width: 100%;
 }
 
+.new_track_table {
+    border: 1px solid black;
+	width: 100%;
+}
+
 .add_stem {
     width: 20px;
     height: 20px;
     background-size: cover;
     background-repeat: no-repeat;
-    margin-left: 10px;
+    margin-left: 15px;
     margin-bottom: -3px;
 }
 
@@ -43,6 +48,18 @@
     cursor: pointer;
 }
 
+.add_track {
+    width: 18px;
+    height: 18px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-left: 10px;
+    margin-bottom: -3px;
+}
+
+.add_track:hover {
+    cursor: pointer;
+}
 #project_table {
     margin-left: auto;
     margin-right: auto;

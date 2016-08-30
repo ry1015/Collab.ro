@@ -15,6 +15,7 @@ def upload_stem(request, format=None):
     proj_id = request.POST.get("proj_id")
     stem_name = request.POST.get("stem_name")
     category = request.POST.get("category")
+    stem_status = request.POST.get("stem_status")
     filename = request.FILES.get("filename")
 	
     print(username)
@@ -28,7 +29,7 @@ def upload_stem(request, format=None):
     except:
         return Response("Upload Stem Error. Project Does Not Exist.")
     try:
-        new_stem = Stem.objects.create(userID=user, projectID=project, title=stem_name, category=category, filename=filename)
+        new_stem = Stem.objects.create(userID=user, projectID=project, title=stem_name, category=category, status=stem_status, filename=filename)
     except:
         return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
     new_stem.save()

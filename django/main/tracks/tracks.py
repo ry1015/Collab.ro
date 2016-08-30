@@ -14,7 +14,8 @@ def upload_track(request, format=None):
     username = request.POST.get("username")
     proj_id = request.POST.get("proj_id")
     track_name = request.POST.get("track_name")
-    category = request.POST.get("category")
+    genre = request.POST.get("genre")
+    track_status = request.POST.get("track_status")
     filename = request.FILES.get("filename")
     
     print(username)
@@ -28,7 +29,7 @@ def upload_track(request, format=None):
     except:
         return Response("Upload Track Error. Project Does Not Exist.")
     try:
-        new_track = Track.objects.create(userID=user, projectID=project, title=track_name, category=category, filename=filename)
+        new_track = Track.objects.create(userID=user, projectID=project, title=track_name, genre=genre, status=track_status, filename=filename)
     except:
         return Response("Upload Track Error. Cannot upload track.", status=status.HTTP_400_BAD_REQUEST)
     new_track.save()

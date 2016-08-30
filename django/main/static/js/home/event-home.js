@@ -39,7 +39,17 @@ function newProjectEvent(){
     input.id = "project_name_field";
     input.value = "Test Project";
     cell.appendChild(input);
-
+	
+    row = new_project_table.insertRow(new_project_table.rows.length);
+	cell = row.insertCell(0);
+	cell.width = "10%";
+	
+	cell = row.insertCell(1);
+	cell.innerHTML = "<select id='project_status'>"+
+                        "<option selected disabled>Status</option>"+
+						"<option value='public'>Public"+
+                        "<option value='private'>Private";
+	
     // Extra spacing
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
@@ -69,7 +79,17 @@ function newProjectEvent(){
                         "<option value='metal'>Metal"+
                         "<option value='pop'>Pop"+
                         "<option value='rap'>Rap";
-
+    
+	row = new_project_table.insertRow(new_project_table.rows.length);
+	cell = row.insertCell(0);
+	cell.width = "10%";
+	
+	cell = row.insertCell(1);
+	cell.innerHTML = "<select id='track_status'>"+
+                        "<option selected disabled>Status</option>"+
+						"<option value='public'>Public"+
+                        "<option value='private'>Private";
+						
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
     cell.width = "10%";
@@ -95,7 +115,7 @@ function newProjectEvent(){
     cell = row.insertCell(1);
     input = document.createElement("INPUT");
     input.id = "stem_title";
-    input.placeholder = "Enter steam title";
+    input.placeholder = "Enter stem title";
     cell.appendChild(input);
 
     row = new_project_table.insertRow(new_project_table.rows.length);
@@ -110,6 +130,16 @@ function newProjectEvent(){
                         "<option value='producer'>Producer"+
                         "<option value='vocal'>Vocal";
     
+	row = new_project_table.insertRow(new_project_table.rows.length);
+	cell = row.insertCell(0);
+	cell.width = "10%";
+	
+	cell = row.insertCell(1);
+	cell.innerHTML = "<select id='stem_status'>"+
+                        "<option selected disabled>Status</option>"+
+						"<option value='public'>Public"+
+                        "<option value='private'>Private";
+						
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
     cell.width = "10%";
@@ -149,16 +179,25 @@ function cancelProjectEvent() {
 function saveProjectEvent(){
   var username = current_user.user.username;
   var project_name = document.getElementById("project_name_field").value;
+  var projectStatus = document.getElementById("project_status");
+  var selectedProjectStatusIndex = projectStatus.selectedIndex;
+  var selectedProjectStatus = projectStatus.options[selectedProjectStatusIndex].value;  
   
   var trackGenre = document.getElementById("track_genre");
   var selectedTrackGenreIndex = trackGenre.selectedIndex;
   var selectedTrackGenre = trackGenre.options[selectedTrackGenreIndex].value;
+  var trackStatus = document.getElementById("track_status");
+  var selectedTrackStatusIndex = trackStatus.selectedIndex;
+  var selectedtTrackStatus = trackStatus.options[selectedTrackStatusIndex].value; 
   var track_name = document.getElementById("track_title").value;
   var track_filename = document.getElementById("track_upload");
   
   var stemCategory = document.getElementById("stem_category");
   var selectedStemCategoryIndex = stemCategory.selectedIndex;
   var selectedStemCategory = stemCategory.options[selectedStemCategoryIndex].value;
+  var stemStatus = document.getElementById("stem_status");
+  var selectedStemStatusIndex = stemStatus.selectedIndex;
+  var selectedStemStatus = stemStatus.options[selectedStemStatusIndex].value; 
   var stem_name = document.getElementById("stem_title").value;
   var stem_filename = document.getElementById("stem_upload");
   
@@ -174,10 +213,13 @@ function saveProjectEvent(){
   var formData = new FormData();
   formData.append("username", username);
   formData.append("project_name", project_name);
+  formData.append("project_status", selectedProjectStatus);
   formData.append("genre", selectedTrackGenre);
+  formData.append("track_status", selectedTrackStatus);
   formData.append("track_name", track_name);
   formData.append("track_filename", track_filename.files[0]);
   formData.append("category", selectedStemCategory);
+  formData.append("stem_status", selectedStemStatus);
   formData.append("stem_name", stem_name);
   formData.append("stem_filename", stem_filename.files[0]);
     /* var data = 

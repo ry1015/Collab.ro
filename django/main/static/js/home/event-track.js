@@ -25,7 +25,7 @@ function addNewTrackEvent(button_id) {
 
     cell = row.insertCell(1);
     var input = document.createElement("INPUT");
-    input.id = "track_title";
+    input.id = "track_title_" + proj_id;
     input.placeholder = "Enter track title";
     cell.appendChild(input);
 
@@ -34,18 +34,31 @@ function addNewTrackEvent(button_id) {
     cell.width = "10%";
 
     cell = row.insertCell(1);
-    cell.innerHTML = "<select id='track_genre'>"+
-                        "<option value=''>Genre"+
+	var trackGenreId = "track_genre_" + proj_id;
+    cell.innerHTML = "<select id='"+trackGenreId+"'>"+ 
+                        "<option selected disabled>Genre</option>"+
                         "<option value='jazz'>Jazz"+
                         "<option value='metal'>Metal"+
                         "<option value='pop'>Rock"+
                         "<option value='rap'>Rap";
     
+	row = new_track_table.insertRow(new_track_table.rows.length);
+	cell = row.insertCell(0);
+	cell.width = "10%";
+	
+	cell = row.insertCell(1);
+	var trackStatusId = "track_status_" + proj_id;
+	cell.innerHTML = "<select id='"+trackGenreId+"'>"+
+                        "<option selected disabled>Status</option>"+
+						"<option value='public'>Public"+
+                        "<option value='private'>Private";
+						
     row = new_track_table.insertRow(new_track_table.rows.length);
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
-    cell.innerHTML = "<input id='track_upload' type='file'>";
+	var trackUploadId = "track_upload_" + proj_id;
+    cell.innerHTML = "<input id='"+trackUploadId+"' type='file'>";
 	
 	// Extra spacing
     row = new_track_table.insertRow(new_track_table.rows.length);
@@ -56,7 +69,7 @@ function addNewTrackEvent(button_id) {
 	row = new_track_table.insertRow(new_track_table.rows.length);
 	cell = row.insertCell(0);
 	var saveButton = document.createElement("BUTTON");
-	saveButton.id = "save_button_" + proj_id;
+	saveButton.id = "track_save_button_" + proj_id;
 	saveButton.value = proj_id;
 	saveButton.innerHTML = "SAVE";
 	saveButton.addEventListener('click', function() { saveTrackEvent(this.value); }, false);
@@ -65,7 +78,7 @@ function addNewTrackEvent(button_id) {
 	// Track Cancel Button
 	cell = row.insertCell(1);
 	var cancelButton = document.createElement("BUTTON");
-	cancelButton.id = "cancel_button_" + proj_id;
+	cancelButton.id = "track_cancel_button_" + proj_id;
 	cancelButton.value = proj_id;
 	cancelButton.innerHTML = "CANCEL";
 	cancelButton.addEventListener('click', function() {cancelTrackEvent(this.value); }, false);
@@ -79,12 +92,17 @@ function cancelTrackEvent(proj_id) {
 
 function saveTrackEvent(proj_id){
 	var username = current_user.user.username;
-	var trackGenre = document.getElementById("track_genre");
+	var trackGenreId = "track_genre_" + proj_id;
+	var trackGenre = document.getElementById(trackGenreId);
 	if(trackGenre == "Genre") {
 		trackGenre = "";
 	}
     var selectedTrackGenreIndex = trackGenre.selectedIndex;
 	var selectedTrackGenre = trackGenre.options[selectedTrackGenreIndex].value;
+	var trackStatusId = "track_status_" + proj_id;
+	var trackStatus = document.getElementById(trackStatusId);
+    var selectedTrackStatusIndex = trackStatus.selectedIndex;
+    var selectedTrackStatus = trackStatus.options[selectedTrackStatusIndex].value;
 	var track_name = document.getElementById("track_title").value;
 	var filename = document.getElementById("track_upload");
 	console.log("Save clicked");
@@ -101,6 +119,7 @@ function saveTrackEvent(proj_id){
 	var formData = new FormData();
 	formData.append("username", username);
 	formData.append("genre", selectedTrackGenre);
+	formData.append("track_status", selectedTrackStatus);
 	formData.append("track_name", track_name);
     formData.append("proj_id", proj_id);
 	formData.append("filename", filename.files[0]);

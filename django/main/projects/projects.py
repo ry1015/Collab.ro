@@ -19,10 +19,12 @@ def add_project(request, format=None):
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
     genre = request.POST.get("genre")
+    track_status = request.POST.get("track_status")
     track_name = request.POST.get("track_name")
     track_filename = request.FILES.get("track_filename")
     stem_name = request.POST.get("stem_name")
     category = request.POST.get("category")
+    stem_status = request.POST.get("stem_status")
     stem_filename = request.FILES.get("stem_filename")
     
     try:
@@ -38,12 +40,12 @@ def add_project(request, format=None):
         except:
             return Response("Project Error. Cannot Create New Project")
         try:
-            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_name, category=category, filename=stem_filename)
+            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_name, category=category, status=stem_status, filename=stem_filename)
         except:
             return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
         new_stem.save()
         try:
-            new_track = Track.objects.create(userID=user, projectID=new_project, title=track_name, genre=genre, filename=track_filename)
+            new_track = Track.objects.create(userID=user, projectID=new_project, title=track_name, genre=genre, status=track_status, filename=track_filename)
         except:
             return Response("Upload Track Error. Cannot upload track.", status=status.HTTP_400_BAD_REQUEST)
         new_track.save()
