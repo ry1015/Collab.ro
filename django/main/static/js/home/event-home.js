@@ -64,7 +64,7 @@ function newProjectEvent(){
 
     cell = row.insertCell(1);
     input = document.createElement("INPUT");
-    input.id = "track_title";
+    input.id = "project_track_title";
     input.placeholder = "Enter track title";
     cell.appendChild(input);
 
@@ -73,7 +73,7 @@ function newProjectEvent(){
     cell.width = "10%";
     
     cell = row.insertCell(1);
-    cell.innerHTML = "<select id='track_genre'>"+
+    cell.innerHTML = "<select id='project_track_genre'>"+
                         "<option selected disabled>Genre</option>"+
                         "<option value='jazz'>Jazz"+
                         "<option value='metal'>Metal"+
@@ -85,7 +85,7 @@ function newProjectEvent(){
 	cell.width = "10%";
 	
 	cell = row.insertCell(1);
-	cell.innerHTML = "<select id='track_status'>"+
+	cell.innerHTML = "<select id='project_track_status'>"+
                         "<option selected disabled>Status</option>"+
 						"<option value='public'>Public"+
                         "<option value='private'>Private";
@@ -98,7 +98,7 @@ function newProjectEvent(){
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
-    cell.innerHTML = "<input id='track_upload' type='file'>";
+    cell.innerHTML = "<input id='project_track_upload' type='file'>";
 
     // Extra spacing
     row = new_project_table.insertRow(new_project_table.rows.length);
@@ -114,7 +114,7 @@ function newProjectEvent(){
 
     cell = row.insertCell(1);
     input = document.createElement("INPUT");
-    input.id = "stem_title";
+    input.id = "project_stem_title";
     input.placeholder = "Enter stem title";
     cell.appendChild(input);
 
@@ -123,7 +123,7 @@ function newProjectEvent(){
     cell.width = "10%";
 
     cell = row.insertCell(1);
-    cell.innerHTML = "<select id='stem_category'>"+
+    cell.innerHTML = "<select id='project_stem_category'>"+
                         "<option selected disabled>Category</option>"+
                         "<option value='drums'>Drums"+
                         "<option value='guitar'>Guitar"+
@@ -135,7 +135,7 @@ function newProjectEvent(){
 	cell.width = "10%";
 	
 	cell = row.insertCell(1);
-	cell.innerHTML = "<select id='stem_status'>"+
+	cell.innerHTML = "<select id='project_stem_status'>"+
                         "<option selected disabled>Status</option>"+
 						"<option value='public'>Public"+
                         "<option value='private'>Private";
@@ -144,7 +144,7 @@ function newProjectEvent(){
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
-    cell.innerHTML = "<input id='stem_upload' type='file'>";
+    cell.innerHTML = "<input id='project_stem_upload' type='file'>";
 //     row = new_project_table.insertRow(4);
 //     cell = row.insertCell(0);
 //     cell.innerHTML = "<button id='upload_button'>UPLOAD</button";
@@ -159,16 +159,16 @@ function newProjectEvent(){
 	
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
-    cell.innerHTML = "<button id='save_button'>SAVE</button>";
+    cell.innerHTML = "<button id='project_save_button'>SAVE</button>";
 	cell = row.insertCell(1);
-	cell.innerHTML = "<button id='cancel_button'>CANCEL</button";
+	cell.innerHTML = "<button id='project_cancel_button'>CANCEL</button";
 
     var parent_projects_table = document.getElementById("project_table");
     row = parent_projects_table.insertRow(parent_projects_table.rows.length);
     parent_projects_table.appendChild(project_table);
     
-    document.getElementById("save_button").addEventListener('click', saveProjectEvent, false);
-	document.getElementById("cancel_button").addEventListener('click', cancelProjectEvent, false);
+    document.getElementById("project_save_button").addEventListener('click', saveProjectEvent, false);
+	document.getElementById("project_cancel_button").addEventListener('click', cancelProjectEvent, false);
 }
 
 function cancelProjectEvent() {
@@ -183,23 +183,23 @@ function saveProjectEvent(){
   var selectedProjectStatusIndex = projectStatus.selectedIndex;
   var selectedProjectStatus = projectStatus.options[selectedProjectStatusIndex].value;  
   
-  var trackGenre = document.getElementById("track_genre");
-  var selectedTrackGenreIndex = trackGenre.selectedIndex;
-  var selectedTrackGenre = trackGenre.options[selectedTrackGenreIndex].value;
-  var trackStatus = document.getElementById("track_status");
-  var selectedTrackStatusIndex = trackStatus.selectedIndex;
-  var selectedtTrackStatus = trackStatus.options[selectedTrackStatusIndex].value; 
-  var track_name = document.getElementById("track_title").value;
-  var track_filename = document.getElementById("track_upload");
+  var projectTrackGenre = document.getElementById("project_track_genre");
+  var selectedProjectTrackGenreIndex = projectTrackGenre.selectedIndex;
+  var selectedProjectTrackGenre = projectTrackGenre.options[selectedProjectTrackGenreIndex].value;
+  var projectTrackStatus = document.getElementById("project_track_status");
+  var selectedProjectTrackStatusIndex = projectTrackStatus.selectedIndex;
+  var selectedProjectTrackStatus = projectTrackStatus.options[selectedProjectTrackStatusIndex].value; 
+  var project_track_name = document.getElementById("project_track_title").value;
+  var project_track_filename = document.getElementById("project_track_upload");
   
-  var stemCategory = document.getElementById("stem_category");
-  var selectedStemCategoryIndex = stemCategory.selectedIndex;
-  var selectedStemCategory = stemCategory.options[selectedStemCategoryIndex].value;
-  var stemStatus = document.getElementById("stem_status");
-  var selectedStemStatusIndex = stemStatus.selectedIndex;
-  var selectedStemStatus = stemStatus.options[selectedStemStatusIndex].value; 
-  var stem_name = document.getElementById("stem_title").value;
-  var stem_filename = document.getElementById("stem_upload");
+  var projectStemCategory = document.getElementById("project_stem_category");
+  var selectedProjectStemCategoryIndex = projectStemCategory.selectedIndex;
+  var selectedProjectStemCategory = projectStemCategory.options[selectedProjectStemCategoryIndex].value;
+  var projectStemStatus = document.getElementById("project_stem_status");
+  var selectedProjectStemStatusIndex = projectStemStatus.selectedIndex;
+  var selectedProjectStemStatus = projectStemStatus.options[selectedProjectStemStatusIndex].value; 
+  var project_stem_name = document.getElementById("project_stem_title").value;
+  var project_stem_filename = document.getElementById("project_stem_upload");
   
   console.log("Save clicked");
   var processProject = function(result)
@@ -214,14 +214,14 @@ function saveProjectEvent(){
   formData.append("username", username);
   formData.append("project_name", project_name);
   formData.append("project_status", selectedProjectStatus);
-  formData.append("genre", selectedTrackGenre);
-  formData.append("track_status", selectedTrackStatus);
-  formData.append("track_name", track_name);
-  formData.append("track_filename", track_filename.files[0]);
-  formData.append("category", selectedStemCategory);
-  formData.append("stem_status", selectedStemStatus);
-  formData.append("stem_name", stem_name);
-  formData.append("stem_filename", stem_filename.files[0]);
+  formData.append("genre", selectedProjectTrackGenre);
+  formData.append("track_status", selectedProjectTrackStatus);
+  formData.append("track_name", project_track_name);
+  formData.append("track_filename", project_track_filename.files[0]);
+  formData.append("category", selectedProjectStemCategory);
+  formData.append("stem_status", selectedProjectStemStatus);
+  formData.append("stem_name", project_stem_name);
+  formData.append("stem_filename", project_stem_filename.files[0]);
     /* var data = 
     {
         "username": username,

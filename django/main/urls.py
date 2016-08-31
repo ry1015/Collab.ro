@@ -8,6 +8,7 @@ from main.user_tracks import user_tracks
 from main.track_comments import track_comments
 from main.stems import stems 
 from main.search import search
+from main.tracks import tracks
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^api/login$',views.login),
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^api/session', views.session),
     url(r'^api/logout', views.logout),
 	url(r'^api/upload_stem', stems.upload_stem),
+    url(r'^api/upload_track', tracks.upload_track),
     # url(r'^api/userprofiles/$', views.userprofile_list),
     # url(r'^api/userprofile/(?P<pk>[0-9]+)/$', views.userprofile_detail),
     # url(r'^api/userprofiles$', user.userprofile_list),

@@ -103,9 +103,11 @@ function saveStemEvent(proj_id){
 	var stemStatusId = "stem_status_" + proj_id;
 	var stemStatus = document.getElementById(stemStatusId);
     var selectedStemStatusIndex = stemStatus.selectedIndex;
-    var selectedStemStatus = stemStatus.options[selectedStemStatusIndex].value; 
-	var stem_name = document.getElementById("stem_title").value;
-	var filename = document.getElementById("stem_upload");
+    var selectedStemStatus = stemStatus.options[selectedStemStatusIndex].value;
+	var stem_name_id = "stem_title_" + proj_id;
+	var stem_name = document.getElementById(stem_name_id).value;
+	var stemFilenameId = "stem_upload_" + proj_id;
+	var stemFilename = document.getElementById(stemFilenameId);
 	console.log("Save clicked");
 	
 	var processStem = function(result)
@@ -123,7 +125,7 @@ function saveStemEvent(proj_id){
 	formData.append("stem_status", selectedStemStatus);
 	formData.append("stem_name", stem_name);
     formData.append("proj_id", proj_id);
-	formData.append("filename", filename.files[0]);
+	formData.append("filename", stemFilename.files[0]);
     
     postProjectRequest(url, formData, processStem);
 }

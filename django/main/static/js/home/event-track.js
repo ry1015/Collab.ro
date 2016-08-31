@@ -39,7 +39,7 @@ function addNewTrackEvent(button_id) {
                         "<option selected disabled>Genre</option>"+
                         "<option value='jazz'>Jazz"+
                         "<option value='metal'>Metal"+
-                        "<option value='pop'>Rock"+
+                        "<option value='pop'>Pop"+
                         "<option value='rap'>Rap";
     
 	row = new_track_table.insertRow(new_track_table.rows.length);
@@ -48,7 +48,7 @@ function addNewTrackEvent(button_id) {
 	
 	cell = row.insertCell(1);
 	var trackStatusId = "track_status_" + proj_id;
-	cell.innerHTML = "<select id='"+trackGenreId+"'>"+
+	cell.innerHTML = "<select id='"+trackStatusId+"'>"+
                         "<option selected disabled>Status</option>"+
 						"<option value='public'>Public"+
                         "<option value='private'>Private";
@@ -103,8 +103,10 @@ function saveTrackEvent(proj_id){
 	var trackStatus = document.getElementById(trackStatusId);
     var selectedTrackStatusIndex = trackStatus.selectedIndex;
     var selectedTrackStatus = trackStatus.options[selectedTrackStatusIndex].value;
-	var track_name = document.getElementById("track_title").value;
-	var filename = document.getElementById("track_upload");
+	var track_name_id = "track_title_" + proj_id;
+	var track_name = document.getElementById(track_name_id).value;
+	var trackFilenameId = "track_upload_" + proj_id;
+	var trackFilename = document.getElementById(trackFilenameId);
 	console.log("Save clicked");
 	
 	var processTrack = function(result)
@@ -122,7 +124,7 @@ function saveTrackEvent(proj_id){
 	formData.append("track_status", selectedTrackStatus);
 	formData.append("track_name", track_name);
     formData.append("proj_id", proj_id);
-	formData.append("filename", filename.files[0]);
+	formData.append("filename", trackFilename.files[0]);
     
     postProjectRequest(url, formData, processTrack);
 }
