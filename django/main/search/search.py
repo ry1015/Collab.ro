@@ -45,11 +45,12 @@ def get_user_input_results(request, format=None):
     proj_list = Project.objects.filter(q)
     ids = []
     for proj in proj_list:
-        tmp = {}
-        tmp["title"] = proj.name
-        tmp["artist"] = proj.userID.username
-        ids.append(proj.id)
-        projects.append(tmp)
+        if (proj.status == "public"):
+            tmp = {}
+            tmp["title"] = proj.name
+            tmp["artist"] = proj.userID.username
+            ids.append(proj.id)
+            projects.append(tmp)
 
     if (user != None):
         q = reduce(operator.or_, (Q(name__icontains = term) for term in terms), Q(userID=user))
@@ -59,11 +60,12 @@ def get_user_input_results(request, format=None):
     other_projects = []
     or_proj_list = Project.objects.filter(q).exclude(id__in=ids)
     for proj in or_proj_list:
-        tmp = {}
-        tmp["title"] = proj.name
-        tmp["artist"] = proj.userID.username
-        ids.append(proj.id)
-        other_projects.append(tmp)
+        if (proj.status == "public"):
+            tmp = {}
+            tmp["title"] = proj.name
+            tmp["artist"] = proj.userID.username
+            ids.append(proj.id)
+            other_projects.append(tmp)
 
     results["exact_projects"] = projects
     results["other_projects"] = other_projects
