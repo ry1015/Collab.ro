@@ -3,18 +3,19 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
+# Create your models here.
+# User Project
 class Project (models.Model):
     userID = models.ForeignKey(User)
     name = models.CharField(max_length=200)
-    timestamp = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=7, default="public")
-    
+    description = models.TextField(blank=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+
     def __str__(self):
         preview = "(" + str(self.userID) + ") " + str(self.name)
         return preview
 
-
-# Create your models here.
 # Music table
 class Music (models.Model):
     userID = models.ForeignKey(User)
@@ -47,9 +48,9 @@ class UserCategory (models.Model):
 # User Contact Info
 class ContactInformation (models.Model):
     userID = models.ForeignKey(User)
-    address = models.CharField(max_length=200, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], max_length=16, blank=True, default="+19999999999") # validators should be a list
+    address = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         preview = "(" + str(self.userID) + ") " + str(self.phone_number)
@@ -58,8 +59,8 @@ class ContactInformation (models.Model):
 # User Profile
 class UserProfile (models.Model):
     userID = models.ForeignKey(User)
+    user_category = models.ForeignKey(UserCategory, blank=True, null=True)
     biography = models.TextField(blank=True)
-    user_category = models.ForeignKey(UserCategory, blank=True, null=True )
 
     def __str__(self):
         preview = "(" + str(self.userID) + ") " + str(self.user_category)
@@ -67,8 +68,8 @@ class UserProfile (models.Model):
 
 # User Social Networks
 class SocialNetwork(models.Model):
-    url = models.URLField(max_length=200, blank=True)
     userID = models.ForeignKey(User)
+    url = models.URLField(max_length=200, blank=True)
 
     def __str__(self):
         preview = "(" + str(self.userID) + ") " + self.url
@@ -77,9 +78,9 @@ class SocialNetwork(models.Model):
 # Track Comments
 class TrackComment(models.Model):
     musicID = models.ForeignKey(Music)
-    comments = models.TextField(blank=True)
     sender = models.ForeignKey(User)
     comment_parent_id = models.PositiveIntegerField(blank=True, null=True)
+    comments = models.TextField(blank=True)
     timestamp = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
@@ -92,9 +93,9 @@ class Track(models.Model):
     projectID = models.ForeignKey(Project)
     title = models.CharField(max_length=200)
     genre = models.CharField(max_length=200)
+    status = models.CharField(max_length=7, default="public")
     filename = models.FileField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=7, default="public")
     
     def __str__(self):
         preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
@@ -106,9 +107,9 @@ class Stem(models.Model):
     projectID = models.ForeignKey(Project)
     title = models.CharField(max_length=200)
     category = models.CharField(max_length=200)
+    status = models.CharField(max_length=7, default="private")
     filename = models.FileField(max_length=200, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=7, default="private")
 	
     def __str__(self):
         preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
