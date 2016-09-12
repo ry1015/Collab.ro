@@ -1,3 +1,5 @@
+var EVENT_HOME_NEW_PROJ_DESC_ID = "new_proj_desc";
+
 // Add new project
 function newProjectEvent(){
     console.log("ADD NEW PROJECT!");
@@ -15,14 +17,14 @@ function newProjectEvent(){
     // cell.innerHTML = "<input placeholder='UPLOAD STEM'>";
 
     var row = project_table.insertRow(0);
-	row.className = "projectRow"; //copied over from update_project_html branch
+    row.className = "projectRow"; //copied over from update_project_html branch
     row.id = NEW_PROJECT_ROW_ID; 
     var cell = row.insertCell(0);
     var new_project_table = document.createElement("table");
     new_project_table.className = "projectTable"; //new
-	
+    
     new_project_table.className = NEW_PROJECT_TABLE_ID;
-	new_project_table.id = NEW_PROJECT_TABLE_ID; //copied over from update_project_html branch
+    new_project_table.id = NEW_PROJECT_TABLE_ID; //copied over from update_project_html branch
     cell.appendChild(new_project_table);
 
 
@@ -39,17 +41,17 @@ function newProjectEvent(){
     input.id = "project_name_field";
     input.value = "Test Project";
     cell.appendChild(input);
-	
+    
     row = new_project_table.insertRow(new_project_table.rows.length);
-	cell = row.insertCell(0);
-	cell.width = "10%";
-	
-	cell = row.insertCell(1);
-	cell.innerHTML = "<select id='project_status'>"+
-                        "<option selected disabled>Status</option>"+
-						"<option value='public'>Public"+
-                        "<option value='private'>Private";
-	
+    cell = row.insertCell(0);
+    cell.width = "10%";
+    
+    cell = row.insertCell(1);
+    cell.innerHTML = "<select id='project_status'>"+
+                      "<option selected disabled>Status</option>"+
+                                "<option value='public'>Public"+
+                      "<option value='private'>Private";
+    
     // Extra spacing
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
@@ -80,16 +82,16 @@ function newProjectEvent(){
                         "<option value='pop'>Pop"+
                         "<option value='rap'>Rap";
     
-	row = new_project_table.insertRow(new_project_table.rows.length);
-	cell = row.insertCell(0);
-	cell.width = "10%";
-	
-	cell = row.insertCell(1);
-	cell.innerHTML = "<select id='project_track_status'>"+
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+    
+    cell = row.insertCell(1);
+    cell.innerHTML = "<select id='project_track_status'>"+
                         "<option selected disabled>Status</option>"+
-						"<option value='public'>Public"+
+                        "<option value='public'>Public"+
                         "<option value='private'>Private";
-						
+                        
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
     cell.width = "10%";
@@ -130,16 +132,16 @@ function newProjectEvent(){
                         "<option value='producer'>Producer"+
                         "<option value='vocal'>Vocal";
     
-	row = new_project_table.insertRow(new_project_table.rows.length);
-	cell = row.insertCell(0);
-	cell.width = "10%";
-	
-	cell = row.insertCell(1);
-	cell.innerHTML = "<select id='project_stem_status'>"+
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+    
+    cell = row.insertCell(1);
+    cell.innerHTML = "<select id='project_stem_status'>"+
                         "<option selected disabled>Status</option>"+
-						"<option value='public'>Public"+
+                        "<option value='public'>Public"+
                         "<option value='private'>Private";
-						
+                        
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
     cell.width = "10%";
@@ -152,28 +154,49 @@ function newProjectEvent(){
 //     row = new_project_table.insertRow(project_table.rows.length);
 //     cell = row.insertCell(5);
     
-	// Extra spacing
+    // Extra spacing
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
     cell.setAttribute("class", "empty_cell");
-	
+    
+    // DESCRIPTION ROW
     row = new_project_table.insertRow(new_project_table.rows.length);
     cell = row.insertCell(0);
+    cell.style.verticalAlign = "top";
+    var desc_text = document.createTextNode("DESCRIPTION");
+    cell.appendChild(desc_text);
+    cell = row.insertCell(1);
+    var textarea = document.createElement("TEXTAREA");
+    textarea.rows = 5;
+    textarea.id = EVENT_HOME_NEW_PROJ_DESC_ID;
+    textarea.placeholder = "Enter project description...";
+    cell.appendChild(textarea);
+
+    // Extra spacing
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.setAttribute("class", "empty_cell");
+
+    row = new_project_table.insertRow(new_project_table.rows.length);
+    cell = row.insertCell(0);
+    cell.width = "10%";
+    
+    cell = row.insertCell(1);
+    cell.style.textAlign = "right";
     cell.innerHTML = "<button id='project_save_button'>SAVE</button>";
-	cell = row.insertCell(1);
-	cell.innerHTML = "<button id='project_cancel_button'>CANCEL</button";
+    cell.innerHTML += "<button id='project_cancel_button'>CANCEL</button";
 
     var parent_projects_table = document.getElementById("project_table");
     row = parent_projects_table.insertRow(parent_projects_table.rows.length);
     parent_projects_table.appendChild(project_table);
     
     document.getElementById("project_save_button").addEventListener('click', saveProjectEvent, false);
-	document.getElementById("project_cancel_button").addEventListener('click', cancelProjectEvent, false);
+    document.getElementById("project_cancel_button").addEventListener('click', cancelProjectEvent, false);
 }
 
 function cancelProjectEvent() {
-	var project_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
-	project_table_body.deleteRow(0); 
+    var project_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
+    project_table_body.deleteRow(0); 
 }
 
 function saveProjectEvent(){
@@ -200,7 +223,9 @@ function saveProjectEvent(){
   var selectedProjectStemStatus = projectStemStatus.options[selectedProjectStemStatusIndex].value; 
   var project_stem_name = document.getElementById("project_stem_title").value;
   var project_stem_filename = document.getElementById("project_stem_upload");
-  
+
+  var project_description = document.getElementById(EVENT_HOME_NEW_PROJ_DESC_ID).value;
+
   console.log("Save clicked");
   var processProject = function(result)
   {
@@ -222,6 +247,8 @@ function saveProjectEvent(){
   formData.append("stem_status", selectedProjectStemStatus);
   formData.append("stem_name", project_stem_name);
   formData.append("stem_filename", project_stem_filename.files[0]);
+  formData.append("description", project_description);
+
     /* var data = 
     {
         "username": username,

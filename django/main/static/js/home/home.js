@@ -207,7 +207,7 @@ var processProjectData = function(result)
 		cell.appendChild(addStemButton);
         body = stemTable.createTBody();
 		//TODO: Load Stem List Here
-				
+
 //		cell = projectRow.insertCell(1);
 //		cell.innerHTML = "<p>" + "Track Place Holder" + "</p>";
 	}

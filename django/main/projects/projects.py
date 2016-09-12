@@ -11,6 +11,7 @@ import json
 @api_view(['POST'])
 def add_project(request, format=None):
     print ("Adding Project")
+    print (request.POST.get("description"))
     # print (request.body)
     # data = json.loads(request.body.decode("utf-8"))
     # print (data)
@@ -26,7 +27,8 @@ def add_project(request, format=None):
     category = request.POST.get("category")
     stem_status = request.POST.get("stem_status")
     stem_filename = request.FILES.get("stem_filename")
-    
+    description = request.POST.get("description")
+
     try:
         user = User.objects.get(username=username)
     except:
@@ -36,7 +38,7 @@ def add_project(request, format=None):
         project = Project.objects.get(userID=user, name=project_name)
     except:
         try:
-            new_project = Project.objects.create(userID=user, name=project_name)
+            new_project = Project.objects.create(userID=user, name=project_name, description=description)
         except:
             return Response("Project Error. Cannot Create New Project")
         try:
