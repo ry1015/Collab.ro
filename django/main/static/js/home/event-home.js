@@ -196,7 +196,10 @@ function newProjectEvent(){
 
 function cancelProjectEvent() {
     var project_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
-    project_table_body.deleteRow(0); 
+    project_table_body.childNodes[0].setAttribute("class","fadeOut");
+    setTimeout(function(){
+        project_table_body.deleteRow(0);
+    }, 300);
 }
 
 function saveProjectEvent(){
