@@ -66,6 +66,17 @@ class UserProfile (models.Model):
         preview = "(" + str(self.userID) + ") " + str(self.user_category)
         return preview
 
+# User Profile Photos
+class UserProfilePhoto (models.Model):
+    userID = models.ForeignKey(User)
+    selected = models.IntegerField(default=0)
+    filename = models.ImageField(blank=True, upload_to='profile_picture/%Y/%m/%d')
+    timestamp = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        preview = "(" + str(self.userID) + ")" + str(self.filename)
+        return preview
+
 # User Social Networks
 class SocialNetwork(models.Model):
     userID = models.ForeignKey(User)

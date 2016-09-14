@@ -19,6 +19,113 @@ function deleteSocialNetworkEventListener(){
     
 }
 
+// Create User Credential Rows
+// table, profile table
+function createUserCredentials(table){
+    var user = current_user.user
+    var row = undefined;
+    var cell = undefined;
+    var node = undefined;
+
+    // User Creds
+    var attributes = [
+        ["Username", user.username],
+        ["Password", ""],
+        ["Email", user.email],
+    ];
+
+    for (var i=0; i < attributes.length; ++i){
+        row = table.insertRow(table.rows.length);
+        for (var j=0; j<2; ++j){
+            cell = row.insertCell(j);
+            node = document.createElement("INPUT");
+            if (j < 1)
+                node = document.createTextNode(attributes[i][j]);
+            else{
+                if (attributes[i][j-1] == "Username")
+                    node = document.createTextNode(attributes[i][j]);
+                else{
+                    node.id = attributes[i][j-1].toLowerCase();
+                    node.value = attributes[i][j];
+                }
+            }
+            cell.appendChild(node);
+        }
+    }
+}
+
+// Create User Biography Row
+// table, profile table
+function createUserBiography(table){
+    var biography = current_user.profile.biography;
+    var row = undefined;
+    var cell = undefined;
+    var node = undefined;
+
+    var attributes = [
+        ["Biography", biography]
+    ];
+    
+    for (var i=0; i < attributes.length; ++i){
+        row = table.insertRow(table.rows.length);
+        for (var j=0; j<2; ++j){
+            cell = row.insertCell(j);
+            if (j < 1){
+                node = document.createTextNode(attributes[i][j]);
+            }
+            else{
+                node = document.createElement("TEXTAREA");
+                node.rows = 5;
+                node.value = attributes[i][j];
+                node.id = attributes[i][j-1].toLowerCase();
+            }
+            cell.appendChild(node);
+        }
+    }
+
+}
+
+// Create User Category Row
+// table, profile table
+function createUserCategory(table){
+    var categories = current_user.categories.sort();
+    var user_category = current_user.profile.user_category;
+    var select = document.createElement("SELECT");
+    var option = document.createElement("OPTION");
+    var row = table.insertRow(table.rows.length);
+    var cell = row.insertCell(0);
+    var text = document.createTextNode("User Category");
+    cell.appendChild(text);
+    
+    cell = row.insertCell(1);
+    option.text = "--------";
+    select.appendChild(option);
+    select.id = "user_category";
+
+    if (categories.length < 1)
+    { 
+        option.selected = true;
+    }
+    else
+    {
+        for (var i in categories){
+            option = document.createElement("OPTION");
+            option.text = categories[i];
+            if (user_category == option.text)
+                option.selected = true;
+            select.appendChild(option);
+        }
+    }
+    cell.appendChild(select);
+}
+
+// Create User Social Network Row
+// table, profile table
+function createUserSocialNetwork(table){
+    var social_network = current_user.profile.social_network;
+
+}
+
 // Create User Profile Table
 // info, user profile table
 function createProfile(info){
@@ -29,7 +136,13 @@ function createProfile(info){
     var social_network_add_button = "social_network_button";
     var new_social_network_id = "add_social_network";
 
-    var attributes = [
+    
+    createUserCredentials(info);
+    createUserBiography(info);
+    createUserCategory(info);
+
+
+    attributes = [
         ["Username", user_creds.username],
         ["Password", ""],
         ["Email", user_creds.email],
@@ -39,9 +152,9 @@ function createProfile(info){
     ];
 
     for (var i in attributes){
-        var row = info.insertRow(info.rows.length);
+        row = info.insertRow(info.rows.length);
         for (var j in attributes[i]){
-            var cell = row.insertCell(j);
+            cell = row.insertCell(j);
             if (j == 0)
                 cell.innerHTML = attributes[i][j];
             else
@@ -111,13 +224,6 @@ function createProfile(info){
             }
         }
     }
-
-    // row = info.insertRow(info.rows.length);
-    // cell = row.insertCell(0);
-    // var update_button = document.createElement("button");
-    // update_button.id = "profile_update";
-    // update_button.textContent = "Update";
-    // info.appendChild(update_button);
 }
 
 // Create User Information Table

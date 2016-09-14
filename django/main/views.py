@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer
 from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Project
+from .models import UserProfilePhoto
 import json
 
 # Create your views here.
@@ -142,6 +143,20 @@ def get_user_data(username):
     for proj in user_projects:
         projects.append(proj.name)
 
+    # User Profile Photos
+    print ("-------------------------------------")
+    print ("GETTING PROJECTS")
+    photos = []
+    user_photos = UserProfilePhoto.objects.filter(userID=user).order_by('-selected')
+    print (user_photos)
+    for photo in user_photos:
+        tmp = {}
+        print (photo.filename)
+        tmp["filename"] = str(photo.filename)
+        tmp["selected"] = photo.selected
+        photos.append(tmp)
+    user_profile["photos"] = photos
+    print ("-------------------------------------")
     data={
         "contact_info": contact_info_serializer.data,
         "profile": user_profile,

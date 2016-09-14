@@ -28,6 +28,9 @@
     margin-right: auto;
 }
 
+#table-user-profile td:not(:first-child) > input, textarea{
+    width: 90%;
+}
 #table-user-info {
     margin-left: auto;
     margin-right: auto;
