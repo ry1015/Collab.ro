@@ -12,3 +12,4 @@ django/main/user_tracks/__pycache__/
 django/main/*/__pycache__/
 *.orig
 *~
+django/main/media/profile_picture/
