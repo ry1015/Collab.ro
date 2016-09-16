@@ -122,108 +122,70 @@ function createUserCategory(table){
 // Create User Social Network Row
 // table, profile table
 function createUserSocialNetwork(table){
-    var social_network = current_user.profile.social_network;
+    var sn_table_id = "social_network_table";
+    var sn_input_id = "add_social_network";
+    var sn_add_id = "social_network_button";
+    var social_networks = current_user.profile.social_network;
+    var row = table.insertRow(table.rows.length);
+    var cell = row.insertCell(0);
+    var text = document.createTextNode("Social Network");
+    cell.appendChild(text);
 
+    cell = row.insertCell(1);
+    var sn_table = document.createElement("TABLE");
+    sn_table.id = sn_table_id;
+
+    var sn_row = undefined;
+    var sn_cell = undefined;
+    var sn_a = undefined;
+    var sn_img = undefined;
+    var sn_input = undefined;
+
+    for (var link in social_networks){
+        // Social Network Link
+        sn_row = sn_table.insertRow(sn_table.rows.length);
+        sn_cell = sn_row.insertCell(0);
+        sn_a = document.createElement("A");
+        sn_a.id = social_networks[link];
+        sn_a.href = social_networks[link];
+        sn_a.target = "_blank";
+        sn_a.text = social_networks[link];
+        sn_cell.appendChild(sn_a);
+
+        // Delete Button
+        sn_cell = sn_row.insertCell(1);
+        sn_img = document.createElement("IMG");
+        sn_img.id = social_networks[link]+ "_delete";
+        sn_img.src = "media/delete_icon.jpg"
+        sn_img.setAttribute("class", "delete_social_network_site");
+        sn_cell.appendChild(sn_img);
+    }
+
+    // Add Social Network Input
+    sn_row = sn_table.insertRow(sn_table.rows.length);
+    sn_cell = sn_row.insertCell(0);
+    sn_input = document.createElement("INPUT");
+    sn_input.id = sn_input_id;
+    sn_input.setAttribute("type", "text");
+    sn_input.setAttribute("placeholder", "www.facebook.com/user");
+    sn_cell.appendChild(sn_input);
+
+    sn_cell = sn_row.insertCell(1);
+    sn_img = document.createElement("IMG");
+    sn_img.src = "media/add_button.png";
+    sn_img.id = sn_add_id;
+    sn_cell.appendChild(sn_img);
+
+    cell.appendChild(sn_table); 
 }
 
 // Create User Profile Table
 // info, user profile table
 function createProfile(info){
-    var user_creds = current_user.user;
-    var user_profile = current_user.profile;
-    var categories = current_user.categories.sort();
-    var social_network_id = "social_network_table";
-    var social_network_add_button = "social_network_button";
-    var new_social_network_id = "add_social_network";
-
-    
     createUserCredentials(info);
     createUserBiography(info);
     createUserCategory(info);
-
-
-    attributes = [
-        ["Username", user_creds.username],
-        ["Password", ""],
-        ["Email", user_creds.email],
-        ["Biography", user_profile.biography],
-        ["User Category", user_profile.user_category],
-        ["Social Network", user_profile.social_network]
-    ];
-
-    for (var i in attributes){
-        row = info.insertRow(info.rows.length);
-        for (var j in attributes[i]){
-            cell = row.insertCell(j);
-            if (j == 0)
-                cell.innerHTML = attributes[i][j];
-            else
-            {
-                if (attributes[i][j-1] == "Username")
-                    cell.innerHTML = attributes[i][j];
-                else
-                {
-                    if (attributes[i][j-1] == "Password")
-                        cell.innerHTML = "<input type='password' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
-                    else if (attributes[i][j-1] == "Biography")
-                        cell.innerHTML = "<textarea id='" + attributes[i][j-1] +"'>";
-                    else if (attributes[i][j-1] == "User Category")
-                    {
-                        var options = "";
-                        var found = false;
-                        if (categories.length != 0){
-                            for (var i in categories)
-                            {
-                                if (categories[i] == user_profile.user_category){
-                                    options+="<option selected>" + categories[i] + "</option>";
-                                    found = true;
-                                    break;
-                                }
-                                else
-                                    options+="<option>" + categories[i] + "</option>";
-                            }
-                            if (!found)
-                                options = "<option selected>--------</option>" + options;
-                        } else {
-                            options = "<option selected>--------</option>" + options;
-                        }
-                        var select = "<select id='"+ attributes[i][j-1] + "'>";
-                        select += options;
-                        select += "</select>";
-                        cell.innerHTML = select;
-                    }
-                    else if (attributes[i][j-1] == "Social Network")
-                    {
-
-                        var social_network_list = attributes[i][j];
-                        var sn_table = document.createElement("table");
-                        
-                        // Add table rows for social network
-                        for (var link in social_network_list){
-                            var sn_row = sn_table.insertRow(sn_table.rows.length);
-                            var sn_cell = sn_row.insertCell(0);
-                            sn_cell.innerHTML = "<a id=" + social_network_list[link]+ " href=" + social_network_list[link]+ " target=_blank>" + social_network_list[link] + "</a>";
-                            sn_cell = sn_row.insertCell(1);
-                            sn_cell.innerHTML = "<img src=media/delete_icon.jpg id=" + social_network_list[link]+ "_delete class=delete_social_network_site>";
-                        }
-
-                        // Append Social Network rows to social_network table                        
-                        var table_node = "<table id=" + social_network_id + ">";
-                        sn_row = sn_table.insertRow(sn_table.rows.length);
-                        sn_cell = sn_row.insertCell(0);
-                        sn_cell.innerHTML = "<input id=" + new_social_network_id + " type=text placeholder='www.facebook.com/user'>";
-                        sn_cell = sn_row.insertCell(1);
-                        sn_cell.innerHTML = "<img src='media/add_button.png' id='social_network_button'>";
-                        table_node+=sn_table.innerHTML;
-                        table_node+="</table>";
-                        cell.innerHTML = table_node;
-                    }
-                    else
-                        cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +">";
-                }
-            }
-        }
-    }
+    createUserSocialNetwork(info);
 }
 
 // Create User Information Table

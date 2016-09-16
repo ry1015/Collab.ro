@@ -84,10 +84,10 @@ function deleteSocialNetworkSite(){
 
 // Update event when a user changes their info/profile
 function updateEvent(){
-    var password = document.getElementById("Password").value;
-    var email = document.getElementById("Email").value;
-    var biography = document.getElementById("Biography").value;
-    var user_category = document.getElementById("User Category").value;
+    var password = document.getElementById("password").value;
+    var email = document.getElementById("email").value;
+    var biography = document.getElementById("biography").value;
+    var user_category = document.getElementById("user_category").value;
     if (user_category == "--------")
         user_category = "";
 

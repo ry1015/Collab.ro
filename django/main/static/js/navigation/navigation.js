@@ -54,7 +54,7 @@ function openProfilePage()
     createProfile(info); //profile.js
     profile.appendChild(info);
     body_div.appendChild(profile);
-    document.getElementById("Biography").value = current_user.profile["biography"];
+    document.getElementById("biography").value = current_user.profile["biography"];
     
     // Table 2
     // address, phone_number
