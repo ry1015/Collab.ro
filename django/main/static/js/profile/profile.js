@@ -103,12 +103,11 @@ function createUserCategory(table){
     select.id = "user_category";
 
     if (categories.length < 1)
-    { 
         option.selected = true;
-    }
     else
     {
-        for (var i in categories){
+        for (var i in categories)
+        {
             option = document.createElement("OPTION");
             option.text = categories[i];
             if (user_category == option.text)
@@ -196,23 +195,57 @@ function createInfo(info){
         ["Phone Number", user_info.phone_number],
         ["Address", user_info.address],
     ];
+    var row = undefined;
+    var cell = undefined;
+
+    // Add row spacing
+    addRowSpacing(info);
+
+    // Contact Information Row
+    row = info.insertRow(info.rows.length);
+    cell = row.insertCell(0);
+    cell.colSpan = "2";
+    var bold_tag = document.createElement("B");
+    var text = document.createTextNode("Contact Information");
+    bold_tag.appendChild(text);
+    cell.appendChild(bold_tag);
 
     for (var i in attributes)
     {
-        var row = info.insertRow(info.rows.length);
+        row = info.insertRow(info.rows.length);
         for (var j in attributes[i]){
-            var cell = row.insertCell(j);
+            cell = row.insertCell(j);
             if (j == 0)
                 cell.innerHTML = attributes[i][j];
             else
                 cell.innerHTML = "<input type='text' value='"+ attributes[i][j] + "' id= "+ attributes[i][j-1] +" placeholder=Optional>";
         }
     }
+}
 
-    row = info.insertRow(info.rows.length);
-    cell = row.insertCell(0);
+function createAddress(table){
+    var components = []
+}
+
+// Create Profile Update Button
+// info, profile table
+function createProfileUpdateButton(info){
+    addRowSpacing(info);
+    var row = info.insertRow(info.rows.length);
+    var cell = row.insertCell(0);
+    cell.colSpan = "2";
+    cell.style.textAlign = "center";
     var update_button = document.createElement("button");
     update_button.id = "user_update";
     update_button.textContent = "Update";
-    info.appendChild(update_button);
+    cell.appendChild(update_button);
+}
+
+// Insert row for spacing purposes
+// table, table that needs an empty row for spacing
+function addRowSpacing(table){
+    var row = table.insertRow(table.rows.length);
+    var cell = row.insertCell(0);
+    cell.colSpan = "2";
+    cell.setAttribute("class", "empty_row");
 }

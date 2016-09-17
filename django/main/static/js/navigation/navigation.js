@@ -58,13 +58,14 @@ function openProfilePage()
     
     // Table 2
     // address, phone_number
-    info = document.createElement("table");
-    info.id = "table-user-info";
-    info.style.border = "1px dashed black";
-    info.style.marginTop = "10px";
-    info.createCaption();
-    info.innerHTML = "<b>Contact Information</b>";
-    createInfo(info);
+    // info = document.createElement("table");
+    // info.id = "table-user-info";
+    // info.style.border = "1px dashed black";
+    // info.style.marginTop = "10px";
+    // info.createCaption();
+    // info.innerHTML = "<b>Contact Information</b>";
+    createInfo(info); //profile.js
+    createProfileUpdateButton(info); //profile.js
     profile.appendChild(info);
     body_div.appendChild(profile);
 
