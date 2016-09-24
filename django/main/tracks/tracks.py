@@ -41,13 +41,12 @@ def upload_track(request, format=None):
 def get_project_tracks(request, format=None):
     print("Retrieving Project Tracks")
     proj_id = request.POST.get("proj_id")
-    print(proj_id)
     
     tracks = Track.objects.filter(projectID=proj_id).order_by('-upload_date')
     if(len(tracks) > 0):
         data = []
         for track in tracks:
-            data.append({"id": track.id, "title":track.title})
+            data.append({"proj_id": proj_id, "id": track.id, "title":track.title})
     else:
         print ("NO TRACKS FOUND")
         return Response(None, status=status.HTTP_204_NO_CONTENT)

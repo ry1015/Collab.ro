@@ -186,22 +186,13 @@ var processProjectData = function(result)
         //cell = row.insertCell(1);
         cell.appendChild(addTrackButton);
         body = trackTable.createTBody();
-        row = body.insertRow();
-        cell = row.insertCell();
         
         //Load Track List Here
         
         var url = "api/get_project_tracks";
         var formData = new FormData();
         formData.append("proj_id", project_id);
-        var result = postTrackTableRequest(url, formData);
-        var trackListTable = createTrackTable(result);
-        
-        if(trackListTable != null){
-            cell.appendChild(trackListTable);
-        }else{
-            console.log("null");
-        }
+        var result = postTrackRequest(url, formData, createTrackTable);
         
         //Create Stem Table
         var stemTable = document.createElement("table");
@@ -233,29 +224,34 @@ var createTrackTable = function(result){
     if(result == null){
         return null;
     }
-    var track_data = result;
-    var trackListTable = document.createElement("table");
-    trackListTable.id = "track_list_table";
     console.log(result);
-    body = trackListTable.createTBody();
+    var track_data = result;
+    
+    var project_id = track_data[0]["proj_id"];
+    console.log("searching for " + TRACK_TABLE_ID + project_id);
+    var trackTable = document.getElementById(TRACK_TABLE_ID + project_id);
+    
+    console.log(track_data);
+    console.log(track_data.length)
     for(i = 0; i < track_data.length; i++){
+        
         //Create single_track_table
-        single_track_table = document.createElement("table");
+        var single_track_table = document.createElement("table");
         single_track_table.id = "track_" + track_data[i]["id"] + "_table";
-        header = single_track_table.createTHead();
-        row = header.insertRow();
-        cell = row.insertCell();
-        b = document.createElement("b");
+        var header = single_track_table.createTHead();
+        var row = header.insertRow();
+        var cell = row.insertCell();
+        var b = document.createElement("B");
         var text = document.createTextNode(track_data[i]["title"]);
+        console.log("loading: " + track_data[i]["title"])
         b.appendChild(text);
         cell.appendChild(b);
         
         //Append single_track_table to TrackListTable
-        row = body.insertRow();
+        row = trackTable.insertRow();
         cell = row.insertCell();
         cell.appendChild(single_track_table);
     }
-    return trackListTable;
 }
 
 function refreshProjects(){

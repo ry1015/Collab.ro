@@ -146,7 +146,7 @@ function postTrackRequest(url, data, callback){
    });
 }
 
-function postTrackTableRequest(url, data){
+function postTrackTableRequest(url, data, callback){
     $.ajax({
             type: "POST",
         url: url,
@@ -155,10 +155,10 @@ function postTrackTableRequest(url, data){
         processData: false, // important
         contentType: false, // important
         success : function (result){
-            return result;
+            callback(result);
         },
         error : function(result){
-            return result;
+            failCallback(result);
         }
    });
 }
