@@ -14,7 +14,8 @@ var NEW_STEM_ROW_ID = "new_stem_row_";
 var NEW_STEM_TABLE_ID = "new_stem_table";
 var TRACK_TABLE_ID = "track_table_";
 var NEW_TRACK_ROW_ID = "new_track_row_";
-var NEW_TRACK_TABLE_ID = "new_track_table"; 
+var NEW_TRACK_TABLE_ID = "new_track_table";
+var DELETE_TRACK_BUTTON_ID = "delete_track_button"
 var project_data;
 
 // Add click event when new_project id is clicked
@@ -246,6 +247,14 @@ var createTrackTable = function(result){
         console.log("loading: " + track_data[i]["title"])
         b.appendChild(text);
         cell.appendChild(b);
+        
+        var deleteTrackButton = document.createElement("button");
+        deleteTrackButton.id = DELETE_TRACK_BUTTON_ID;
+        deleteTrackButton.value = track_data[i]["track_id"];
+        deleteTrackButton.appendChild(document.createTextNode("Delete"));
+        deleteTrackButton.addEventListener('click', function() { deleteTrackEvent(this.value); }, false);
+        cell = row.insertCell();
+        cell.appendChild(deleteTrackButton);
         
         //Append single_track_table to TrackListTable
         row = trackTable.insertRow();

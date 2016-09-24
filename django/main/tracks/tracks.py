@@ -46,9 +46,27 @@ def get_project_tracks(request, format=None):
     if(len(tracks) > 0):
         data = []
         for track in tracks:
-            data.append({"proj_id": proj_id, "id": track.id, "title":track.title})
+            data.append({"proj_id": proj_id, "track_id": track.id, "title":track.title})
     else:
         print ("NO TRACKS FOUND")
         return Response(None, status=status.HTTP_204_NO_CONTENT)
     
+    return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+def delete_track(request, format=None):
+    print("DELETING TRACK")
+    track_id = request.POST.get("track_id")
+    
+    try:
+        track = Track.objects.get(id=track_id)
+        track.delete()
+    except:
+        return Response("Could Not Delete Track.", status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    print ("END DELETE TRACK")
+    print ("------------------------------------------------------------")
+    data = []
+    data.append(track_id)
     return Response(data, status=status.HTTP_200_OK)
