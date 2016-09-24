@@ -7,6 +7,8 @@ function getRequest(url, data, callback){
     $.getJSON({
         url: home + url,
         data: data,
+        processData: false,
+        contentType: false,
         success : function (result) { 
             callback(result);
         },
@@ -21,6 +23,8 @@ function postRequest(url, data, callback){
         type: "POST",
         url: url,
         data: data,
+        processData: false,
+        contentType: false,
         success : function (result){
             callback(result);
         },
@@ -35,6 +39,8 @@ function deleteRequest(url, data, callback){
         type: "DELETE",
         url: url,
         data: data,
+        processData: false,
+        contentType: false,
         success : function (result){
             callback(result);
         },

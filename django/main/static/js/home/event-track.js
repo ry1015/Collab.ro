@@ -126,52 +126,13 @@ function saveTrackEvent(proj_id){
     formData.append("proj_id", proj_id);
 	formData.append("filename", trackFilename.files[0]);
     
-    postProjectRequest(url, formData, processTrack);
+    postRequest(url, formData, processTrack);
 }
 
 function deleteTrackEvent(track_id){
-    var processResult = function(result)
-    {
-          refreshProjects();
-    }
-    
     var url = "api/delete_track";
     var formData = new FormData();
     formData.append("track_id", track_id);
-    deleteTrackRequest(url, formData, processResult);
+    deleteRequest(url, formData, refreshProjects);
     refreshProjects();
 }
-
-function postTrackRequest(url, data, callback){
-   $.ajax({
-       type: "POST",
-       url: url,
-       data: data,
-       dataType: 'json',
-       processData: false, // important
-       contentType: false, // important
-       success : function (result){
-           callback(result);
-       },
-       error : function(result){
-           failCallback(result);
-       }
-   });
-}
-
-function deleteTrackRequest(url, data, callback){
-    $.ajax({
-        type: "DELETE",
-        url: url,
-        data: data,
-        dataType: 'json',
-        processData: false, // important
-        contentType: false, // important
-        success : function (result){
-            callback(result);
-        },
-        error : function(result){
-            failCallback(result);
-        }
-    });
- }

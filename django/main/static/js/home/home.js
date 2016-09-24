@@ -263,7 +263,7 @@ var createTrackTable = function(result){
     }
 }
 
-function refreshProjects(){
+var refreshProjects = function(args){
     var username = current_user.user.username;
     
     var url = "api/get_projects";
