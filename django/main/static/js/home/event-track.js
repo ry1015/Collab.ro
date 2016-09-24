@@ -145,3 +145,20 @@ function postTrackRequest(url, data, callback){
        }
    });
 }
+
+function postTrackTableRequest(url, data){
+    $.ajax({
+            type: "POST",
+        url: url,
+        data: data,
+        dataType: 'json',
+        processData: false, // important
+        contentType: false, // important
+        success : function (result){
+            return result;
+        },
+        error : function(result){
+            return result;
+        }
+   });
+}
