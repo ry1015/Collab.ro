@@ -105,7 +105,7 @@ class Track(models.Model):
     title = models.CharField(max_length=200)
     genre = models.CharField(max_length=200)
     status = models.CharField(max_length=7, default="public")
-    filename = models.FileField(max_length=200, blank=True)
+    filename = models.FileField(max_length=200, blank=True, upload_to='tracks/%Y/%m/%d')
     upload_date = models.DateTimeField(default=timezone.now)
     
     def __str__(self):

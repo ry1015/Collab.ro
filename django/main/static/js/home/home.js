@@ -131,6 +131,10 @@ var processProjectData = function(result)
         projects_table_body.deleteRow(0);
     }
 
+    var bold_node = undefined;
+    var text_node = undefined;
+    var anchor_node = undefined;
+
     for (i = 0; i < project_data.length; i++){
         projectRow = projects_table_body.insertRow();
         var project_id = project_data[i]["id"]; //copied over from update_project_html branch
@@ -148,7 +152,15 @@ var processProjectData = function(result)
         var header = project_table.createTHead();
         var row = header.insertRow();
         cell = row.insertCell(0);
-        cell.innerHTML = "<b>" + project_data[i]["name"] + "</b>";
+        anchor_node = document.createElement("A");
+        anchor_node.href="#";
+        bold_node = document.createElement("B");
+        text = document.createTextNode(project_data[i]["name"]);
+        bold_node.appendChild(text);
+        bold_node.onclick = getProjectId; //event-project-detail.js
+        anchor_node.appendChild(bold_node);
+        cell.appendChild(anchor_node);
+        // cell.innerHTML = "<b>" + project_data[i]["name"] + "</b>";
         
         //Create Delete Button
         var deleteButton = document.createElement("button");
@@ -219,6 +231,7 @@ var processProjectData = function(result)
 //        cell = projectRow.insertCell(1);
 //        cell.innerHTML = "<p>" + "Track Place Holder" + "</p>";
     }
+
 }
 
 var refreshProjects = function(args){
