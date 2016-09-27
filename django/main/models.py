@@ -13,7 +13,7 @@ class Project (models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        preview = "(" + str(self.userID) + ") " + str(self.name)
+        preview = str(self.id) + " (Project Owner: " + str(self.userID) + ") " + str(self.name)
         return preview
 
 # Music table
@@ -63,7 +63,7 @@ class UserProfile (models.Model):
     biography = models.TextField(blank=True)
 
     def __str__(self):
-        preview = "(" + str(self.userID) + ") " + str(self.user_category)
+        preview = str(self.userID.id) + " (" + str(self.userID) + ") " + str(self.user_category)
         return preview
 
 # User Profile Photos
@@ -98,6 +98,9 @@ class TrackComment(models.Model):
         preview = "[ID: " + str(self.id) + "][" + str(self.timestamp) + "]" + "(" + str(self.musicID) + ")" + ": SENDER: " + str(self.sender) + "--> PARENT: " + str(self.comment_parent_id)
         return preview
 
+def uploadTrackTo(instance, filename):
+    return 'tracks/%s/%s/%s' % (instance.projectID.id, instance.userID.id,filename)
+
 # User Project Stems
 class Track(models.Model):
     userID = models.ForeignKey(User)
@@ -105,13 +108,16 @@ class Track(models.Model):
     title = models.CharField(max_length=200)
     genre = models.CharField(max_length=200)
     status = models.CharField(max_length=7, default="public")
-    filename = models.FileField(max_length=200, blank=True, upload_to='tracks/%Y/%m/%d')
+    filename = models.FileField(max_length=200, blank=True, upload_to=uploadTrackTo)
     upload_date = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
+        preview = str(self.id) + " [Project: " + str(self.projectID.id) + "](Track Owner: " + str(self.userID) + ")(Track Title: " + self.title + ")"
         return preview
 
+def uploadStemTo(instance, filename):
+    return 'stems/%s/%s' % (instance.projectID.id, instance.userID.id,filename)
+    
 # User Project Stems
 class Stem(models.Model):
     userID = models.ForeignKey(User)
@@ -123,5 +129,5 @@ class Stem(models.Model):
     upload_date = models.DateTimeField(default=timezone.now)
 	
     def __str__(self):
-        preview = "[ID: " + str(self.id) + "]" + "[" + str(self.projectID) + "](" + str(self.userID) + ")" + self.title
+        preview = str(self.id) + "[Project: " + str(self.projectID.id) + "]   (Stem Owner: " + str(self.userID) + ")(Stem Title: " + self.title + ")"
         return preview

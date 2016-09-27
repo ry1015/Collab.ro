@@ -2,7 +2,6 @@ var EVENT_HOME_NEW_PROJ_DESC_ID = "new_proj_desc";
 
 // Add new project
 function newProjectEvent(){
-    console.log("ADD NEW PROJECT!");
     var new_project_exist = document.getElementById("new_project_row");
     if (new_project_exist != undefined)
       return
@@ -229,10 +228,8 @@ function saveProjectEvent(){
 
   var project_description = document.getElementById(EVENT_HOME_NEW_PROJ_DESC_ID).value;
 
-  console.log("Save clicked");
   var processProject = function(result)
   {
-      console.log("Project saved with id: " + result["id"]);
       var element = document.getElementById(NEW_PROJECT_ROW_ID).outerHTML = "";
       delete element;
       refreshProjects();
@@ -283,10 +280,8 @@ function postProjectRequest(url, data, callback){
 }
 
 function deleteProjectEvent(id){
-  console.log("Delete project " + id + " clicked.");
   var processProject = function(result)
   {
-        console.log("Project " + id + " deleted.");
         refreshProjects();
   }
   

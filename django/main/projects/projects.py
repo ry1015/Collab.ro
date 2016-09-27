@@ -82,9 +82,9 @@ def get_project_details(request, format=None):
     data["project_status"] = project.status
     data["project_desc"] = project.description
     data["tracks"] = []
-    data["tracks"] = getProjectTracks(user,project)
+    data["tracks"] = getProjectTracks(project)
     data["stems"] = []
-    data["stems"] = getProjectStems(user,project)
+    data["stems"] = getProjectStems(project)
 
     return Response(data, status=status.HTTP_200_OK)
 
@@ -92,8 +92,8 @@ def get_project_details(request, format=None):
 # user, the user
 # proj, the project
 # list_stems, all stems associated with the project
-def getProjectStems(user, proj):
-    stems = Stem.objects.filter(userID=user.id, projectID=proj.id)
+def getProjectStems(proj):
+    stems = Stem.objects.filter(projectID=proj.id)
     list_stems = []
     for stem in stems:
         tmp = {}
@@ -101,6 +101,8 @@ def getProjectStems(user, proj):
         tmp["category"] = stem.category
         tmp["status"] = stem.status
         tmp["filename"] = str(stem.filename)[2:]
+        tmp["owner"] = stem.userID.username
+        tmp["timestamp"] = stem.upload_date
         list_stems.append(tmp)
     return list_stems
 
@@ -108,15 +110,18 @@ def getProjectStems(user, proj):
 # user, the user
 # proj, the project
 # list_tracks, all tracks associated with the project
-def getProjectTracks(user, proj):
-    tracks = Track.objects.filter(userID=user.id, projectID=proj.id)
+def getProjectTracks(proj):
+    tracks = Track.objects.filter(projectID=proj.id)
     list_tracks = []
     for track in tracks:
         tmp = {}
+        tmp["id"] = track.id
         tmp["title"] = track.title
         tmp["genre"] = track.genre
         tmp["status"] = track.status
-        tmp["filename"] = str(track.filename)[2:]
+        tmp["filename"] = str(track.filename).split("/")[3]
+        tmp["owner"] = track.userID.username
+        tmp["timestamp"] = track.upload_date
         list_tracks.append(tmp)
     return list_tracks
 

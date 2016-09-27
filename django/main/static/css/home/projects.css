@@ -9,9 +9,22 @@
     opacity: 0;
     transition: opacity 0.2s ease-out;
 }
-.projectDetail, .projectDetail td{
+.projectDetail, .projectDetail td:not(.emptyCell){
     border: 1px solid black;
 }
+.projectDetail{
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+}
+.projectDetail td:not(.emptyCell){
+    width: 260px;
+}
+.trackOwners{
+    text-align: center;
+    width: 300px;
+}
+
 .projectDiv {
     border: 2px solid black;
     margin-left: auto;
