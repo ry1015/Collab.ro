@@ -4,7 +4,6 @@ var createTrackTable = function(result){
         return null;
     }
     var track_data = result;
-    
     var project_id = track_data[0]["proj_id"];
     var trackTable = document.getElementById(TRACK_TABLE_ID + project_id);
     
@@ -12,7 +11,7 @@ var createTrackTable = function(result){
         
         //Create single_track_table
         var single_track_table = document.createElement("table");
-        single_track_table.id = "track_" + track_data[i]["id"] + "_table";
+        single_track_table.id = "track_" + track_data[i]["proj_id"] + "_table";
         var header = single_track_table.createTHead();
         var row = header.insertRow();
         var cell = row.insertCell();
