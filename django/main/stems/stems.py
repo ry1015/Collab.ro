@@ -36,3 +36,38 @@ def upload_stem(request, format=None):
 	
     data = project.name
     return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def get_project_stems(request, format=None):
+    print("Retrieving Project Stems")
+    proj_id = request.POST.get("proj_id")
+
+    stems = Stem.objects.filter(projectID=proj_id).order_by('-upload_date')
+    if(len(stems) > 0):
+        data = []
+        for stem in stems:
+            data.append({"proj_id": proj_id, "stem_id": stem.id, "title": stem.title})
+    else:
+        print("NO STEMS FOUND")
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+    return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+def delete_stem(request, format=None):
+    print("DELETING STEM")
+    stem_id = request.POST.get("stem_id")
+
+    try:
+        stem = Stem.objects.get(id=stem_id)
+        stem.delete()
+    except:
+        return Response("Could Not Delete Stem.", status=status.HTTP_400_BAD_REQUEST)
+
+		
+    print ("END DELETE STEM")
+    print ("------------------------------------------------------------")
+    data = []
+    data.append(stem_id)
+    return Response(data, status=status.HTTP_200_OK)
+	

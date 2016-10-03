@@ -15,7 +15,8 @@ var NEW_STEM_TABLE_ID = "new_stem_table";
 var TRACK_TABLE_ID = "track_table_";
 var NEW_TRACK_ROW_ID = "new_track_row_";
 var NEW_TRACK_TABLE_ID = "new_track_table";
-var DELETE_TRACK_BUTTON_ID = "delete_track_button"
+var DELETE_TRACK_BUTTON_ID = "delete_track_button";
+var DELETE_STEM_BUTTON_ID = "delete_stem_button";
 var project_data;
 
 // Add click event when new_project id is clicked
@@ -226,10 +227,13 @@ var processProjectData = function(result)
         // cell.innerHTML = "Stem PlaceHolder";
         cell.appendChild(addStemButton);
         body = stemTable.createTBody();
-        //TODO: Load Stem List Here
-
-//        cell = projectRow.insertCell(1);
-//        cell.innerHTML = "<p>" + "Track Place Holder" + "</p>";
+		
+        //Load Stem List Here
+        
+        var url = "api/get_project_stems";
+        var formData = new FormData();
+        formData.append("proj_id", project_id);
+        var result = postFormRequest(url, formData, createStemTable);
     }
 
 }
