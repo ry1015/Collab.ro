@@ -1,7 +1,12 @@
 var PROJ_TRACKS = undefined;
+var PROJ_STEMS = undefined;
 
 function addProjectTrackEvent(node){
     node.onclick = getTrackOwners;
+}
+
+function addProjectStemEvent(node){
+    node.onclick = getStemOwners;
 }
 // Gets project id and info
 function getProjectId(){
@@ -9,6 +14,8 @@ function getProjectId(){
     var table_node = findTable(current);
     var project_id = table_node.id.split("_")[2];
     var processProjectId = function(results){
+        console.log("PROJECT PROCESS");
+        console.log(results);
         createProjectDetail(results);
     }
 
@@ -40,7 +47,7 @@ function createProjectDetail(proj){
     wrapper.appendChild(project_detail_table);
     body_div.appendChild(wrapper);
     createProjectDetailTracks(proj, project_detail_table);
-    createProjectDetialStems(proj, project_detail_table);
+    createProjectDetailStems(proj, project_detail_table);
 }
 
 function getUniqueTitles(list_obj){
@@ -82,10 +89,9 @@ function createProjectDetailTracks(proj, table){
         cell.appendChild(anchor);
         addProjectTrackEvent(anchor);
     }
-
 }
 
-function createProjectDetialStems(proj, table){
+function createProjectDetailStems(proj, table){
     var row = table.insertRow(table.rows.length);
     var cell = row.insertCell(0);
     cell.colSpan = "2";
@@ -93,12 +99,12 @@ function createProjectDetialStems(proj, table){
     var text = document.createTextNode("STEMS");
     bold.appendChild(text);
     cell.appendChild(bold);
-    var stems = proj.stems;
-    stems.sort(function(obj1,obj2){
+    PROJ_STEMS = proj.stems;
+    PROJ_STEMS.sort(function(obj1,obj2){
         return new Date(obj1.timestamp) < new Date(obj2.timestamp);
     });
 
-    var unique_titles = getUniqueTitles(stems);
+    var unique_titles = getUniqueTitles(PROJ_STEMS);
     var anchor = undefined;
 
     for (var i=0; i<unique_titles.length; ++i){
@@ -112,6 +118,7 @@ function createProjectDetialStems(proj, table){
         anchor.href = "#";
         anchor.appendChild(text);
         cell.appendChild(anchor);
+        addProjectStemEvent(anchor);
     }
 }
 
@@ -128,6 +135,18 @@ function getTrackOwners(){
     createTrackOwnerTable(owners);
 }
 
+function getStemOwners(){
+    var title = this.text;
+    var owners = [];
+    var obj = undefined;
+
+    for (var i=0; i<PROJ_STEMS.length; ++i){
+        obj = PROJ_STEMS[i];
+        if (obj.title == title)
+            owners.push(obj);
+    }
+    createStemOwnerTable(owners);
+}
 function createTrackOwnerTable(list_owners){
     var body = document.getElementById(BODY_DIV_ID).childNodes[0];
     var table = document.createElement("TABLE");
@@ -164,6 +183,41 @@ function createTrackOwnerTable(list_owners){
     body.appendChild(table);
 }
 
+function createStemOwnerTable(list_owners){
+    var body = document.getElementById(BODY_DIV_ID).childNodes[0];
+    var table = document.createElement("TABLE");
+    table.setAttribute("class", "projectDetail trackOwners");
+    var row = table.insertRow(table.rows.length);
+    var cell = row.insertCell(0);
+    var anchor = undefined;
+    var text = undefined;
+    var obj = undefined;
+    var bold = document.createElement("B");
+
+    if (body.childElementCount > 1){
+        var last_child = body.lastElementChild;
+        body.removeChild(last_child);
+    }
+
+    if (list_owners.length > 0){
+        text = document.createTextNode(list_owners[0].title + " Collaborators");
+        bold.appendChild(text);
+        cell.appendChild(bold);
+        cell.style.width = "300px";
+    }
+
+    for (var i=0; i<list_owners.length; ++i){
+        obj = list_owners[i];
+        row = table.insertRow(table.rows.length);
+        cell = row.insertCell(0);
+        anchor = document.createElement("A");
+        anchor.href = "#";
+        text = document.createTextNode(obj.owner);
+        anchor.appendChild(text);
+        cell.appendChild(anchor);
+    }
+    body.appendChild(table);
+}
 // Locates the parent table node
 // node, the current node
 // returns table node

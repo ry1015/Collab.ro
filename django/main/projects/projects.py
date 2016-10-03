@@ -119,6 +119,7 @@ def getProjectTracks(proj):
         tmp["title"] = track.title
         tmp["genre"] = track.genre
         tmp["status"] = track.status
+        print (track.filename)
         tmp["filename"] = str(track.filename).split("/")[3]
         tmp["owner"] = track.userID.username
         tmp["timestamp"] = track.upload_date

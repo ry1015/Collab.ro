@@ -116,7 +116,7 @@ class Track(models.Model):
         return preview
 
 def uploadStemTo(instance, filename):
-    return 'stems/%s/%s' % (instance.projectID.id, instance.userID.id,filename)
+    return 'stems/%s/%s/%s' % (instance.projectID.id, instance.userID.id,filename)
     
 # User Project Stems
 class Stem(models.Model):
@@ -125,7 +125,7 @@ class Stem(models.Model):
     title = models.CharField(max_length=200)
     category = models.CharField(max_length=200)
     status = models.CharField(max_length=7, default="private")
-    filename = models.FileField(max_length=200, blank=True)
+    filename = models.FileField(max_length=200, blank=True, upload_to=uploadStemTo)
     upload_date = models.DateTimeField(default=timezone.now)
 	
     def __str__(self):
