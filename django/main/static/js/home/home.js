@@ -189,11 +189,7 @@ var processProjectData = function(result)
         body = trackTable.createTBody();
         
         //Load Track List Here
-        
-        var url = "api/get_project_tracks";
-        var formData = new FormData();
-        formData.append("proj_id", project_id);
-        var result = postFormRequest(url, formData, createTrackTable);
+        createTrackTableEvent(project_id); //event-track.js
         
         //Create Stem Table
         var stemTable = document.createElement("table");

@@ -1,4 +1,11 @@
 //Creates track table using the result of api/get_project_tracks
+function createTrackTableEvent(project_id){
+    var url = "api/get_project_tracks";
+    var formData = new FormData();
+    formData.append("proj_id", project_id);
+    var result = postFormRequest(url, formData, createTrackTable);
+}
+
 var createTrackTable = function(result){
     if(result == null){
         return null;
