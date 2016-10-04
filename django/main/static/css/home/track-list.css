@@ -10,3 +10,11 @@
 .track-comment:hover{
     cursor: pointer;
 }
+
+.track-play{
+    width: 25px;
+}
+
+.track-play:hover{
+    cursor: pointer;
+}

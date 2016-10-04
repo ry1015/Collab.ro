@@ -6,6 +6,16 @@ function createTrackTableEvent(project_id){
     var result = postFormRequest(url, formData, createTrackTable);
 }
 
+function toggleTrackPlayPauseEvent(button){
+    if(button.state === 0){
+        button.state = 1;
+        button.src = "media/pause.png?random="+new Date().getTime(); //for some reason this doesn't refresh without the  getTime() call
+    }else{
+        button.state = 0;
+        button.src = "media/play.png?random="+new Date().getTime();
+    }
+}
+
 var createTrackTable = function(result){
     if(result == null){
         return null;
@@ -27,6 +37,24 @@ var createTrackTable = function(result){
         b.appendChild(text);
         cell.appendChild(b);
         
+        //Create play/pause button
+        cell = row.insertCell();
+        var playPauseButton = document.createElement("img");
+        playPauseButton.className = "track-play";
+        playPauseButton.src = "media/play.png";
+        playPauseButton.value = track_data[i]["proj_id"];
+        playPauseButton.state = 0;
+        playPauseButton.addEventListener('click', function() {toggleTrackPlayPauseEvent(this)}, false);
+        cell.appendChild(playPauseButton);
+        
+        //Create track comment button
+        cell = row.insertCell();
+        var commentButton = document.createElement("img");
+        commentButton.className = "track-comment";
+        commentButton.src = "media/comment.png";
+        cell.appendChild(commentButton);
+        
+        //Create track delete button
         var deleteTrackButton = document.createElement("button");
         deleteTrackButton.id = DELETE_TRACK_BUTTON_ID;
         deleteTrackButton.value = track_data[i]["track_id"];
