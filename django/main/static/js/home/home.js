@@ -15,7 +15,8 @@ var NEW_STEM_TABLE_ID = "new_stem_table";
 var TRACK_TABLE_ID = "track_table_";
 var NEW_TRACK_ROW_ID = "new_track_row_";
 var NEW_TRACK_TABLE_ID = "new_track_table";
-var DELETE_TRACK_BUTTON_ID = "delete_track_button"
+var DELETE_TRACK_BUTTON_ID = "delete_track_button";
+var DELETE_STEM_BUTTON_ID = "delete_stem_button";
 var project_data;
 
 // Add click event when new_project id is clicked
@@ -131,6 +132,10 @@ var processProjectData = function(result)
         projects_table_body.deleteRow(0);
     }
 
+    var bold_node = undefined;
+    var text_node = undefined;
+    var anchor_node = undefined;
+
     for (i = 0; i < project_data.length; i++){
         projectRow = projects_table_body.insertRow();
         var project_id = project_data[i]["id"]; //copied over from update_project_html branch
@@ -148,7 +153,15 @@ var processProjectData = function(result)
         var header = project_table.createTHead();
         var row = header.insertRow();
         cell = row.insertCell(0);
-        cell.innerHTML = "<b>" + project_data[i]["name"] + "</b>";
+        anchor_node = document.createElement("A");
+        anchor_node.href="#";
+        bold_node = document.createElement("B");
+        text = document.createTextNode(project_data[i]["name"]);
+        bold_node.appendChild(text);
+        bold_node.onclick = getProjectId; //event-project-detail.js
+        anchor_node.appendChild(bold_node);
+        cell.appendChild(anchor_node);
+        // cell.innerHTML = "<b>" + project_data[i]["name"] + "</b>";
         
         //Create Delete Button
         var deleteButton = document.createElement("button");
@@ -210,11 +223,15 @@ var processProjectData = function(result)
         // cell.innerHTML = "Stem PlaceHolder";
         cell.appendChild(addStemButton);
         body = stemTable.createTBody();
-        //TODO: Load Stem List Here
-
-//        cell = projectRow.insertCell(1);
-//        cell.innerHTML = "<p>" + "Track Place Holder" + "</p>";
+		
+        //Load Stem List Here
+        
+        var url = "api/get_project_stems";
+        var formData = new FormData();
+        formData.append("proj_id", project_id);
+        var result = postFormRequest(url, formData, createStemTable);
     }
+
 }
 
 var refreshProjects = function(args){
