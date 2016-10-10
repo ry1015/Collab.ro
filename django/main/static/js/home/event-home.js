@@ -1,19 +1,42 @@
 var EVENT_HOME_NEW_PROJ_DESC_ID = "new_proj_desc";
 
+// Change project status
+function changeProjectStatus(){
+    var parent = getTable(this);
+    var private = "PRIVATE";
+    var public = "PUBLIC";
+    var child = this.childNodes[0];
+    var id = parent.id.split("_")[2];
+    var processProjectStatus = function(result){
+        if (child.textContent == public)
+            child.data = private;
+        else
+            child.data = public;
+    }
+
+    var url = "api/change-project-status";
+    var formData = new FormData();
+    formData.append("projectID", id);
+    postFormRequest(url, formData, processProjectStatus);
+}
+
+// Get parent table node
+// node, the current node
+// @return, the table node
+function getTable(node){
+    var current = node;
+    while(current.tagName != "TABLE"){
+        current = current.parentNode;
+    }
+    return current;
+}
+
 // Add new project
 function newProjectEvent(){
     var new_project_exist = document.getElementById("new_project_row");
     if (new_project_exist != undefined)
-      return
+        return
     var project_table = document.getElementById(PROJECT_TABLE_ID).getElementsByTagName('tbody')[0];
-     
-    // row = new_project_table.insertRow(new_project_table.rows.length);
-    // cell = row.insertCell(0);
-    // cell.innerHTML = "<input placeholder='UPLOAD TRACK'>";
-
-    // row = new_project_table.insertRow(new_project_table.rows.length);
-    // cell = row.insertCell(0);
-    // cell.innerHTML = "<input placeholder='UPLOAD STEM'>";
 
     var row = project_table.insertRow(0);
     row.className = "projectRow"; //copied over from update_project_html branch
@@ -249,16 +272,7 @@ function saveProjectEvent(){
   formData.append("stem_filename", project_stem_filename.files[0]);
   formData.append("description", project_description);
 
-    /* var data = 
-    {
-        "username": username,
-        "project_name": document.getElementById("project_name_field").value
-    };
-    
-    data = JSON.stringify(data); */
-    
-    
-    postProjectRequest(url, formData, processProject);
+  postProjectRequest(url, formData, processProject);
 }
 
 // Post Request used with form data

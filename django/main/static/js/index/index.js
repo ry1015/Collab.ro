@@ -6,12 +6,13 @@ window.onload = function()
     var session_found = false;
     var current_user;
 
-    checkSession(processSession);
+    checkSession(processSession); //event-index.js
 }
 
 // Process Session
 function processSession(result){
     console.log("PROCESS SESSION");
+
     if (!(result["user"] == undefined)){
         current_user = result;
         showHome(current_user);

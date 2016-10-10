@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^api/add_project', projects.add_project),
     url(r'^api/get_projects', projects.get_projects),
     url(r'^api/delete_project', projects.delete_project),
+    url(r'^api/change-project-status', projects.change_project_status),
     url(r'^api/get-search-results', search.get_user_input_results),
     url(r'^api/session', views.session),
     url(r'^api/logout', views.logout),

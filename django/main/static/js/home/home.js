@@ -24,6 +24,10 @@ function addProjectButtonEventListener(){
     document.getElementById(NEW_PROJECT_ID).addEventListener('click', newProjectEvent, false); //event-home.js
 }
 
+function projectStatusEventListener(node){
+    node.onclick = changeProjectStatus;
+}
+
 // Creates Current Uploaded Tracks of A User
 // user, current user
 function createCurrentTracks(user){
@@ -135,6 +139,7 @@ var processProjectData = function(result)
     var bold_node = undefined;
     var text_node = undefined;
     var anchor_node = undefined;
+    var text = undefined;
 
     for (i = 0; i < project_data.length; i++){
         projectRow = projects_table_body.insertRow();
@@ -172,7 +177,20 @@ var processProjectData = function(result)
         var span = document.createElement("SPAN");
         span.appendChild(deleteButton);
         cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
-                
+
+        //Create Public/Private Button
+        var div = document.createElement("DIV");
+        span = document.createElement("SPAN");
+        span.style.fontSize="10px";
+        span.style.paddingRight="3px";
+        text = document.createTextNode(project_data[i].status.toUpperCase());
+        span.appendChild(text);
+        projectStatusEventListener(span);
+        div.appendChild(span);
+        div.style.display="inline-block";
+        div.style.float="right";
+        cell.appendChild(div);
+
         //Create Project Table Body
         var body = project_table.createTBody();
         row = body.insertRow();

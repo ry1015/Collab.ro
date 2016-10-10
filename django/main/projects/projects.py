@@ -10,13 +10,6 @@ import json
 
 @api_view(['POST'])
 def add_project(request, format=None):
-    print ("Adding Project")
-    print (request.POST.get("description"))
-    # print (request.body)
-    # data = json.loads(request.body.decode("utf-8"))
-    # print (data)
-    # username = data["username"]
-    # project_name = data["project_name"]
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
     genre = request.POST.get("genre")
@@ -59,12 +52,6 @@ def add_project(request, format=None):
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
-    print ("------------------------------------------------------------")
-    print ("START GET PROJECT DETAILS")
-    print (request.POST)
-
-    print ("------------------------------------------------------------")
-
     username = request.POST.get("username")
     project_id = request.POST.get("project_id")
 
@@ -128,8 +115,6 @@ def getProjectTracks(proj):
 
 @api_view(['POST'])
 def get_projects(request, format=None):
-    print ("------------------------------------------------------------")
-    print ("START GET PROJECTS")
     data = json.loads(request.body.decode("utf-8"))
     username = data["username"]
     
@@ -142,18 +127,13 @@ def get_projects(request, format=None):
     if(len(projects) > 0):
         data = []
         for project in projects:
-            data.append({"id":project.id, "name":project.name})
+            data.append({"id":project.id, "name":project.name, "status":project.status})
     else:
         print ("NO PROJECTS")
-    print(data)
-    print ("END GET PROJECTS")
-    print ("------------------------------------------------------------")
     return Response(data, status=status.HTTP_200_OK)
     
 @api_view(['DELETE'])
 def delete_project(request, format=None):
-    print ("------------------------------------------------------------")
-    print ("START DELETE PROJECT")
     data = json.loads(request.body.decode("utf-8"))
     id = data["id"]
     
@@ -162,9 +142,22 @@ def delete_project(request, format=None):
         project.delete()
     except:
         return Response("Could Not Delete Project.", status=status.HTTP_400_BAD_REQUEST)
-    
-    
-    print ("END DELETE PROJECT")
-    print ("------------------------------------------------------------")
+
     return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def change_project_status(request, format=None):
+    data = {}
+    id = request.POST.get("projectID")
+    try:
+        project = Project.objects.get(id=id)
+    except:
+        return Response("Project Does Not Exist.", status=status.HTTP_400_BAD_REQUEST)
     
+    if (project.status.upper() == "PUBLIC"):
+        project.status = "private"
+    else:
+        project.status = "public"
+    
+    project.save()
+    return Response(data, status=status.HTTP_200_OK)
