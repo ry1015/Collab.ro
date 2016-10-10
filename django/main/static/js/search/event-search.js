@@ -51,12 +51,13 @@ function showSearchResults(results){
     var child = document.createElement("div");
     child.id = "search-results-div";
     var table = document.createElement("table");
-    table.id = "search-resutls-table";
+    table.id = "search-results-table";
     var row = "";
     var cell = "";
     var div = "";
     var elem = "";
     var text = "";
+    // loop users
     for (var i=0; i<results["exact_projects"].length; ++i){
         row = table.insertRow(table.rows.length);
         cell = row.insertCell(0)
