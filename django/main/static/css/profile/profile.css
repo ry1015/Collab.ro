@@ -10,7 +10,9 @@
 .empty_row{
     height: 12px;
 }
-
+#delete_profile:hover{
+    cursor: pointer;
+}
 #div-user-profile {
     margin-top: 30px;
 }

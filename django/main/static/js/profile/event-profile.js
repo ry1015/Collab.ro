@@ -138,3 +138,9 @@ function updateEvent(){
 
     updateUserProfile(data);
 }
+
+// Delete User Profile
+// Called by navigation.js
+function deleteProfile(){
+    console.log("USER WOULD LIKE TO DELETE ACCOUNT");
+}

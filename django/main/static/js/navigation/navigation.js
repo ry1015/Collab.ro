@@ -1,4 +1,5 @@
 var nav_links = ["Home", "Profile", "Search", "Logout"];
+var DELETE_PROFILE_ID = "delete_profile";
 
 // Adds event listener to the navigation options
 function addNavigationEventListener()
@@ -8,6 +9,10 @@ function addNavigationEventListener()
     document.getElementById("Search").addEventListener('click', openSearchPage, false);
     document.getElementById("Logout").addEventListener('click', logOutUser, false);
     document.getElementById("search_input").addEventListener('keyup', lookUpInput, false);
+}
+
+function addDeleteProfileEventListener(node){
+    node.onclick = deleteProfile; //event-profile.js
 }
 
 // Creates the navigation bar
@@ -49,21 +54,18 @@ function openProfilePage()
     var info = document.createElement("table");
     info.id = "table-user-profile";
     info.style.border = "1px dashed black";
-    info.createCaption();
-    info.innerHTML = "<b>Profile</b>";
+    var row = info.insertRow(info.rows.length);
+    var cell = row.insertCell(0);
+    var b = document.createElement("B");
+    var text = document.createTextNode("Profile");
+    b.appendChild(text);
+    cell.appendChild(b);
+    createDeleteAccountButton(cell);
     createProfile(info); //profile.js
     profile.appendChild(info);
     body_div.appendChild(profile);
     document.getElementById("biography").value = current_user.profile["biography"];
     
-    // Table 2
-    // address, phone_number
-    // info = document.createElement("table");
-    // info.id = "table-user-info";
-    // info.style.border = "1px dashed black";
-    // info.style.marginTop = "10px";
-    // info.createCaption();
-    // info.innerHTML = "<b>Contact Information</b>";
     createInfo(info); //profile.js
     createProfileUpdateButton(info); //profile.js
     profile.appendChild(info);
@@ -74,6 +76,21 @@ function openProfilePage()
     deleteSocialNetworkEventListener(); //profile.js
 }
 
+function createDeleteAccountButton(node){
+    node.colSpan = "2";
+    var div = document.createElement("DIV");
+    div.style.display = "inline-block";
+    div.style.float = "right";
+    var span = document.createElement("SPAN");
+    span.style.fontSize = "10px";
+    span.style.float = "right";
+    span.id = DELETE_PROFILE_ID;
+    addDeleteProfileEventListener(span);
+    var text = document.createTextNode("DELETE");
+    span.appendChild(text);
+    div.appendChild(span);
+    node.appendChild(div);
+}
 // Creates the user home page
 function openHomePage()
 {
