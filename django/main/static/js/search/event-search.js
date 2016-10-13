@@ -10,6 +10,9 @@ function addSearchEventListener(){
     document.addEventListener('click', traceSearchClick, false);
 }
 
+function addDivEventListener(node){
+    node.onclick = createView; //view_user.js
+}
 // Look up user search input and add a delay after each keyup
 function lookUpInput(){
     var user_input = document.getElementById(SEARCH_INPUT_ID).value;
@@ -66,6 +69,7 @@ function showSearchResults(results){
         text = document.createTextNode(results["exact_projects"][i]["artist"] + " - " + results["exact_projects"][i]["title"]);
         div.setAttribute("u", results["exact_projects"][i]["artist"]);
         div.setAttribute("t", results["exact_projects"][i]["title"]);
+        addDivEventListener(div);
         div.appendChild(text);
         cell.appendChild(div);
     }

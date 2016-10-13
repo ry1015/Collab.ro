@@ -13,7 +13,7 @@ class Project (models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        preview = str(self.id) + " (Project Owner: " + str(self.userID) + ") " + str(self.name)
+        preview = str(self.id) + " (Project Owner: " + str(self.userID) + ") (Status: " + str(self.status) + ") " +str(self.name)
         return preview
 
 # Music table
