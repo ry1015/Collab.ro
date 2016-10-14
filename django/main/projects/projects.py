@@ -12,43 +12,84 @@ import json
 def add_project(request, format=None):
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
-    genre = request.POST.get("genre")
+    project_status = request.POST.get("project_status")
+    project_description = request.POST.get("project_description")
+    track_title = request.POST.get("track_title")
+    track_genre = request.POST.get("track_genre")
     track_status = request.POST.get("track_status")
-    track_name = request.POST.get("track_name")
     track_filename = request.FILES.get("track_filename")
-    stem_name = request.POST.get("stem_name")
-    category = request.POST.get("category")
+    stem_title = request.POST.get("stem_title")
+    stem_category = request.POST.get("stem_category")
     stem_status = request.POST.get("stem_status")
     stem_filename = request.FILES.get("stem_filename")
-    description = request.POST.get("description")
-
+	
     try:
         user = User.objects.get(username=username)
     except:
         return Response("Add Project Error. Username Does Not Exist.")
-    
-    try:
-        project = Project.objects.get(userID=user, name=project_name)
-    except:
+
+    if(project_name != ""):
         try:
-            new_project = Project.objects.create(userID=user, name=project_name, description=description)
+            project = Project.objects.get(userID=user, name=project_name)
         except:
-            return Response("Project Error. Cannot Create New Project")
-        try:
-            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_name, category=category, status=stem_status, filename=stem_filename)
-        except:
-            return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
-        new_stem.save()
-        try:
-            new_track = Track.objects.create(userID=user, projectID=new_project, title=track_name, genre=genre, status=track_status, filename=track_filename)
-        except:
-            return Response("Upload Track Error. Cannot upload track.", status=status.HTTP_400_BAD_REQUEST)
-        new_track.save()
-        data = {'id': new_project.id}
-        return Response(data, status=status.HTTP_200_OK)
-    
-    if (project):
-        return Response("Project Already Exists!", status=status.HTTP_400_BAD_REQUEST)
+            if(project_status != ""):
+                try:
+                    new_project = Project.objects.create(userID=user, name=project_name, status=project_status, description=project_description)
+                except:
+                    return Response("Project Error. Cannot create new project.", status=status.HTTP_400_BAD_REQUEST)
+                new_project.save()
+            else:
+                try:
+                    new_project = Project.objects.create(userID=user, name=project_name, description=project_description)
+                except:
+                    return Response("Project Error. Cannot create new project.", status=status.HTTP_400_BAD_REQUEST)
+                new_project.save()
+
+            if(track_title != ""):
+                if(track_filename != ""):
+                    if(track_status != ""):					
+                        try:
+                            new_track = Track.objects.create(userID=user, projectID=new_project, title=track_title, genre=track_genre, status=track_status, filename=track_filename)
+                        except:
+                            return Response("Track Error. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
+                            new_track.save()
+                    else:
+                        try:
+                            new_track = Track.objects.create(userID=user, projectID=new_project, title=track_title, genre=track_genre, filename=track_filename)
+                        except:
+                            return Response("Track Error. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
+                            new_track.save()
+                else:
+                    return Response("Missing track filename.", status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response("Missing track title.", status=status.HTTP_400_BAD_REQUEST)
+
+            if(stem_title != ""):
+                if(stem_filename != ""):
+                    if(stem_status != ""):
+                        try:
+                            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_title, category=stem_category, status=stem_status, filename=stem_filename)
+                        except:
+                            return Response("Stem Error. Cannot Create New Project Stem.", status=status.HTTP_400_BAD_REQUEST)
+                        new_stem.save()
+                    else:
+                        try:
+                            new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_title, category=stem_category, filename=stem_filename)
+                        except:
+                            return Response("Stem Error. Cannot Create New Project Stem.", status=status.HTTP_400_BAD_REQUEST)
+                        new_stem.save()
+                else:
+                    return Response("Missing stem filename.", status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response("Missing stem title.", status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({}, status=status.HTTP_200_OK)
+
+        if(project):
+            return Response("Project Already Exists!", status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        return Response("Missing Project Name.", status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
@@ -87,7 +128,8 @@ def getProjectStems(proj):
         tmp["title"] = stem.title
         tmp["category"] = stem.category
         tmp["status"] = stem.status
-        tmp["filename"] = str(stem.filename)[2:]
+        print (track.filename)
+        tmp["filename"] = str(stem.filename).split("/")[3]
         tmp["owner"] = stem.userID.username
         tmp["timestamp"] = stem.upload_date
         list_stems.append(tmp)

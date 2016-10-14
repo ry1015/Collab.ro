@@ -5,7 +5,7 @@ var createStemTable = function(result){
     var stem_data = result;
     var project_id = stem_data[0]["proj_id"];
     var stemTable = document.getElementById(STEM_TABLE_ID + project_id);
-    
+
     for(i = 0; i < stem_data.length; i++){
         
         //Create single_stem_table
@@ -43,9 +43,9 @@ function addNewStemEvent(button_id) {
     var proj_id = button_id.replace("add_stem_", "");
     var stem_table_body= document.getElementById(STEM_TABLE_ID + proj_id).getElementsByTagName('tbody')[0];
     if(stem_table_body.hasChildNodes()) {
-        stem_table_body.innerHTML = "";	
-    }	
-	
+        stem_table_body.innerHTML = "";
+    }
+
     // NEW STEM TABLE
     var row = stem_table_body.insertRow(0);
     row.id = NEW_STEM_ROW_ID + proj_id;
@@ -54,8 +54,9 @@ function addNewStemEvent(button_id) {
     new_stem_table.id = "new_stem_table_" + proj_id;
     new_stem_table.className = NEW_STEM_TABLE_ID;
     cell.appendChild(new_stem_table);
-    
+
     row = new_stem_table.insertRow(new_stem_table.rows.length);
+	row.id = "stem_title_row_" + proj_id;
     cell = row.insertCell(0);
     text = document.createTextNode("STEMS");
     cell.appendChild(text);
@@ -67,6 +68,7 @@ function addNewStemEvent(button_id) {
     cell.appendChild(input);
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
+	row.id = "stem_category_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
 
@@ -78,32 +80,36 @@ function addNewStemEvent(button_id) {
                         "<option value='guitar'>Guitar"+
                         "<option value='producer'>Producer"+
                         "<option value='vocal'>Vocal";
-    
+
     row = new_stem_table.insertRow(new_stem_table.rows.length);
+    row.id = "stem_status_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
-	
+
     cell = row.insertCell(1);
     var stemStatusId = "stem_status_" + proj_id;
     cell.innerHTML = "<select id='"+stemStatusId+"'>"+
                         "<option selected disabled>Status</option>"+
-						"<option value='public'>Public"+
+                        "<option value='public'>Public"+
                         "<option value='private'>Private";
-						
+
     row = new_stem_table.insertRow(new_stem_table.rows.length);
+	row.id = "stem_file_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
     var stemUploadId = "stem_upload_" + proj_id;
     cell.innerHTML = "<input id='"+stemUploadId+"' type='file'>";
-	
+
     // Extra spacing
     row = new_stem_table.insertRow(new_stem_table.rows.length);
+	row.id = "empty_stem_row_" + proj_id;
     cell = row.insertCell(0);
     cell.setAttribute("class", "empty_cell");
-	
+
     // Stem Save Button
     row = new_stem_table.insertRow(new_stem_table.rows.length);
+	row.id = "stem_user_action_row_" + proj_id;
     cell = row.insertCell(0);
     var saveButton = document.createElement("BUTTON");
     saveButton.id = "stem_save_button_" + proj_id;
@@ -111,7 +117,7 @@ function addNewStemEvent(button_id) {
     saveButton.innerHTML = "SAVE";
     saveButton.addEventListener('click', function() { saveStemEvent(this.value); }, false);
     cell.appendChild(saveButton);
-	
+
     // Stem Cancel Button
     cell = row.insertCell(1);
     var cancelButton = document.createElement("BUTTON");
@@ -143,30 +149,40 @@ function saveStemEvent(proj_id){
     if(selectedStemStatus == "Status") {
         selectedStemStatus = "";
     }
-    var stem_name_id = "stem_title_" + proj_id;
-    var stem_name = document.getElementById(stem_name_id).value;
+    var stemTitleId = "stem_title_" + proj_id;
+    var stemTitle = document.getElementById(stemTitleId).value;
     var stemFilenameId = "stem_upload_" + proj_id;
     var stemFilename = document.getElementById(stemFilenameId);
-    console.log("Save clicked");
-	
+
+	var stemData = {};
+
+    stemData["project_id"] = proj_id;
+    stemData["stem_title"] = stemTitle;
+    stemData["selected_stem_category"] = selectedStemCategory;
+    stemData["selected_stem_status"] = selectedStemStatus;
+    stemData["stem_filename"] = stemFilename.value;
+
     var processStem = function(result)
     {
-        console.log("Saved stem " + stem_name + " to "  + result);
         var stem_table_body = document.getElementById(STEM_TABLE_ID + proj_id).getElementsByTagName('tbody')[0];
         stem_table_body.deleteRow(0);
         refreshProjects();
     }
-	
-    var url = "api/upload_stem";
+
     var formData = new FormData();
     formData.append("username", username);
     formData.append("category", selectedStemCategory);
     formData.append("stem_status", selectedStemStatus);
-    formData.append("stem_name", stem_name);
+    formData.append("stem_title", stemTitle);
     formData.append("proj_id", proj_id);
     formData.append("filename", stemFilename.files[0]);
-    
-    postFormRequest(url, formData, processStem);
+
+    var valid_form = checkNewStem(stemData);
+
+    if(valid_form) {
+        var url = "api/upload_stem";
+        postFormRequest(url, formData, processStem);
+    }
 }
 
 function deleteStemEvent(stem_id){

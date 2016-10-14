@@ -91,6 +91,7 @@ function addNewTrackEvent(button_id) {
     cell.appendChild(new_track_table);
     
     row = new_track_table.insertRow(new_track_table.rows.length);
+    row.id = "track_title_row_" + proj_id;
     cell = row.insertCell(0);
     text = document.createTextNode("TRACKS");
     cell.appendChild(text);
@@ -102,6 +103,7 @@ function addNewTrackEvent(button_id) {
     cell.appendChild(input);
 
     row = new_track_table.insertRow(new_track_table.rows.length);
+    row.id = "track_genre_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
 
@@ -115,6 +117,7 @@ function addNewTrackEvent(button_id) {
                         "<option value='rap'>Rap";
     
     row = new_track_table.insertRow(new_track_table.rows.length);
+    row.id = "track_status_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
     
@@ -126,6 +129,7 @@ function addNewTrackEvent(button_id) {
                         "<option value='private'>Private";
                         
     row = new_track_table.insertRow(new_track_table.rows.length);
+    row.id = "track_file_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
@@ -134,11 +138,13 @@ function addNewTrackEvent(button_id) {
     
     // Extra spacing
     row = new_track_table.insertRow(new_track_table.rows.length);
+    row.id = "empty_track_row_" + proj_id;
     cell = row.insertCell(0);
     cell.setAttribute("class", "empty_cell");
     
     // Track Save Button
     row = new_track_table.insertRow(new_track_table.rows.length);
+    row.id = "track_user_action_row_" + proj_id;
     cell = row.insertCell(0);
     var saveButton = document.createElement("BUTTON");
     saveButton.id = "track_save_button_" + proj_id;
@@ -175,11 +181,22 @@ function saveTrackEvent(proj_id){
     var trackStatus = document.getElementById(trackStatusId);
     var selectedTrackStatusIndex = trackStatus.selectedIndex;
     var selectedTrackStatus = trackStatus.options[selectedTrackStatusIndex].value;
-    var track_name_id = "track_title_" + proj_id;
-    var track_name = document.getElementById(track_name_id).value;
+    if(selectedTrackStatus == "Status") {
+        selectedTrackStatus = "";
+    }
+    var trackTitleId = "track_title_" + proj_id;
+    var trackTitle = document.getElementById(trackTitleId).value;
     var trackFilenameId = "track_upload_" + proj_id;
     var trackFilename = document.getElementById(trackFilenameId);
-    
+
+    var trackData = {};
+
+    trackData["project_id"] = proj_id;
+    trackData["track_title"] = trackTitle;
+    trackData["selected_track_genre"] = selectedTrackGenre;
+    trackData["selected_track_status"] = selectedTrackStatus;
+    trackData["track_filename"] = trackFilename.value;
+
     var processTrack = function(result)
     {
         var track_table_body = document.getElementById(TRACK_TABLE_ID + proj_id).getElementsByTagName('tbody')[0];
@@ -187,16 +204,21 @@ function saveTrackEvent(proj_id){
         refreshProjects();
     }
     
-    var url = "api/upload_track";
+    //var url = "api/upload_track";
     var formData = new FormData();
     formData.append("username", username);
     formData.append("genre", selectedTrackGenre);
     formData.append("track_status", selectedTrackStatus);
-    formData.append("track_name", track_name);
+    formData.append("track_title", trackTitle);
     formData.append("proj_id", proj_id);
     formData.append("filename", trackFilename.files[0]);
-    
-    postFormRequest(url, formData, processTrack);
+
+    var valid_form = checkNewTrack(trackData);
+
+    if(valid_form) {
+        var url = "api/upload_track";
+        postFormRequest(url, formData, processTrack);
+    }
 }
 
 function deleteTrackEvent(track_id){
