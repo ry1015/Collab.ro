@@ -123,12 +123,12 @@ def get_project_details(request, format=None):
 def getProjectStems(proj):
     stems = Stem.objects.filter(projectID=proj.id)
     list_stems = []
+    print(stems)
     for stem in stems:
         tmp = {}
         tmp["title"] = stem.title
         tmp["category"] = stem.category
         tmp["status"] = stem.status
-        print (track.filename)
         tmp["filename"] = str(stem.filename).split("/")[3]
         tmp["owner"] = stem.userID.username
         tmp["timestamp"] = stem.upload_date
