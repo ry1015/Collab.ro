@@ -53,15 +53,18 @@ def get_project_stems(request, format=None):
     print("Retrieving Project Stems")
     proj_id = request.POST.get("proj_id")
 
-    stems = Stem.objects.filter(projectID=proj_id).order_by('-upload_date')
+    stems = Stem.objects.filter(projectID=proj_id).order_by('-title', '-upload_date')
     if(len(stems) > 0):
         data = []
+        stem_title_found = []
         for stem in stems:
-            data.append({"proj_id": proj_id, "stem_id": stem.id, "title": stem.title})
+            if(stem.title not in stem_title_found):
+                data.append({"proj_id": proj_id, "user_id": str(stem.userID), "stem_id": stem.id, "title": stem.title})
+                stem_title_found.append(stem.title)
     else:
         print("NO STEMS FOUND")
         return Response(None, status=status.HTTP_204_NO_CONTENT)
-
+		
     return Response(data, status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
