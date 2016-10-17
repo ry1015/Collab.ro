@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^api/upload_stem', stems.upload_stem),
     url(r'^api/upload_track', tracks.upload_track),
     url(r'^api/get_project_tracks', tracks.get_project_tracks),
+    url(r'api/get_track', tracks.get_track),
     url(r'^api/delete_track', tracks.delete_track),
     url(r'^api/get-project-details', projects.get_project_details),
     url(r'^api/get_project_stems', stems.get_project_stems),

@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Track
 import json
+import os
+
 
 @api_view(['POST'])
 def upload_track(request, format=None):
@@ -63,6 +65,21 @@ def get_project_tracks(request, format=None):
         return Response(None, status=status.HTTP_204_NO_CONTENT)
     
     return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def get_track(request, format=None):
+    track_id = request.POST.get("track_id")
+    
+    track = Track.objects.filter(id=track_id)
+    if(len(track) > 0):
+        fileobject = track[0].filename
+        filename = os.path.basename(fileobject.file.name)
+        data = "media/tracks/"+ str(track[0].projectID.id) + "/" + str(track[0].userID.id) + "/" + filename;
+        response = Response(data, status=status.HTTP_200_OK)
+        return response
+    else:
+        print("NO TRACK FOUND")
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['DELETE'])
 def delete_track(request, format=None):

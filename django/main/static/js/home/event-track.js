@@ -7,13 +7,37 @@ function createTrackTableEvent(project_id){
 }
 
 function toggleTrackPlayPauseEvent(button){
-    if(button.state === 0){
-        button.state = 1;
-        button.src = "media/pause.png?random="+new Date().getTime(); //for some reason this doesn't refresh without the  getTime() call
-    }else{
-        button.state = 0;
-        button.src = "media/play.png?random="+new Date().getTime();
+    var url = "api/get_track";
+    var formData = new FormData();
+    formData.append("track_id", button.value);
+    var audio = document.getElementById("audio_" + button.value);
+    
+    var saveTrackFile = function(result){
+            var track_filepath = result;
+            console.log(track_filepath);
+            audio.src = track_filepath;    
     }
+    
+    if(button.getAttribute('data-state') == -1){
+        console.log("null");
+        postFormRequest(url, formData, saveTrackFile);
+    }
+    
+    if(button.getAttribute('data-state') == 0 || button.getAttribute('data-state') == -1){ //Is paused, (Showing play button)
+        button.setAttribute('data-state', 1); //Play track, set to pause button
+        button.src = "media/pause.png?random="+new Date().getTime(); //for some reason this doesn't refresh without the  getTime() call
+        audio.currentTime = audio.getAttribute('data-position');
+        audio.play();
+        
+    }else{ //Is playing, (showing pause button)
+        button.setAttribute('data-state', 0); //Pause track, set to play button
+        button.src = "media/play.png?random="+new Date().getTime();
+        audio.setAttribute('data-position', audio.currentTime);
+        audio.pause();
+    }
+    
+    
+    
 }
 
 var createTrackTable = function(result){
@@ -37,13 +61,20 @@ var createTrackTable = function(result){
         b.appendChild(text);
         cell.appendChild(b);
         
+        //Create audio element
+        cell = row.insertCell();
+        var audio = document.createElement("audio");
+        audio.id = "audio_" + track_data[i]["track_id"];
+        audio.setAttribute('data-position', 0);
+        cell.appendChild(audio);
+        
         //Create play/pause button
         cell = row.insertCell();
         var playPauseButton = document.createElement("img");
         playPauseButton.className = "track-play";
         playPauseButton.src = "media/play.png";
-        playPauseButton.value = track_data[i]["proj_id"];
-        playPauseButton.state = 0;
+        playPauseButton.value = track_data[i]["track_id"];
+        playPauseButton.setAttribute('data-state', -1);
         playPauseButton.addEventListener('click', function() {toggleTrackPlayPauseEvent(this)}, false);
         cell.appendChild(playPauseButton);
         
