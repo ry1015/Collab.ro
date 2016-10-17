@@ -46,6 +46,7 @@ function createProjectSection(body, project){
     wrapper.appendChild(title_div);
 
     addTrackSection(wrapper, project);
+    addStemSection(wrapper, project);
     body.appendChild(wrapper);
 }
 
@@ -88,4 +89,45 @@ function addTrackSection(parent, project){
     }
 
     parent.appendChild(track_wrapper);
+}
+
+function addStemSection(parent, project){
+    var stem_wrapper = document.createElement("DIV");
+    var stems = project.stems;
+    var track_div = undefined;
+    var span = undefined;
+    var text = undefined;
+    var div = document.createElement("DIV");
+    div.style.marginTop = "10px";
+    span = document.createElement("SPAN");
+    text = document.createTextNode("STEMS");
+    span.appendChild(text);
+    div.appendChild(span);
+    stem_wrapper.appendChild(div);
+
+    for (var i=0; i<stems.length; ++i){
+        track = stems[i];
+        track_div = document.createElement("DIV");
+        track_div.style.width = "25%";
+        track_div.setAttribute("class", "project track");
+        track_div.style.border = "1px dashed black";
+        span = document.createElement("SPAN");
+        text = document.createTextNode("TITLE: " + track.title);
+        span.appendChild(text);
+        track_div.appendChild(span);
+
+        span = document.createElement("SPAN");
+        text = document.createTextNode("STATUS: " + track.status);
+        span.appendChild(text);
+        track_div.appendChild(span);
+
+        span = document.createElement("SPAN");
+        text = document.createTextNode("GENRE: " + track.genre);
+        span.appendChild(text);
+        track_div.appendChild(span);
+
+        stem_wrapper.appendChild(track_div);
+    }
+
+    parent.appendChild(stem_wrapper);
 }
