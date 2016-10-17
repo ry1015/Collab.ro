@@ -1,0 +1,19 @@
+.project {
+    display: inline-block;
+}
+
+.track span {
+    display: block;
+}
+
+#project-wrapper {
+    width: 70%;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#status-div {
+    width: 7%;
+    text-align: center;
+}

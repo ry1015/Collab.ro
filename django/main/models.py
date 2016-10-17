@@ -112,7 +112,7 @@ class Track(models.Model):
     upload_date = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        preview = str(self.id) + " [Project: " + str(self.projectID.id) + "](Track Owner: " + str(self.userID) + ")(Track Title: " + self.title + ")"
+        preview = str(self.id) + " [Project: " + str(self.projectID.id) + "] (Status: "+  str(self.status) +") (Track Owner: " + str(self.userID) + ")(Track Title: " + self.title + ")"
         return preview
 
 def uploadStemTo(instance, filename):
