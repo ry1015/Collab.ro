@@ -60,7 +60,7 @@ def get_project_stems(request, format=None):
         stem_title_found = []
         for stem in stems:
             if(stem.title not in stem_title_found):
-                data.append({"proj_id": proj_id, "user_id": str(stem.userID), "stem_id": stem.id, "title": stem.title})
+                data.append({"proj_id": proj_id, "stem_user_id": str(stem.userID), "stem_id": stem.id, "title": stem.title})
                 stem_title_found.append(stem.title)
     else:
         print("NO STEMS FOUND")

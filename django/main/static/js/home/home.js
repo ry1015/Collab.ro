@@ -243,11 +243,7 @@ var processProjectData = function(result)
         body = stemTable.createTBody();
 		
         //Load Stem List Here
-        
-        var url = "api/get_project_stems";
-        var formData = new FormData();
-        formData.append("proj_id", project_id);
-        var result = postFormRequest(url, formData, createStemTable);
+        createStemTableEvent(project_id); //event-stem.js      
     }
 
 }

@@ -1,3 +1,11 @@
+//Creates stem table using the result of api/get_project_stems
+function createStemTableEvent(project_id){
+    var url = "api/get_project_stems";
+    var formData = new FormData();
+    formData.append("proj_id", project_id);
+    var result = postFormRequest(url, formData, createStemTable);
+}
+
 var createStemTable = function(result){
     if(result == null){
         return null;
@@ -18,8 +26,9 @@ var createStemTable = function(result){
         var text = document.createTextNode(stem_data[i]["title"]);
         b.appendChild(text);
         cell.appendChild(b);
-		
-        var ownerText = document.createTextNode(" (owner: " + stem_data[i]["user_id"] + ") ");
+
+        //Create Text Node that signifies owner of stem
+        var ownerText = document.createTextNode(" (owner: " + stem_data[i]["stem_user_id"] + ")");
         cell.appendChild(ownerText);
         
         var deleteStemButton = document.createElement("button");

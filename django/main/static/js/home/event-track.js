@@ -60,7 +60,11 @@ var createTrackTable = function(result){
         var text = document.createTextNode(track_data[i]["title"]);
         b.appendChild(text);
         cell.appendChild(b);
-        
+
+        //Create Text Node that signifies owner of track
+        var ownerText = document.createTextNode(" (owner: " + track_data[i]["track_user_id"] + ")");
+        cell.appendChild(ownerText);
+
         //Create audio element
         cell = row.insertCell();
         var audio = document.createElement("audio");

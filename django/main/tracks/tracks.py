@@ -59,8 +59,11 @@ def get_project_tracks(request, format=None):
     tracks = Track.objects.filter(projectID=proj_id).order_by('-upload_date')
     if(len(tracks) > 0):
         data = []
+        track_title_found = []
         for track in tracks:
-            data.append({"proj_id": proj_id, "track_id": track.id, "title":track.title})
+            if(track.title not in track_title_found):
+                data.append({"proj_id": proj_id, "track_user_id": str(track.userID), "track_id": track.id, "title":track.title})
+                track_title_found.append(track.title)
     else:
         print ("NO TRACKS FOUND")
         return Response(None, status=status.HTTP_204_NO_CONTENT)
