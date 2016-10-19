@@ -27,7 +27,7 @@ def upload_stem(request, format=None):
     except:
         return Response("Upload Stem Error. Project Does Not Exist.")
     if(stem_title != ""):
-        if(filename != ""):
+        if(filename is not None):
             if(stem_status != ""):
                 try:
                     new_stem = Stem.objects.create(userID=user, projectID=project, title=stem_title, category=category, status=stem_status, filename=filename)
@@ -41,9 +41,10 @@ def upload_stem(request, format=None):
                     return Response("Upload Stem Error. Cannot upload stem.", status=status.HTTP_400_BAD_REQUEST)
                 new_stem.save()
         else:
-            return Response("Missing stem filename.", status=status.HTTP_400_BAD_REQUEST)
+            return Response("Missing stem filename. Cannot create new stem.", status=status.HTTP_400_BAD_REQUEST)
     else:
-        return Response("Missing stem title.", status=status.HTTP_400_BAD_REQUEST)
+        if(filename is not None):
+            return Response("Missing stem title. Cannot create new stem.", status=status.HTTP_400_BAD_REQUEST)
 
     data = {}
     return Response(data, status=status.HTTP_200_OK)

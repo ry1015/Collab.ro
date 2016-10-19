@@ -29,7 +29,7 @@ def upload_track(request, format=None):
     except:
         return Response("Upload Track Error. Project Does Not Exist.")
     if(track_title != ""):
-        if(filename != ""):
+        if(filename is not None):
             if(track_status != ""):
                 try:
                     new_track = Track.objects.create(userID=user, projectID=project, title=track_title, genre=genre, status=track_status, filename=filename)
@@ -43,9 +43,10 @@ def upload_track(request, format=None):
                     return Response("Upload Track Error. Cannot upload track.", status=status.HTTP_400_BAD_REQUEST)
                 new_track.save()
         else:
-            return Response("Missing track filename.", status=status.HTTP_400_BAD_REQUEST)
+            return Response("Missing track filename. Cannot create new track.", status=status.HTTP_400_BAD_REQUEST)
     else:
-	    return Response("Missing track title.", status=status.HTTP_400_BAD_REQUEST)
+        if(filename is not None):
+            return Response("Missing track title. Cannot create new track.", status=status.HTTP_400_BAD_REQUEST)
 
     data = {}
     return Response(data, status=status.HTTP_200_OK)

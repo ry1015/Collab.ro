@@ -22,7 +22,7 @@ def add_project(request, format=None):
     stem_category = request.POST.get("stem_category")
     stem_status = request.POST.get("stem_status")
     stem_filename = request.FILES.get("stem_filename")
-	
+
     try:
         user = User.objects.get(username=username)
     except:
@@ -46,7 +46,7 @@ def add_project(request, format=None):
                 new_project.save()
 
             if(track_title != ""):
-                if(track_filename != ""):
+                if(track_filename is not None):
                     if(track_status != ""):					
                         try:
                             new_track = Track.objects.create(userID=user, projectID=new_project, title=track_title, genre=track_genre, status=track_status, filename=track_filename)
@@ -60,12 +60,13 @@ def add_project(request, format=None):
                             return Response("Track Error. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
                             new_track.save()
                 else:
-                    return Response("Missing track filename.", status=status.HTTP_400_BAD_REQUEST)
+                    return Response("Missing track filename. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response("Missing track title.", status=status.HTTP_400_BAD_REQUEST)
+                if(track_filename is not None):
+                    return Response("Missing track title. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
 
             if(stem_title != ""):
-                if(stem_filename != ""):
+                if(stem_filename is not None):
                     if(stem_status != ""):
                         try:
                             new_stem = Stem.objects.create(userID=user, projectID=new_project, title=stem_title, category=stem_category, status=stem_status, filename=stem_filename)
@@ -79,17 +80,18 @@ def add_project(request, format=None):
                             return Response("Stem Error. Cannot Create New Project Stem.", status=status.HTTP_400_BAD_REQUEST)
                         new_stem.save()
                 else:
-                    return Response("Missing stem filename.", status=status.HTTP_400_BAD_REQUEST)
+                    return Response("Missing stem filename. Cannot Create New Project Stem.", status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response("Missing stem title.", status=status.HTTP_400_BAD_REQUEST)
-
+                if(stem_filename is not None):
+                    return Response("Missing stem title. Cannot Create New Project Stem.", status.status.HTTP_400_BAD_REQUEST)
+   
             return Response({}, status=status.HTTP_200_OK)
 
         if(project):
             return Response("Project Already Exists!", status=status.HTTP_400_BAD_REQUEST)
 
     else:
-        return Response("Missing Project Name.", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Missing Project Name. Cannot Create New Project.", status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
