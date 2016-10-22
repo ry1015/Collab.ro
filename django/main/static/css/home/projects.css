@@ -59,6 +59,13 @@
 	width: 100%;
 }
 
+.required_field {
+    display: inline-block;
+    color: red;
+    position: relative;
+    top: -3.8px;
+}
+
 .add_stem {
     width: 20px;
     height: 20px;

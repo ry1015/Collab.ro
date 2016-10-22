@@ -79,6 +79,14 @@ function addNewStemEvent(button_id) {
     input.placeholder = "Enter stem title";
     cell.appendChild(input);
 
+    var div = document.createElement("DIV");
+    div.className = "required_field";
+    var span = document.createElement("SPAN");
+    var asterisk = document.createTextNode("*");
+    span.appendChild(asterisk);
+    div.appendChild(span);
+    cell.appendChild(div);
+
     row = new_stem_table.insertRow(new_stem_table.rows.length);
 	row.id = "stem_category_row_" + proj_id;
     cell = row.insertCell(0);
@@ -112,6 +120,16 @@ function addNewStemEvent(button_id) {
     cell = row.insertCell(1);
     var stemUploadId = "stem_upload_" + proj_id;
     cell.innerHTML = "<input id='"+stemUploadId+"' type='file'>";
+
+    var file = document.getElementById(stemUploadId);
+    file.style.width = "73.5%";
+    div = document.createElement("DIV");
+    div.className = "required_field";
+    span = document.createElement("SPAN");
+    asterisk = document.createTextNode("*");
+    span.appendChild(asterisk);
+    div.appendChild(span);
+    cell.appendChild(div);
 
     // Extra spacing
     row = new_stem_table.insertRow(new_stem_table.rows.length);

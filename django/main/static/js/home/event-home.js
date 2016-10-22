@@ -63,8 +63,15 @@ function newProjectEvent(){
     var input = document.createElement("INPUT");
     input.id = "project_name_field";
     input.placeholder = "Enter project title";
-    input.required = "required";
     cell.appendChild(input);
+
+    var div = document.createElement("DIV");
+    div.className = "required_field";
+    var span = document.createElement("SPAN");
+    var asterisk = document.createTextNode("*");
+    span.appendChild(asterisk);
+    div.appendChild(span);
+    cell.appendChild(div);
 
     row = new_project_table.insertRow(new_project_table.rows.length);
     row.id = "projectStatusRow";

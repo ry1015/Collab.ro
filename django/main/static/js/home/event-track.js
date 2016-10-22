@@ -137,6 +137,14 @@ function addNewTrackEvent(button_id) {
     input.placeholder = "Enter track title";
     cell.appendChild(input);
 
+    var div = document.createElement("DIV");
+    div.className = "required_field";
+    var span = document.createElement("SPAN");
+    var asterisk = document.createTextNode("*");
+    span.appendChild(asterisk);
+    div.appendChild(span);
+    cell.appendChild(div);
+
     row = new_track_table.insertRow(new_track_table.rows.length);
     row.id = "track_genre_row_" + proj_id;
     cell = row.insertCell(0);
@@ -170,7 +178,17 @@ function addNewTrackEvent(button_id) {
     cell = row.insertCell(1);
     var trackUploadId = "track_upload_" + proj_id;
     cell.innerHTML = "<input id='"+trackUploadId+"' type='file'>";
-    
+
+    var file = document.getElementById(trackUploadId);
+    file.style.width = "73.5%";
+    div = document.createElement("DIV");
+    div.className = "required_field";
+    span = document.createElement("SPAN");
+    asterisk = document.createTextNode("*");
+    span.appendChild(asterisk);
+    div.appendChild(span);
+    cell.appendChild(div);
+
     // Extra spacing
     row = new_track_table.insertRow(new_track_table.rows.length);
     row.id = "empty_track_row_" + proj_id;
