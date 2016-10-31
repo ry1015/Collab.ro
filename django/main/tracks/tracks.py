@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -47,8 +48,15 @@ def upload_track(request, format=None):
     else:
         if(filename is not None):
             return Response("Missing track title. Cannot create new track.", status=status.HTTP_400_BAD_REQUEST)
-
-    data = {}
+    
+    
+    head, tail = os.path.split(new_track.filename.path)
+    print(head)
+    print(tail)
+    os.rename(new_track.filename.path, head + "\\" + str(new_track.id) + "_" + tail)
+    new_track.filename.name = "tracks\\" + str(new_track.projectID.id) + "\\" + str(new_track.userID.id) + "\\" + str(new_track.id) + "_" + tail
+    new_track.save()
+    data = {} 
     return Response(data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])

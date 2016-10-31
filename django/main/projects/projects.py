@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem, Track
 import json
+import os
 
 @api_view(['POST'])
 def add_project(request, format=None):
@@ -52,15 +53,19 @@ def add_project(request, format=None):
                             new_track = Track.objects.create(userID=user, projectID=new_project, title=track_title, genre=track_genre, status=track_status, filename=track_filename)
                         except:
                             return Response("Track Error. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
-                            new_track.save()
+                        new_track.save()
                     else:
                         try:
                             new_track = Track.objects.create(userID=user, projectID=new_project, title=track_title, genre=track_genre, filename=track_filename)
                         except:
                             return Response("Track Error. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
-                            new_track.save()
+                        new_track.save()
                 else:
                     return Response("Missing track filename. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
+                head, tail = os.path.split(new_track.filename.path)
+                os.rename(new_track.filename.path, head + "\\" + str(new_track.id) + "_" + tail)
+                new_track.filename.name = "tracks\\" + str(new_track.projectID.id) + "\\" + str(new_track.userID.id) + "\\" + str(new_track.id) + "_" + tail
+                new_track.save()
             else:
                 if(track_filename is not None):
                     return Response("Missing track title. Cannot Create New Project Track.", status=status.HTTP_400_BAD_REQUEST)
