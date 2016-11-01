@@ -3,6 +3,8 @@ var NAVIGATION_DIV_ID = "navigation-div";
 var SEARCH_RESULTS_IGNORE_IDS = ["search-results-div"];
 var SEARCH_RESULTS_CLASS = "search-results-class";
 var SEARCH_RESULTS_IGNORE_CLASSES = [SEARCH_RESULTS_CLASS];
+var SEARCH_RESULTS_HEADER = "search-results-header";
+var SEARCH_RESULTS_USERS = "search-results-users";
 var _timer = 0;
 
 // Add Event Listeners
@@ -61,6 +63,32 @@ function showSearchResults(results){
     var elem = "";
     var text = "";
     // loop users
+    if(!isEmptyUserResults(results["users"])) {
+        row = table.insertRow(table.rows.length);
+        cell = row.insertCell(0);
+        div = document.createElement("div");
+	    div.setAttribute("class", SEARCH_RESULTS_HEADER);
+        elem = document.createElement("a");
+        text = document.createTextNode("USERS");
+        elem.appendChild(text);
+        div.appendChild(elem);
+        cell.appendChild(div);
+        child.appendChild(table);
+
+        for (var i=0; i<results["users"].length; ++i){
+            row = table.insertRow(table.rows.length);
+            cell = row.insertCell(0);
+            div = document.createElement("div");
+            div.setAttribute("class", SEARCH_RESULTS_USERS);
+            elem = document.createElement("a");
+            text = document.createTextNode(results["users"][i]["artist"].toUpperCase());
+            elem.appendChild(text);
+            div.appendChild(elem);
+            cell.appendChild(div);
+        }
+        child.appendChild(table);
+    }
+
     for (var i=0; i<results["exact_projects"].length; ++i){
         row = table.insertRow(table.rows.length);
         cell = row.insertCell(0)
@@ -110,5 +138,14 @@ function traceSearchClick(){
             parent.removeChild(child);
         }
         document.removeEventListener('click', traceSearchClick, false);
+    }
+}
+
+function isEmptyUserResults(user_results) {
+    if(user_results.length == 0) {
+        return true;
+    }
+	else {
+        return false;
     }
 }

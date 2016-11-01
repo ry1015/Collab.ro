@@ -17,3 +17,12 @@
 .search-results-class:hover {
     cursor: pointer;
 }
+
+.search-results-header {
+    text-align: left;
+}
+
+.search-results-users {
+    text-align: left;
+    text-indent: 50px;
+}

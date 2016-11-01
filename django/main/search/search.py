@@ -33,6 +33,7 @@ def get_user_input_results(request, format=None):
     data = request.GET.get("input")
     terms = normalize_query(data)
     user = getUserFromList(terms)
+    user_search = userSearch(terms)
 
     if (user != None): # user found
         terms.remove(user[0])
@@ -54,6 +55,7 @@ def get_user_input_results(request, format=None):
 
     if (user != None):
         q = reduce(operator.or_, (Q(name__icontains = term) for term in terms), Q(userID=user))
+        print(q)
     else:
         q = reduce(operator.or_, (Q(name__icontains = term) for term in terms))
 
@@ -69,6 +71,7 @@ def get_user_input_results(request, format=None):
 
     results["exact_projects"] = projects
     results["other_projects"] = other_projects
+    results["users"] = user_search
 
     print ("END USER INPUT RESULTS")
     print("------------------------------------------")
@@ -101,3 +104,12 @@ def getUserFromList(_list):
             return [item, user]
     return None
 
+def userSearch(_list):
+    query = reduce(operator.or_, (Q(username__icontains = term) for term in _list))
+    userSearchList = User.objects.filter(query)
+    users = []
+    for user in userSearchList:
+        tmp = {}
+        tmp["artist"] = user.username
+        users.append(tmp)
+    return users
