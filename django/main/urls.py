@@ -3,13 +3,13 @@ from django.conf.urls.static import static
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from main import views
-from main.projects import projects
-from main.user_tracks import user_tracks
-from main.track_comments import track_comments
-from main.stems import stems 
-from main.search import search
-from main.tracks import tracks
-from main.view_user import view_user
+from main.py.projects import projects
+from main.py.user_tracks import user_tracks
+from main.py.track_comments import track_comments
+from main.py.stems import stems 
+from main.py.search import search
+from main.py.tracks import tracks
+from main.py.view_user import view_user
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^api/login$',views.login),
