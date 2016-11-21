@@ -3,6 +3,26 @@ function failCallback(result){
     console.log(result.responseText);
 }
 
+function getCookie(name) {
+    var cookieValue = null;
+    if(document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for(var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if(cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
 function getRequest(url, data, callback){
     $.getJSON({
         url: home + url,
@@ -21,6 +41,11 @@ function postRequest(url, data, callback){
         type: "POST",
         url: url,
         data: data,
+        beforeSend: function(xhr, settings) {
+            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
         success : function (result){
             callback(result);
         },
@@ -35,6 +60,11 @@ function deleteRequest(url, data, callback){
         type: "DELETE",
         url: url,
         data: data,
+        beforeSend: function(xhr, settings) {
+            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
         success : function (result){
             callback(result);
         },
@@ -64,6 +94,11 @@ function postFormRequest(url, data, callback){
         type: "POST",
         url: url,
         data: data,
+        beforeSend: function(xhr, settings) {
+            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
         processData: false,
         contentType: false,
         success : function (result){
@@ -80,6 +115,11 @@ function deleteFormRequest(url, data, callback){
         type: "DELETE",
         url: url,
         data: data,
+        beforeSend: function(xhr, settings) {
+            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
         processData: false,
         contentType: false,
         success : function (result){
