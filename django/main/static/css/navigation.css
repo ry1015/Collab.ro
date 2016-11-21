@@ -1,19 +1,29 @@
 #navigation-div table {
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 80%;
+    border: 1px solid grey;
+    padding-left: 3%;
+    padding-right: 3%;
 }
-
-#navigation-div table tr td{
-    text-align: center;
+#navigation-div table tr td a {
+    font-size: 17px;
 }
-
-#navigation-div table tr td:not(:nth-child(3)){
+#navigation-div table tr td:not(:nth-child(1)), #navigation-div table tr td:not(:nth-child(2)){
     width: 10%;
 }
 
+#navigation-div table tr td:nth-child(1){
+    width: 10%;
+}
+
+#navigation-div table tr td:nth-child(2){
+    width: 40%;
+    font-weight: bold;
+}
+
 #navigation-div table tr td:nth-child(3){
-    width: 70%;
+    text-align: right;
 }
 
 #search_input {

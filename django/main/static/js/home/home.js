@@ -17,6 +17,12 @@ var NEW_TRACK_ROW_ID = "new_track_row_";
 var NEW_TRACK_TABLE_ID = "new_track_table";
 var DELETE_TRACK_BUTTON_ID = "delete_track_button";
 var DELETE_STEM_BUTTON_ID = "delete_stem_button";
+var MY_PROJECTS_DIV_ID = "my_projects_div";
+var MY_PROJECTS_WRAPPER_DIV = "my_projects_wrapper_div";
+var CREATE_PROJECT_DIV_ID = "create_project_div";
+var MY_PROJECTS_SPAN_ID = "my_projects_span";
+var MY_PROJECTS_DIV_CLASS = "my_projects_div_class";
+var USER_PROJECTS_WRAPPER_DIV = "user_projects";
 var project_data;
 
 // Add click event when new_project id is clicked
@@ -49,8 +55,39 @@ function createHomePage(user){
     // Check if user has uploaded some music
     createCurrentTracks(user);
     var parent_node = document.getElementById(BODY_DIV_ID);
-    createTrackList(parent_node); //track-list.js
-    createProject(parent_node);
+    // createTrackList(parent_node); //track-list.js
+    createProjectsTitle(parent_node);
+    // createProject(parent_node);
+}
+
+function createProjectsTitle(parent_node){
+    var projects_div = document.createElement("DIV");
+    projects_div.id = MY_PROJECTS_WRAPPER_DIV;  
+    var my_projects_div = document.createElement("DIV");
+    my_projects_div.id = MY_PROJECTS_DIV_ID;
+    var create_project_div = document.createElement("DIV");
+    create_project_div.id = CREATE_PROJECT_DIV_ID;
+    
+    var span = document.createElement("SPAN");
+    span.id = MY_PROJECTS_SPAN_ID;
+    var text = document.createTextNode("My Projects");
+    span.appendChild(text);
+    my_projects_div.appendChild(span);
+    my_projects_div.setAttribute("class", MY_PROJECTS_DIV_CLASS);
+    projects_div.appendChild(my_projects_div);
+    
+
+    span = document.createElement("SPAN");
+    span.id = NEW_PROJECT_ID;
+    text = document.createTextNode("+ Create Project");
+    span.appendChild(text);
+    create_project_div.appendChild(span);
+    create_project_div.setAttribute("class", MY_PROJECTS_DIV_CLASS);
+    projects_div.appendChild(create_project_div);
+
+    parent_node.appendChild(projects_div);
+    addProjectButtonEventListener();
+    refreshProjects();
 }
 
 // Creates user project div
@@ -82,6 +119,7 @@ function createProject(parent_node){
     
     project_node.appendChild(project_list_table); //copied over from update_project_html branch
     parent_node.appendChild(project_node);
+
     addProjectButtonEventListener();
     refreshProjects();
 }
@@ -131,7 +169,7 @@ function showHome(user){
 var processProjectData = function(result)
 {
     project_data = result;
-    var projects_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
+    var projects_table_body = document.getElementById(PROJECT_TABLE_ID);
     while(projects_table_body.rows.length > 0) {
         projects_table_body.deleteRow(0);
     }
@@ -249,6 +287,14 @@ var processProjectData = function(result)
 }
 
 var refreshProjects = function(args){
+    var body_div = document.getElementById(BODY_DIV_ID);
+    var user_projects_div = document.createElement("DIV");
+    user_projects_div.id = USER_PROJECTS_WRAPPER_DIV;
+    var table = document.createElement("TABLE");
+    table.id = PROJECT_TABLE_ID;
+    
+    user_projects_div.appendChild(table);
+    body_div.appendChild(user_projects_div);
     var username = current_user.user.username;
     
     var url = "api/get_projects";

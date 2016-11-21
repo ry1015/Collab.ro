@@ -1,3 +1,48 @@
 .projectTable div span:hover {
     cursor: pointer;
 }
+.projectRow {
+    display: inline;
+    width: 40%;
+}
+#body_div {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+#my_projects_span{
+    font-size: 30px;
+    margin-left: 8%;
+}
+
+.my_projects_div_class{
+    display: inline-block;
+    width: 50%;
+}
+
+#create_project_div{
+    text-align: right;
+}
+
+#create_project_div span {
+    margin-right: 8%;
+    padding: 1% 2% 1% 2%;
+    background-color: rgb(216, 216, 216);
+}
+
+#create_project_div span:hover {
+    cursor: pointer;
+}
+
+#new_project_row {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#new_project_table{
+    margin-left: auto;
+    margin-right: auto;
+}

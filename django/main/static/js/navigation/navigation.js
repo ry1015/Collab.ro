@@ -1,13 +1,14 @@
-var nav_links = ["Home", "Profile", "Search", "Logout"];
+var nav_links = ["Search", "Projects", "My Account"];
+var nav_links_id = ["search", "projects", "my_account"];
 var DELETE_PROFILE_ID = "delete_profile";
 
 // Adds event listener to the navigation options
 function addNavigationEventListener()
 {
-    document.getElementById("Home").addEventListener('click', openHomePage, false);
-    document.getElementById("Profile").addEventListener('click', openProfilePage, false);
-    document.getElementById("Search").addEventListener('click', openSearchPage, false);
-    document.getElementById("Logout").addEventListener('click', logOutUser, false);
+    document.getElementById("projects").addEventListener('click', openHomePage, false);
+    document.getElementById("my_account").addEventListener('click', openProfilePage, false);
+    // document.getElementById("Search").addEventListener('click', openSearchPage, false);
+    // document.getElementById("Logout").addEventListener('click', logOutUser, false);
     document.getElementById("search_input").addEventListener('keyup', lookUpInput, false);
 }
 
@@ -28,10 +29,10 @@ function createNavigationBar()
     for (var i in nav_links){
         var cell = row.insertCell(i);
         if (nav_links[i] != "Search")
-            cell.innerHTML = "<a id='"+ nav_links[i] + "' class='add-pointer'>" + nav_links[i] + "</a>";
+            cell.innerHTML = "<a id='"+ nav_links_id[i] + "' class='add-pointer'>" + nav_links[i] + "</a>";
         else{
             cell.innerHTML = "<input type=text id=search_input placeholder='Search artist or music title'>";
-            cell.innerHTML += "<button id=Search class='add-pointer'>Search</button>";
+            // cell.innerHTML += "<button id=Search class='add-pointer'>Search</button>";
         }
     }   
 

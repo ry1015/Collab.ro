@@ -1,5 +1,6 @@
 var EVENT_HOME_NEW_PROJ_DESC_ID = "new_proj_desc";
-
+var NEW_PROJECT_ROW_ID = "new_project_row";
+var NEW_PROJECT_TABLE_ID = "new_project_table";
 // Change project status
 function changeProjectStatus(){
     var parent = getTable(this);
@@ -32,13 +33,20 @@ function getTable(node){
 }
 
 // Add new project
+// Called by home.js
 function newProjectEvent(){
-    var new_project_exist = document.getElementById("new_project_row");
-    if (new_project_exist != undefined)
+    var new_project_exist = document.getElementById(NEW_PROJECT_ROW_ID);
+    if (new_project_exist != null)
         return
-    var project_table = document.getElementById(PROJECT_TABLE_ID).getElementsByTagName('tbody')[0];
 
-    var row = project_table.insertRow(0);
+    var body_div = document.getElementById(BODY_DIV_ID);
+    var new_project_div = document.createElement("DIV");
+    new_project_div.id = NEW_PROJECT_ROW_ID;
+
+    var project_table = document.createElement("TABLE");
+    project_table.id = NEW_PROJECT_TABLE_ID;
+
+    var row = project_table.insertRow(project_table.rows.length);
     row.className = "projectRow"; //copied over from update_project_html branch
     row.id = NEW_PROJECT_ROW_ID;
     var cell = row.insertCell(0);
@@ -186,12 +194,6 @@ function newProjectEvent(){
     cell.width = "10%";
     cell = row.insertCell(1);
     cell.innerHTML = "<input id='project_stem_upload' type='file'>";
-//     row = new_project_table.insertRow(4);
-//     cell = row.insertCell(0);
-//     cell.innerHTML = "<button id='upload_button'>UPLOAD</button";
-
-//     row = new_project_table.insertRow(project_table.rows.length);
-//     cell = row.insertCell(5);
 
     // Extra spacing
     row = new_project_table.insertRow(new_project_table.rows.length);
@@ -228,20 +230,25 @@ function newProjectEvent(){
     cell.style.textAlign = "right";
     cell.innerHTML = "<button id='project_save_button'>SAVE</button>";
     cell.innerHTML += "<button id='project_cancel_button'>CANCEL</button";
+    new_project_div.appendChild(project_table);
 
-    var parent_projects_table = document.getElementById("project_table");
-    row = parent_projects_table.insertRow(parent_projects_table.rows.length);
-    parent_projects_table.appendChild(project_table);
+    var user_projects = document.getElementById(USER_PROJECTS_WRAPPER_DIV);
+    if (user_projects == null)
+        body_div.appendChild(new_project_div);
+    else
+        body_div.insertBefore(new_project_div, user_projects);
 
     document.getElementById("project_save_button").addEventListener('click', saveProjectEvent, false);
     document.getElementById("project_cancel_button").addEventListener('click', cancelProjectEvent, false);
 }
 
 function cancelProjectEvent() {
-    var project_table_body = document.getElementById(PROJECT_TABLE_BODY_ID);
-    project_table_body.childNodes[0].setAttribute("class","fadeOut");
+    var project_row_div = document.getElementById(NEW_PROJECT_ROW_ID);
+    var parent = document.getElementById(BODY_DIV_ID);
+    
+    project_row_div.setAttribute("class","fadeOut");
     setTimeout(function(){
-        project_table_body.deleteRow(0);
+        parent.removeChild(project_row_div);
     }, 300);
 }
 
