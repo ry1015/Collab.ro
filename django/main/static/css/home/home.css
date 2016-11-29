@@ -40,9 +40,12 @@
     width: 50%;
     margin-left: auto;
     margin-right: auto;
+    position: absolute;
 }
 
 #new_project_table{
     margin-left: auto;
     margin-right: auto;
+    background-color: lightgrey;
+    border: 1px solid black;
 }
