@@ -170,6 +170,9 @@ var processProjectData = function(result)
 {
     project_data = result;
     var projects_table_body = document.getElementById(PROJECT_TABLE_ID);
+    if (projects_table_body != null)
+        document.getElementById("user_projects").removeChild(projects_table_body);
+
     while(projects_table_body.rows.length > 0) {
         projects_table_body.deleteRow(0);
     }
@@ -178,20 +181,17 @@ var processProjectData = function(result)
     var text_node = undefined;
     var anchor_node = undefined;
     var text = undefined;
-
+    var parent = document.getElementById('user_projects');
     for (i = 0; i < project_data.length; i++){
-        projectRow = projects_table_body.insertRow();
-        var project_id = project_data[i]["id"]; //copied over from update_project_html branch
-        projectRow.id = "project_row_" + project_id; //copied over from update_project_html branch
-        projectRow.className = "projectRow";
-        var cell = projectRow.insertCell(0);
-        
+        var project_id = project_data[i]["id"];
+        var user_project_div = document.createElement("DIV");
+        user_project_div.setAttribute('class', 'user_project');
+
         //Create Project Table
-        var project_table = document.createElement("table");
+        var project_table = document.createElement("TABLE");
         project_table.className = "projectTable";
-        project_table.id = "project_table_" +project_id;
-        cell.appendChild(project_table);
-        
+        project_table.id = "project_table_" + project_id;
+
         //Create Project Table Header & Title
         var header = project_table.createTHead();
         var row = header.insertRow();
@@ -204,8 +204,7 @@ var processProjectData = function(result)
         bold_node.onclick = getProjectId; //event-project-detail.js
         anchor_node.appendChild(bold_node);
         cell.appendChild(anchor_node);
-        // cell.innerHTML = "<b>" + project_data[i]["name"] + "</b>";
-        
+
         //Create Delete Button
         var deleteButton = document.createElement("button");
         deleteButton.id = DELETE_PROJECT_ID;
@@ -216,72 +215,110 @@ var processProjectData = function(result)
         span.appendChild(deleteButton);
         cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 
-        //Create Public/Private Button
-        var div = document.createElement("DIV");
-        span = document.createElement("SPAN");
-        span.style.fontSize="10px";
-        span.style.paddingRight="3px";
-        text = document.createTextNode(project_data[i].status.toUpperCase());
-        span.appendChild(text);
-        projectStatusEventListener(span);
-        div.appendChild(span);
-        div.style.display="inline-block";
-        div.style.float="right";
-        cell.appendChild(div);
+        user_project_div.appendChild(project_table);
+        parent.appendChild(user_project_div);
+        // projectRow = projects_table_body.insertRow();
+        // var project_id = project_data[i]["id"]; //copied over from update_project_html branch
+        // projectRow.id = "project_row_" + project_id; //copied over from update_project_html branch
+        // projectRow.className = "projectRow";
+        // var cell = projectRow.insertCell(0);
+        
+        // //Create Project Table
+        // var project_table = document.createElement("table");
+        // project_table.className = "projectTable";
+        // project_table.id = "project_table_" +project_id;
+        // cell.appendChild(project_table);
+        
+        // //Create Project Table Header & Title
+        // var header = project_table.createTHead();
+        // var row = header.insertRow();
+        // cell = row.insertCell(0);
+        // anchor_node = document.createElement("A");
+        // anchor_node.href="#";
+        // bold_node = document.createElement("B");
+        // text = document.createTextNode(project_data[i]["name"]);
+        // bold_node.appendChild(text);
+        // bold_node.onclick = getProjectId; //event-project-detail.js
+        // anchor_node.appendChild(bold_node);
+        // cell.appendChild(anchor_node);
+        // // cell.innerHTML = "<b>" + project_data[i]["name"] + "</b>";
+        
+        // //Create Delete Button
+        // var deleteButton = document.createElement("button");
+        // deleteButton.id = DELETE_PROJECT_ID;
+        // deleteButton.value = project_id;
+        // deleteButton.innerHTML = "Delete";
+        // deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
+        // var span = document.createElement("SPAN");
+        // span.appendChild(deleteButton);
+        // cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 
-        //Create Project Table Body
-        var body = project_table.createTBody();
-        row = body.insertRow();
-        var trackCell = row.insertCell();
-        row = body.insertRow();
-        var stemCell = row.insertCell();
+        // //Create Public/Private Button
+        // var div = document.createElement("DIV");
+        // span = document.createElement("SPAN");
+        // span.style.fontSize="10px";
+        // span.style.paddingRight="3px";
+        // text = document.createTextNode(project_data[i].status.toUpperCase());
+        // span.appendChild(text);
+        // projectStatusEventListener(span);
+        // div.appendChild(span);
+        // div.style.display="inline-block";
+        // div.style.float="right";
+        // cell.appendChild(div);
+
+        // //Create Project Table Body
+        // var body = project_table.createTBody();
+        // row = body.insertRow();
+        // var trackCell = row.insertCell();
+        // row = body.insertRow();
+        // var stemCell = row.insertCell();
         
-        //Create Track Table
-        var trackTable = document.createElement("table");
-        trackTable.id = TRACK_TABLE_ID + project_id;
-        trackCell.appendChild(trackTable);
-        header = trackTable.createTHead();
-        row = header.insertRow();
-        cell = row.insertCell();
-        var b = document.createElement("B");
-        var text = document.createTextNode("Tracks");
-        b.appendChild(text);
-        cell.appendChild(b);
-        var addTrackButton = document.createElement("IMG");
-        addTrackButton.id = "add_track_" + project_id;
-        addTrackButton.className = "add_track";
-        addTrackButton.src = "media/add_track_button.png";
-        addTrackButton.addEventListener('click', function() { addNewTrackEvent(this.id); }, false);
-        // cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
-        //cell = row.insertCell(1);
-        cell.appendChild(addTrackButton);
-        body = trackTable.createTBody();
+        // //Create Track Table
+        // var trackTable = document.createElement("table");
+        // trackTable.id = TRACK_TABLE_ID + project_id;
+        // trackCell.appendChild(trackTable);
+        // header = trackTable.createTHead();
+        // row = header.insertRow();
+        // cell = row.insertCell();
+        // var b = document.createElement("B");
+        // var text = document.createTextNode("Tracks");
+        // b.appendChild(text);
+        // cell.appendChild(b);
+        // var addTrackButton = document.createElement("IMG");
+        // addTrackButton.id = "add_track_" + project_id;
+        // addTrackButton.className = "add_track";
+        // addTrackButton.src = "media/add_track_button.png";
+        // addTrackButton.addEventListener('click', function() { addNewTrackEvent(this.id); }, false);
+        // // cell.innerHTML = "<p> Track Placeholder </p>"; //modify to load tracks & stems from backend
+        // //cell = row.insertCell(1);
+        // cell.appendChild(addTrackButton);
+        // body = trackTable.createTBody();
         
-        //Load Track List Here
-        createTrackTableEvent(project_id); //event-track.js
+        // //Load Track List Here
+        // createTrackTableEvent(project_id); //event-track.js
         
-        //Create Stem Table
-        var stemTable = document.createElement("table");
-        stemTable.id = STEM_TABLE_ID + project_id;
-        stemCell.appendChild(stemTable);
-        header = stemTable.createTHead();
-        row = header.insertRow();
-        cell = row.insertCell();
-        var b = document.createElement("B");
-        var text = document.createTextNode("Stems");
-        b.appendChild(text);
-        cell.appendChild(b);
-        var addStemButton = document.createElement("IMG");
-        addStemButton.id = "add_stem_" + project_id;
-        addStemButton.className = "add_stem";
-        addStemButton.src = "media/add_stem_button.png";
-        addStemButton.addEventListener('click', function() { addNewStemEvent(this.id); }, false); // event-stem.js
-        // cell.innerHTML = "Stem PlaceHolder";
-        cell.appendChild(addStemButton);
-        body = stemTable.createTBody();
+        // //Create Stem Table
+        // var stemTable = document.createElement("table");
+        // stemTable.id = STEM_TABLE_ID + project_id;
+        // stemCell.appendChild(stemTable);
+        // header = stemTable.createTHead();
+        // row = header.insertRow();
+        // cell = row.insertCell();
+        // var b = document.createElement("B");
+        // var text = document.createTextNode("Stems");
+        // b.appendChild(text);
+        // cell.appendChild(b);
+        // var addStemButton = document.createElement("IMG");
+        // addStemButton.id = "add_stem_" + project_id;
+        // addStemButton.className = "add_stem";
+        // addStemButton.src = "media/add_stem_button.png";
+        // addStemButton.addEventListener('click', function() { addNewStemEvent(this.id); }, false); // event-stem.js
+        // // cell.innerHTML = "Stem PlaceHolder";
+        // cell.appendChild(addStemButton);
+        // body = stemTable.createTBody();
 		
-        //Load Stem List Here
-        createStemTableEvent(project_id); //event-stem.js      
+        // //Load Stem List Here
+        // createStemTableEvent(project_id); //event-stem.js      
     }
 
 }
