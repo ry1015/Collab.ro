@@ -186,16 +186,15 @@ var processProjectData = function(result)
         var project_id = project_data[i]["id"];
         var user_project_div = document.createElement("DIV");
         user_project_div.setAttribute('class', 'user_project');
-
+        user_project_div.id = "project_table_" + project_id;
         //Create Project Table
-        var project_table = document.createElement("TABLE");
-        project_table.className = "projectTable";
-        project_table.id = "project_table_" + project_id;
+        
+        // project_table.className = "projectTable";
+        // project_table.id = "project_table_" + project_id;
 
         //Create Project Table Header & Title
-        var header = project_table.createTHead();
-        var row = header.insertRow();
-        cell = row.insertCell(0);
+        var project_header = document.createElement("DIV");
+        project_header.setAttribute('class', 'project_title_div');
         anchor_node = document.createElement("A");
         anchor_node.href="#";
         bold_node = document.createElement("B");
@@ -203,19 +202,23 @@ var processProjectData = function(result)
         bold_node.appendChild(text);
         bold_node.onclick = getProjectId; //event-project-detail.js
         anchor_node.appendChild(bold_node);
-        cell.appendChild(anchor_node);
+        project_header.appendChild(anchor_node);
 
         //Create Delete Button
+        var project_delete_div = document.createElement("DIV");
+        project_delete_div.setAttribute('class', 'project_delete_div');
         var deleteButton = document.createElement("button");
         deleteButton.id = DELETE_PROJECT_ID;
         deleteButton.value = project_id;
         deleteButton.innerHTML = "Delete";
         deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
         var span = document.createElement("SPAN");
-        span.appendChild(deleteButton);
-        cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
+        // span.appendChild(deleteButton);
+        project_delete_div.appendChild(deleteButton);
+        // cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 
-        user_project_div.appendChild(project_table);
+        user_project_div.appendChild(project_header);
+        user_project_div.appendChild(project_delete_div);
         parent.appendChild(user_project_div);
         // projectRow = projects_table_body.insertRow();
         // var project_id = project_data[i]["id"]; //copied over from update_project_html branch

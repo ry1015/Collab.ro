@@ -1,9 +1,18 @@
-.projectTable div span:hover {
+/*.projectTable div span:hover {
     cursor: pointer;
-}
+}*/
 .projectRow {
     display: inline;
     width: 40%;
+}
+.project_title_div{
+    width: 80%;
+    display: inline-block;
+}
+.project_delete_div{
+    width: 20%;
+    display: inline-block;
+    right: 0;
 }
 .user_project{
     display: inline-block;
@@ -11,6 +20,9 @@
     width: 31%;
     height: 100px;
     margin: 10px 10px 10px 10px;
+}
+.user_project: hover{
+    cursor: pointer;
 }
 #body_div {
     width: 80%;
