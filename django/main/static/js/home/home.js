@@ -169,12 +169,10 @@ function showHome(user){
 var processProjectData = function(result)
 {
     project_data = result;
-    var projects_table_body = document.getElementById(PROJECT_TABLE_ID);
-    if (projects_table_body != null)
-        document.getElementById("user_projects").removeChild(projects_table_body);
-
-    while(projects_table_body.rows.length > 0) {
-        projects_table_body.deleteRow(0);
+    var user_projects = document.getElementById(USER_PROJECTS_WRAPPER_DIV);
+    while (user_projects.children.length > 0){
+        var last_child = user_projects.lastElementChild;
+        user_projects.removeChild(last_child);
     }
 
     var bold_node = undefined;
@@ -187,10 +185,6 @@ var processProjectData = function(result)
         var user_project_div = document.createElement("DIV");
         user_project_div.setAttribute('class', 'user_project');
         user_project_div.id = "project_table_" + project_id;
-        //Create Project Table
-        
-        // project_table.className = "projectTable";
-        // project_table.id = "project_table_" + project_id;
 
         //Create Project Table Header & Title
         var project_header = document.createElement("DIV");
@@ -213,9 +207,7 @@ var processProjectData = function(result)
         deleteButton.innerHTML = "Delete";
         deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
         var span = document.createElement("SPAN");
-        // span.appendChild(deleteButton);
         project_delete_div.appendChild(deleteButton);
-        // cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
 
         user_project_div.appendChild(project_header);
         user_project_div.appendChild(project_delete_div);

@@ -201,7 +201,7 @@ function createOwnerTable(list_owners, type){
 // node, the current node
 // returns table node
 function findTable(node){
-    while (node.tagName != "TABLE"){
+    while (!node.id.includes('project_table')){
         node = node.parentNode;
     }
     return node;
