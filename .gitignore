@@ -17,3 +17,4 @@ django/main/py/projects/__pycache__/
 django/main/media/profile_picture/
 django/main/media/tracks/
 django/main/media/stems/
+*.pyc

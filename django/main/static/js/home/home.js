@@ -23,6 +23,7 @@ var CREATE_PROJECT_DIV_ID = "create_project_div";
 var MY_PROJECTS_SPAN_ID = "my_projects_span";
 var MY_PROJECTS_DIV_CLASS = "my_projects_div_class";
 var USER_PROJECTS_WRAPPER_DIV = "user_projects";
+var PROJECT_NAME_MAX_LENGTH = 44;
 var project_data;
 
 // Add click event when new_project id is clicked
@@ -192,7 +193,10 @@ var processProjectData = function(result)
         anchor_node = document.createElement("A");
         anchor_node.href="#";
         bold_node = document.createElement("B");
-        text = document.createTextNode(project_data[i]["name"]);
+        if (project_data[i].name.length > PROJECT_NAME_MAX_LENGTH)
+            text = document.createTextNode(project_data[i]["name"].substring(0,PROJECT_NAME_MAX_LENGTH)+'...');
+        else
+            text = document.createTextNode(project_data[i]["name"]);
         bold_node.appendChild(text);
         bold_node.onclick = getProjectId; //event-project-detail.js
         anchor_node.appendChild(bold_node);
