@@ -130,7 +130,6 @@ def get_project_details(request, format=None):
 def getProjectStems(proj):
     stems = Stem.objects.filter(projectID=proj.id)
     list_stems = []
-    print(stems)
     for stem in stems:
         tmp = {}
         tmp["title"] = stem.title
@@ -155,7 +154,6 @@ def getProjectTracks(proj):
         tmp["title"] = track.title
         tmp["genre"] = track.genre
         tmp["status"] = track.status
-        print (track.filename)
         tmp["filename"] = str(track.filename).split("/")[3]
         tmp["owner"] = track.userID.username
         tmp["timestamp"] = track.upload_date
@@ -179,6 +177,11 @@ def get_projects(request, format=None):
             data.append({"id":project.id, "name":project.name, "status":project.status})
     else:
         print ("NO PROJECTS")
+
+    for proj in data:
+        stems = Stem.objects.filter(projectID=proj['id'])
+        proj['stems_count'] = len(stems)
+
     return Response(data, status=status.HTTP_200_OK)
     
 @api_view(['DELETE'])

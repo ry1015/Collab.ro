@@ -211,6 +211,37 @@ var processProjectData = function(result)
 
         user_project_div.appendChild(project_header);
         user_project_div.appendChild(project_delete_div);
+
+        // Create Photo Section
+        var photo_div = document.createElement("DIV");
+        photo_div.style.backgroundImage = "url('media/default_photo.jpg')";
+        photo_div.style.backgroundPosition = 'center';
+        photo_div.setAttribute('class', 'photo_div');
+        user_project_div.appendChild(photo_div);
+
+        // Create Collaborators and File Count Section
+        var count_wrapper_div = document.createElement("DIV");
+        count_wrapper_div.setAttribute('class', 'count_wrapper_div');
+        
+        var collaborators_div = document.createElement("DIV");
+        collaborators_div.setAttribute('class', 'collaborators_div');
+
+        var files_div = document.createElement("DIV");
+        files_div.setAttribute('class', 'files_div');
+        // var span = document.createElement("SPAN");
+        // var bold = document.createElement("B");
+        var num_of_files = 'files';
+        if (project_data[i]['stems_count'] == 1)
+            num_of_files = 'file'
+        var text = document.createTextNode(project_data[i]['stems_count'] + ' ' + num_of_files);
+        // bold.appendChild(text);
+        // span.appendChild(bold);
+        files_div.appendChild(text);
+
+        count_wrapper_div.appendChild(collaborators_div);
+        count_wrapper_div.appendChild(files_div);
+        user_project_div.appendChild(count_wrapper_div);
+
         parent.appendChild(user_project_div);
         // projectRow = projects_table_body.insertRow();
         // var project_id = project_data[i]["id"]; //copied over from update_project_html branch

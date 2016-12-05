@@ -1,6 +1,25 @@
 /*.projectTable div span:hover {
     cursor: pointer;
 }*/
+.collaborators_div{
+    width: 70%;
+    height: 100%;
+    display: inline-block;
+}
+.count_wrapper_div{
+    height: 13%;
+}
+.files_div{
+    width: 30%;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+.photo_div {
+    width: 100%;
+    height: 80%;
+}
 .projectRow {
     display: inline;
     width: 40%;
@@ -18,7 +37,7 @@
     display: inline-block;
     border: 1px solid black;
     width: 31%;
-    height: 100px;
+    height: 320px;
     margin: 10px 10px 10px 10px;
 }
 .user_project: hover{
