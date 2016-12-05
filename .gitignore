@@ -11,7 +11,6 @@ django/main/migrations/
 django/main/user_tracks/__pycache__/
 django/main/*/__pycache__/
 django/main/py/*/__pycache__/
-django/main/py/projects/__pycache__/
 *.orig
 *~
 django/main/media/profile_picture/
