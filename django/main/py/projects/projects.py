@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem, Track
+from django.template.context_processors import csrf
 import json
 import os
 
@@ -179,7 +180,11 @@ def get_projects(request, format=None):
             data.append({"id":project.id, "name":project.name, "status":project.status})
     else:
         print ("NO PROJECTS")
-    return Response(data, status=status.HTTP_200_OK)
+    response = {}
+    response.update(csrf(request))
+    response['data'] = data
+    
+    return render_to_response("a_template.html", c)
     
 @api_view(['DELETE'])
 def delete_project(request, format=None):
