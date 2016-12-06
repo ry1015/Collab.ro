@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 # User Project
 class Project (models.Model):
     userID = models.ForeignKey(User)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=50)
     status = models.CharField(max_length=7, default="public")
     description = models.TextField(blank=True)
     timestamp = models.DateTimeField(default=timezone.now)

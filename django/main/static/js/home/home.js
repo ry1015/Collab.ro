@@ -23,6 +23,7 @@ var CREATE_PROJECT_DIV_ID = "create_project_div";
 var MY_PROJECTS_SPAN_ID = "my_projects_span";
 var MY_PROJECTS_DIV_CLASS = "my_projects_div_class";
 var USER_PROJECTS_WRAPPER_DIV = "user_projects";
+var PROJECT_NAME_MAX_LENGTH = 44;
 var project_data;
 
 // Add click event when new_project id is clicked
@@ -169,12 +170,10 @@ function showHome(user){
 var processProjectData = function(result)
 {
     project_data = result;
-    var projects_table_body = document.getElementById(PROJECT_TABLE_ID);
-    if (projects_table_body != null)
-        document.getElementById("user_projects").removeChild(projects_table_body);
-
-    while(projects_table_body.rows.length > 0) {
-        projects_table_body.deleteRow(0);
+    var user_projects = document.getElementById(USER_PROJECTS_WRAPPER_DIV);
+    while (user_projects.children.length > 0){
+        var last_child = user_projects.lastElementChild;
+        user_projects.removeChild(last_child);
     }
 
     var bold_node = undefined;
@@ -186,36 +185,67 @@ var processProjectData = function(result)
         var project_id = project_data[i]["id"];
         var user_project_div = document.createElement("DIV");
         user_project_div.setAttribute('class', 'user_project');
-
-        //Create Project Table
-        var project_table = document.createElement("TABLE");
-        project_table.className = "projectTable";
-        project_table.id = "project_table_" + project_id;
+        user_project_div.id = "project_table_" + project_id;
 
         //Create Project Table Header & Title
-        var header = project_table.createTHead();
-        var row = header.insertRow();
-        cell = row.insertCell(0);
+        var project_header = document.createElement("DIV");
+        project_header.setAttribute('class', 'project_title_div');
         anchor_node = document.createElement("A");
         anchor_node.href="#";
         bold_node = document.createElement("B");
-        text = document.createTextNode(project_data[i]["name"]);
+        if (project_data[i].name.length > PROJECT_NAME_MAX_LENGTH)
+            text = document.createTextNode(project_data[i]["name"].substring(0,PROJECT_NAME_MAX_LENGTH)+'...');
+        else
+            text = document.createTextNode(project_data[i]["name"]);
         bold_node.appendChild(text);
         bold_node.onclick = getProjectId; //event-project-detail.js
         anchor_node.appendChild(bold_node);
-        cell.appendChild(anchor_node);
+        project_header.appendChild(anchor_node);
 
         //Create Delete Button
+        var project_delete_div = document.createElement("DIV");
+        project_delete_div.setAttribute('class', 'project_delete_div');
         var deleteButton = document.createElement("button");
         deleteButton.id = DELETE_PROJECT_ID;
         deleteButton.value = project_id;
         deleteButton.innerHTML = "Delete";
         deleteButton.addEventListener('click', function() { deleteProjectEvent(this.value); }, false);
         var span = document.createElement("SPAN");
-        span.appendChild(deleteButton);
-        cell.appendChild(deleteButton); //ADD TEXT TO DELETE BUTTON
+        project_delete_div.appendChild(deleteButton);
 
-        user_project_div.appendChild(project_table);
+        user_project_div.appendChild(project_header);
+        user_project_div.appendChild(project_delete_div);
+
+        // Create Photo Section
+        var photo_div = document.createElement("DIV");
+        photo_div.style.backgroundImage = "url('media/default_photo.jpg')";
+        photo_div.style.backgroundPosition = 'center';
+        photo_div.setAttribute('class', 'photo_div');
+        user_project_div.appendChild(photo_div);
+
+        // Create Collaborators and File Count Section
+        var count_wrapper_div = document.createElement("DIV");
+        count_wrapper_div.setAttribute('class', 'count_wrapper_div');
+        
+        var collaborators_div = document.createElement("DIV");
+        collaborators_div.setAttribute('class', 'collaborators_div');
+
+        var files_div = document.createElement("DIV");
+        files_div.setAttribute('class', 'files_div');
+        // var span = document.createElement("SPAN");
+        // var bold = document.createElement("B");
+        var num_of_files = 'files';
+        if (project_data[i]['stems_count'] == 1)
+            num_of_files = 'file'
+        var text = document.createTextNode(project_data[i]['stems_count'] + ' ' + num_of_files);
+        // bold.appendChild(text);
+        // span.appendChild(bold);
+        files_div.appendChild(text);
+
+        count_wrapper_div.appendChild(collaborators_div);
+        count_wrapper_div.appendChild(files_div);
+        user_project_div.appendChild(count_wrapper_div);
+
         parent.appendChild(user_project_div);
         // projectRow = projects_table_body.insertRow();
         // var project_id = project_data[i]["id"]; //copied over from update_project_html branch

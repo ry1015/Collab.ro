@@ -10,8 +10,10 @@ django/main/migrations/
 .DS_Store
 django/main/user_tracks/__pycache__/
 django/main/*/__pycache__/
+django/main/py/*/__pycache__/
 *.orig
 *~
 django/main/media/profile_picture/
 django/main/media/tracks/
 django/main/media/stems/
+*.pyc
