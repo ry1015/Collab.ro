@@ -338,7 +338,7 @@ function saveProjectEvent(){
 
     if(valid_form) {
         var url = "api/add_project";
-        postFormRequest(url, formData , processProject);
+        postFormRequest(url, formData, processProject);
     }
 }
 
