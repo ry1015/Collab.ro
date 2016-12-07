@@ -7,11 +7,17 @@ from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem, Track
 from django.template.context_processors import csrf
+from django.http import HttpResponse
+from main.py.csrfUtil import process_token
 import json
 import os
 
 @api_view(['POST'])
 def add_project(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
     project_status = request.POST.get("project_status")
@@ -101,6 +107,10 @@ def add_project(request, format=None):
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
     username = request.POST.get("username")
     project_id = request.POST.get("project_id")
 
@@ -163,7 +173,12 @@ def getProjectTracks(proj):
 
 @api_view(['POST'])
 def get_projects(request, format=None):
-    data = json.loads(request.body.decode("utf-8"))
+    try:
+        body = process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    data = json.loads(body.decode("utf-8"))
+    
     username = data["username"]
     
     try:
@@ -183,15 +198,15 @@ def get_projects(request, format=None):
         stems = Stem.objects.filter(projectID=proj['id'])
         proj['stems_count'] = len(stems)
     
-    response = {}
-    response.update(csrf(request))
-    response['data'] = data
-    
-    return render_to_response("a_template.html", c)
+    return Response(data, status=status.HTTP_200_OK)
     
 @api_view(['DELETE'])
 def delete_project(request, format=None):
-    data = json.loads(request.body.decode("utf-8"))
+    try:
+        body = process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    data = json.loads(body.decode("utf-8"))
     id = data["id"]
     
     try:
@@ -204,6 +219,10 @@ def delete_project(request, format=None):
 
 @api_view(['POST'])
 def change_project_status(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
     data = {}
     id = request.POST.get("projectID")
     try:
