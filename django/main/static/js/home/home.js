@@ -125,11 +125,6 @@ function createProject(parent_node){
     refreshProjects();
 }
 
-// Get all music title
-function getMusicTitle(){
-
-}
-
 // Checks if a dictionary is empty
 function isEmpty(some_list){
     for (var i in some_list)
@@ -202,6 +197,10 @@ var processProjectData = function(result)
         anchor_node.appendChild(bold_node);
         project_header.appendChild(anchor_node);
 
+        // Create Wrapper For Project Photo and Project Header
+        var photo_div_wrapper = document.createElement("DIV");
+        photo_div_wrapper.setAttribute('class', 'photo_div_wrapper');
+
         //Create Delete Button
         var project_delete_div = document.createElement("DIV");
         project_delete_div.setAttribute('class', 'project_delete_div');
@@ -213,15 +212,18 @@ var processProjectData = function(result)
         var span = document.createElement("SPAN");
         project_delete_div.appendChild(deleteButton);
 
-        user_project_div.appendChild(project_header);
-        user_project_div.appendChild(project_delete_div);
+        // user_project_div.appendChild(project_header);
+        // user_project_div.appendChild(project_delete_div);
 
         // Create Photo Section
         var photo_div = document.createElement("DIV");
         photo_div.style.backgroundImage = "url('media/default_photo.jpg')";
         photo_div.style.backgroundPosition = 'center';
         photo_div.setAttribute('class', 'photo_div');
-        user_project_div.appendChild(photo_div);
+
+        photo_div_wrapper.appendChild(project_header);
+        photo_div_wrapper.appendChild(photo_div);
+        user_project_div.appendChild(photo_div_wrapper);
 
         // Create Collaborators and File Count Section
         var count_wrapper_div = document.createElement("DIV");
