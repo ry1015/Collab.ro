@@ -7,12 +7,18 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Track
+from main.py.csrfUtil import process_token
 import json
 import os
 
 
 @api_view(['POST'])
 def upload_track(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+
     print("Processing Track")
     username = request.POST.get("username")
     proj_id = request.POST.get("proj_id")
@@ -61,6 +67,11 @@ def upload_track(request, format=None):
 
 @api_view(['POST'])
 def get_project_tracks(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    
     print("Retrieving Project Tracks")
     proj_id = request.POST.get("proj_id")
     
@@ -80,6 +91,11 @@ def get_project_tracks(request, format=None):
 
 @api_view(['POST'])
 def get_track(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    
     track_id = request.POST.get("track_id")
     
     track = Track.objects.filter(id=track_id)
@@ -95,6 +111,11 @@ def get_track(request, format=None):
 
 @api_view(['DELETE'])
 def delete_track(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+
     print("DELETING TRACK")
     track_id = request.POST.get("track_id")
     

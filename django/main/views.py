@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer
 from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Project
 from .models import UserProfilePhoto
+from main.py.csrfUtil import process_token
 import json
 
 # Create your views here.
@@ -46,8 +47,13 @@ def signup(request):
 # Add a social network
 @api_view(['POST'])
 def add_social_network(request, format=None):
+    try:
+        body = process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+        
     print ("Adding Social Network")
-    data = json.loads(request.body.decode("utf-8"))
+    data = json.loads(body.decode("utf-8"))
     print (data)
     username = data["username"]
     sn = "http://" + data["social_network"]
@@ -73,8 +79,13 @@ def add_social_network(request, format=None):
 # Delete a social network
 @api_view(['DELETE'])
 def delete_social_network(request, format=None):
+    try:
+        body = process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    
     print ("Deleting Social Network")
-    data = json.loads(request.body.decode("utf-8"))
+    data = json.loads(body.decode("utf-8"))
     username = data["username"]    
     sn = data["social_network"]
     try:
@@ -170,6 +181,12 @@ def get_user_data(username):
 # Logs in a user
 @api_view(['GET', 'POST'])
 def login(request, format=None):
+    if request.method == "POST":
+        try:
+            process_token(request)
+        except:
+            return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    
     if request.method == "GET":
         print ("INSIDE LOGIN!")
         username = request.GET.get("username").lower()
@@ -221,6 +238,11 @@ def login(request, format=None):
 
 @api_view(['POST'])
 def logout(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    
     request.session.flush()
     data = {}
     return Response(data, status.HTTP_200_OK)
@@ -228,6 +250,12 @@ def logout(request, format=None):
 # Signs up a user
 @api_view(['GET', 'POST'])
 def signup_user(request, format=None):
+    if request.method == "POST":
+        try:
+            process_token(request)
+        except:
+            return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    
     try:
         print ("Checking username")
         user = User.objects.get(username=request.POST.get("username").lower())
@@ -266,8 +294,14 @@ def signup_user(request, format=None):
 # Updates a user profile
 @api_view(['GET', 'POST'])
 def update_profile(request, format=None):
+    if request.method == "POST":
+        try:
+            body = process_token(request)
+        except:
+            return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    
     print ("Updating Profile")
-    data = json.loads(request.body.decode("utf-8"))
+    data = json.loads(body.decode("utf-8"))
     username = data["username"]
     user_info = data["user"]
     profile = data["profile"]

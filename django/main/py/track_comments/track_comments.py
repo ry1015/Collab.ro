@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment
+from main.py.csrfUtil import process_token
 import json
 from startup.settings import MEDIA_ROOT
 import os
@@ -67,6 +68,11 @@ def get_track_comments(request, format=None):
 # Store reply
 @api_view(['POST'])
 def post_reply(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+
     print ("------------------------------------------------------------")
     print ("START POST REPLY")
     try:
@@ -98,6 +104,11 @@ def post_reply(request, format=None):
 # Store track comments
 @api_view(['POST'])
 def post_track_comment(request, format=None):
+    try:
+        process_token(request)
+    except:
+        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+
     username = request.POST.get("username")
     comment = request.POST.get("comment")
     track_filename = request.POST.get("track_filename")
