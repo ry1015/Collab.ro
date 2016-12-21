@@ -17,7 +17,6 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -37,6 +36,8 @@ function getRequest(url, data, callback){
 }
 
 function postRequest(url, data, callback){
+    var csrftoken = getCookie('csrftoken');
+
     $.ajax({
         type: "POST",
         url: url,
@@ -90,6 +91,7 @@ function getFormRequest(url, data, callback){
 }
 
 function postFormRequest(url, data, callback){
+    var csrftoken = getCookie('csrftoken');
     $.ajax({
         type: "POST",
         url: url,

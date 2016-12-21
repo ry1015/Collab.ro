@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -12,6 +13,7 @@ import json
 
 # Create your views here.
 # Redirects to index page
+@ensure_csrf_cookie
 def index(request):
     # print(request.session.get('member_id'))
     if(request.session.get('member_id') != None):
