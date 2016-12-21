@@ -35,6 +35,10 @@ function projectStatusEventListener(node){
     node.onclick = changeProjectStatus;
 }
 
+function addPhotoEventListener(node){
+    node.onclick = getProjectId;
+}
+
 // Creates Current Uploaded Tracks of A User
 // user, current user
 function createCurrentTracks(user){
@@ -220,7 +224,8 @@ var processProjectData = function(result)
         photo_div.style.backgroundImage = "url('media/default_photo.jpg')";
         photo_div.style.backgroundPosition = 'center';
         photo_div.setAttribute('class', 'photo_div');
-
+        addPhotoEventListener(photo_div);
+        
         photo_div_wrapper.appendChild(project_header);
         photo_div_wrapper.appendChild(photo_div);
         user_project_div.appendChild(photo_div_wrapper);
