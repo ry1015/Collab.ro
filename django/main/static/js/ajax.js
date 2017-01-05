@@ -1,6 +1,7 @@
 var home = "http://127.0.0.1:8000/";
 function failCallback(result){
     console.log(result.responseText);
+    showIndex();
 }
 
 function getCookie(name) {

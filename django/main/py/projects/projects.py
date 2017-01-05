@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -176,6 +177,7 @@ def get_projects(request, format=None):
     try:
         body = process_token(request)
     except:
+        request.session.flush()
         return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
     data = json.loads(body.decode("utf-8"))
     

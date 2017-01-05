@@ -378,7 +378,7 @@ var refreshProjects = function(args){
     };
     
     data = JSON.stringify(data);
-    postRequest(url, data, processProjectData);
+    postRequest(url, data, processProjectData, showIndex); //showIndex located in index.js
 }
 
 
