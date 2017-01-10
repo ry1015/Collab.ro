@@ -244,7 +244,7 @@ def logout(request, format=None):
         process_token(request)
     except:
         return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
-    
+    logout(request)
     request.session.flush()
     data = {}
     return Response(data, status.HTTP_200_OK)
