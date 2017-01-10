@@ -12,6 +12,8 @@ from django.http import HttpResponse
 from main.py.csrfUtil import process_token
 import json
 import os
+import pprint
+from django.conf import settings
 
 @api_view(['POST'])
 def add_project(request, format=None):
@@ -142,12 +144,17 @@ def get_project_details(request, format=None):
 def getProjectStems(proj):
     stems = Stem.objects.filter(projectID=proj.id)
     list_stems = []
+    pprint.pprint(stems)
     for stem in stems:
         tmp = {}
         tmp["title"] = stem.title
         tmp["category"] = stem.category
         tmp["status"] = stem.status
-        tmp["filename"] = str(stem.filename).split("/")[3]
+        if (stem.filename):
+            tmp["filename"] = str(stem.filename).split("/")[3]
+        else:
+            print ('FILENAME DOES NOT EXISTS')
+            tmp["filename"] = ''
         tmp["owner"] = stem.userID.username
         tmp["timestamp"] = stem.upload_date
         list_stems.append(tmp)
@@ -173,15 +180,30 @@ def getProjectTracks(proj):
     return list_tracks
 
 @api_view(['POST'])
+@ensure_csrf_cookie
 def get_projects(request, format=None):
-    try:
-        body = process_token(request)
-    except:
+    print('REQUEST.USER')
+    print(request.user)
+    if request.user.is_authenticated:
+        pass
+    else:
         request.session.flush()
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
-    data = json.loads(body.decode("utf-8"))
-    
-    username = data["username"]
+        return Response("User not Authenticated.")
+    # print('CHECKING TOKEN')
+    # print(request.META['HTTP_X_CSRFTOKEN'])
+    # print('VERSUS')
+    # print(request.COOKIES[settings.CSRF_COOKIE_NAME])
+    # try:
+    #     body = process_token(request)
+    # except:
+    #     request.session.flush()
+    #     return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    # data = json.loads(request.body.decode("utf-8"))
+    print('GET ALL PROJECTS')
+    pprint.pprint(request.POST)
+    # data = request.POST.get('username')
+    print(request.POST.get('username'))
+    username = request.POST.get('username')
     
     try:
         user = User.objects.get(username=username)

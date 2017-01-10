@@ -168,6 +168,8 @@ function showHome(user){
 //TODO: Shortern function, split up repetitive code
 var processProjectData = function(result)
 {
+    console.log('PROJECTS');
+    console.log(result);
     project_data = result;
     var user_projects = document.getElementById(USER_PROJECTS_WRAPPER_DIV);
     while (user_projects.children.length > 0){
@@ -377,7 +379,6 @@ var refreshProjects = function(args){
         "username": username
     };
     
-    data = JSON.stringify(data);
     postRequest(url, data, processProjectData, showIndex); //showIndex located in index.js
 }
 

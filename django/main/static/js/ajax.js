@@ -43,11 +43,11 @@ function postRequest(url, data, callback){
         type: "POST",
         url: url,
         data: data,
-        beforeSend: function(xhr, settings) {
-            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        },
+        // beforeSend: function(xhr, settings) {
+        //     if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        //         xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        //     }
+        // },
         success : function (result){
             callback(result);
         },
