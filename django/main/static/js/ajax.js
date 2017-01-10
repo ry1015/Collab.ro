@@ -24,9 +24,15 @@ function csrfSafeMethod(method) {
 }
 
 function getRequest(url, data, callback){
+    var csrftoken = getCookie('csrftoken');
     $.getJSON({
         url: home + url,
         data: data,
+        beforeSend: function(xhr, settings) {
+            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
         success : function (result) { 
             callback(result);
         },
@@ -43,11 +49,11 @@ function postRequest(url, data, callback){
         type: "POST",
         url: url,
         data: data,
-        // beforeSend: function(xhr, settings) {
-        //     if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
-        //         xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        //     }
-        // },
+        beforeSend: function(xhr, settings) {
+            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        },
         success : function (result){
             callback(result);
         },

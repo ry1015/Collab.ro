@@ -30,5 +30,5 @@ function loginEvent()
 function checkSession(processSession){
     var url = "api/session";
     var data = {};
-    getRequest(url, data, processSession) //ajax.js
+    postRequest(url, data, processSession) //ajax.js
 }

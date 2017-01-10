@@ -1,13 +1,6 @@
 // *******************************************
 // Start HERE when signup.html finishes loading
 // *******************************************
-window.onload = function()
-{
-    // var sign_up_div = document.getElementById("signup-body");
-    // var header_div = createHeader(); //header.js
-    // sign_up_div.appendChild(header_div);
-    // createSignupForm();
-}
 
 // Add click event listner to signup-button
 // Add input event listener on username-signup

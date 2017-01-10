@@ -12,7 +12,7 @@ from main.py.tracks import tracks
 from main.py.view_user import view_user
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^api/login$',views.login),
+    url(r'^api/login$',views.login_user),
     url(r'^index', views.index),
     url(r'^signup', views.signup),
     url(r'^api/signup', views.signup_user),

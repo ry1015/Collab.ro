@@ -110,10 +110,8 @@ def add_project(request, format=None):
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    print ('CURRENT USER')
+    print (request.user)
     username = request.POST.get("username")
     project_id = request.POST.get("project_id")
 
@@ -189,19 +187,10 @@ def get_projects(request, format=None):
     else:
         request.session.flush()
         return Response("User not Authenticated.")
-    # print('CHECKING TOKEN')
-    # print(request.META['HTTP_X_CSRFTOKEN'])
-    # print('VERSUS')
-    # print(request.COOKIES[settings.CSRF_COOKIE_NAME])
-    # try:
-    #     body = process_token(request)
-    # except:
-    #     request.session.flush()
-    #     return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
-    # data = json.loads(request.body.decode("utf-8"))
+
     print('GET ALL PROJECTS')
     pprint.pprint(request.POST)
-    # data = request.POST.get('username')
+    data = []
     print(request.POST.get('username'))
     username = request.POST.get('username')
     

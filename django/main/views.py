@@ -1,10 +1,15 @@
 from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import ensure_csrf_cookie
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.contrib.auth import authenticate
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+
 from .serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer
 from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Project
 from .models import UserProfilePhoto
@@ -182,12 +187,12 @@ def get_user_data(username):
 
 # Logs in a user
 @api_view(['GET', 'POST'])
-def login(request, format=None):
-    if request.method == "POST":
-        try:
-            process_token(request)
-        except:
-            return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+def login_user(request, format=None):
+    # if request.method == "POST":
+    #     try:
+    #         process_token(request)
+    #     except:
+    #         return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
     
     if request.method == "GET":
         print ("INSIDE LOGIN!")
@@ -196,6 +201,7 @@ def login(request, format=None):
         user = authenticate(username=username, password=password)
         if user is not None:
             print("User is valid, active and authenticated")
+            login(request, user)
             try:
                 userprofile = UserProfile.objects.get(userID=user) # Get User
             except:
@@ -252,12 +258,6 @@ def logout(request, format=None):
 # Signs up a user
 @api_view(['GET', 'POST'])
 def signup_user(request, format=None):
-    if request.method == "POST":
-        try:
-            process_token(request)
-        except:
-            return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
-    
     try:
         print ("Checking username")
         user = User.objects.get(username=request.POST.get("username").lower())
