@@ -23,7 +23,7 @@ function loginEvent()
         "password": document.getElementById("password").value
     };
     
-    getRequest(url, data, processUser); //ajax.js    
+    postRequest(url, data, processUser); //ajax.js    
 }
 
 // Check User Session

@@ -25,6 +25,10 @@ function processSession(result){
 function showIndex(){
     var login_div = document.getElementById("login");
     var main_div = document.getElementById("main");
+    while (login_div.childNodes.length > 0){
+        var child = login_div.firstChild;
+        login_div.removeChild(child);
+    }
     while (main_div.childNodes.length > 0){
         var child = main_div.firstChild;
         main_div.removeChild(child);

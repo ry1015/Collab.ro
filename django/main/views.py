@@ -188,16 +188,10 @@ def get_user_data(username):
 # Logs in a user
 @api_view(['GET', 'POST'])
 def login_user(request, format=None):
-    # if request.method == "POST":
-    #     try:
-    #         process_token(request)
-    #     except:
-    #         return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
-    
-    if request.method == "GET":
+    if request.method == "POST":
         print ("INSIDE LOGIN!")
-        username = request.GET.get("username").lower()
-        password = request.GET.get("password")
+        username = request.POST.get("username").lower()
+        password = request.POST.get("password")
         user = authenticate(username=username, password=password)
         if user is not None:
             print("User is valid, active and authenticated")
