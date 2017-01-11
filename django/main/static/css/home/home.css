@@ -36,7 +36,6 @@
     width: 80%;
     position: absolute;
     bottom: 0;
-    z-index: 1;
 }
 .project_delete_div{
     width: 20%;
