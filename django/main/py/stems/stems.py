@@ -6,15 +6,15 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem
-from main.py.csrfUtil import process_token
 import json
 
 @api_view(['POST'])
 def upload_stem(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
 
     print("Processing Stem")
     username = request.POST.get("username")
@@ -57,10 +57,11 @@ def upload_stem(request, format=None):
 
 @api_view(['POST'])
 def get_project_stems(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
 
     print("Retrieving Project Stems")
     proj_id = request.POST.get("proj_id")
@@ -81,10 +82,11 @@ def get_project_stems(request, format=None):
 
 @api_view(['DELETE'])
 def delete_stem(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
 
     print("DELETING STEM")
     stem_id = request.POST.get("stem_id")

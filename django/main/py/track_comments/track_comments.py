@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment
-from main.py.csrfUtil import process_token
 import json
 from startup.settings import MEDIA_ROOT
 import os
@@ -68,10 +67,11 @@ def get_track_comments(request, format=None):
 # Store reply
 @api_view(['POST'])
 def post_reply(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
 
     print ("------------------------------------------------------------")
     print ("START POST REPLY")
@@ -104,10 +104,11 @@ def post_reply(request, format=None):
 # Store track comments
 @api_view(['POST'])
 def post_track_comment(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
 
     username = request.POST.get("username")
     comment = request.POST.get("comment")

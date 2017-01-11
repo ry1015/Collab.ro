@@ -4,14 +4,14 @@ from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from main.models import Project, Track, Stem
 from .view_user_serializer import ProjectSerializer, TrackSerializer, StemSerializer
-from main.py.csrfUtil import process_token
 # Gets user project
 @api_view(['POST'])
 def get_user_public_project(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
     
     data = {}
     username = request.POST.get("username")

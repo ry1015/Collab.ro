@@ -9,7 +9,6 @@ from main.serializer import UserSerializer, UserProfileSerializer, ContactInform
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem, Track
 from django.template.context_processors import csrf
 from django.http import HttpResponse
-from main.py.csrfUtil import process_token
 import json
 import os
 import pprint
@@ -17,10 +16,12 @@ from django.conf import settings
 
 @api_view(['POST'])
 def add_project(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
+    
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
     project_status = request.POST.get("project_status")
@@ -110,6 +111,12 @@ def add_project(request, format=None):
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
+    
     print ('CURRENT USER')
     print (request.user)
     username = request.POST.get("username")
@@ -215,10 +222,12 @@ def get_projects(request, format=None):
     
 @api_view(['DELETE'])
 def delete_project(request, format=None):
-    try:
-        body = process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
+    
     data = json.loads(body.decode("utf-8"))
     id = data["id"]
     
@@ -232,10 +241,12 @@ def delete_project(request, format=None):
 
 @api_view(['POST'])
 def change_project_status(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
+    
     data = {}
     id = request.POST.get("projectID")
     try:

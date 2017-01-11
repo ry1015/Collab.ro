@@ -13,7 +13,6 @@ from django.contrib.auth.models import User
 from .serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer
 from .models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Project
 from .models import UserProfilePhoto
-from main.py.csrfUtil import process_token
 import json
 
 # Create your views here.
@@ -54,10 +53,11 @@ def signup(request):
 # Add a social network
 @api_view(['POST'])
 def add_social_network(request, format=None):
-    try:
-        body = process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
         
     print ("Adding Social Network")
     data = json.loads(body.decode("utf-8"))
@@ -86,10 +86,11 @@ def add_social_network(request, format=None):
 # Delete a social network
 @api_view(['DELETE'])
 def delete_social_network(request, format=None):
-    try:
-        body = process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
     
     print ("Deleting Social Network")
     data = json.loads(body.decode("utf-8"))
@@ -240,10 +241,12 @@ def login_user(request, format=None):
 
 @api_view(['POST'])
 def logout(request, format=None):
-    try:
-        process_token(request)
-    except:
-        return Response("Unauthorized: Invalid token", status=status.HTTP_401_UNAUTHORIZED)
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
+
     logout(request)
     request.session.flush()
     data = {}
