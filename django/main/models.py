@@ -105,7 +105,7 @@ def uploadTrackTo(instance, filename):
 class Track(models.Model):
     userID = models.ForeignKey(User)
     projectID = models.ForeignKey(Project)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=50)
     genre = models.CharField(max_length=200)
     status = models.CharField(max_length=7, default="public")
     filename = models.FileField(max_length=200, blank=True, upload_to=uploadTrackTo)
@@ -122,7 +122,7 @@ def uploadStemTo(instance, filename):
 class Stem(models.Model):
     userID = models.ForeignKey(User)
     projectID = models.ForeignKey(Project)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=50)
     category = models.CharField(max_length=200)
     status = models.CharField(max_length=7, default="private")
     filename = models.FileField(max_length=200, blank=True, upload_to=uploadStemTo)
