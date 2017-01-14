@@ -32,29 +32,174 @@ function getProjectId(){
     postRequest(url, data, processProjectId)
 }
 
+// Create Project Detail Page
+// proj, project detail object
 function createProjectDetail(proj){
+    console.log("CREATING PROJECT DETAIL");
+    console.log(proj);
     var body_div = document.getElementById(BODY_DIV_ID);
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
     var wrapper = document.createElement("DIV");
-    wrapper.setAttribute("class", "projectDetailWrapper");
-    wrapper.style.textAlign = "center";
-    var project_detail_table = document.createElement("TABLE");
-    project_detail_table.setAttribute("class", "projectDetail");
-    var row = project_detail_table.insertRow(project_detail_table.rows.length);
-    var cell = row.insertCell(0);
-    cell.colSpan = "2";
-    cell.style.textAlign = "center";
-    var bold = document.createElement("B");
-    var text = document.createTextNode(proj.project_name);
-    bold.appendChild(text);
-    cell.appendChild(bold);
-    wrapper.appendChild(project_detail_table);
+    // wrapper.setAttribute("class", "projectDetailWrapper");
+    // wrapper.style.textAlign = "center";
+    // var project_detail_table = document.createElement("TABLE");
+    // project_detail_table.setAttribute("class", "projectDetail");
+    // var row = project_detail_table.insertRow(project_detail_table.rows.length);
+    // var cell = row.insertCell(0);
+    // cell.colSpan = "2";
+    // cell.style.textAlign = "center";
+    // var bold = document.createElement("B");
+    // var text = document.createTextNode(proj.project_name);
+    // bold.appendChild(text);
+    // cell.appendChild(bold);
+    // wrapper.appendChild(project_detail_table);
+    
+    // createProjectDetailTracks(proj, project_detail_table);
+    // createProjectDetailStems(proj, project_detail_table);
+    var project_navigation_div = createProjectNavigation(document.createElement("DIV"), proj);
+    project_navigation_div.setAttribute("class", "project-detail-navigation");
+    
+    var track_div = document.createElement("DIV");
+    track_div.setAttribute("class", "project-detail-track");
+    track_div.appendChild(document.createTextNode('PASS THIS DIV INTO YOUR FUNCTION **** LOCATION: event-project-detail.js LINE: 60'));
+    
+    var options_div = createOptionsDiv(document.createElement("DIV"), proj);
+    options_div.setAttribute("class", "options-div");
+
+    var info_div = createInfoDiv(document.createElement("DIV"), proj);
+    info_div.setAttribute("class", "info-div");
+
+    wrapper.appendChild(project_navigation_div);
+    wrapper.appendChild(track_div);
+    wrapper.appendChild(options_div);
+    wrapper.appendChild(info_div);
+
     body_div.appendChild(wrapper);
-    createProjectDetailTracks(proj, project_detail_table);
-    createProjectDetailStems(proj, project_detail_table);
 }
 
+// Create Project Detail Navigation
+// navi_node, navigation div
+// proj_obj, project detail object
+// @return updated navi_node
+function createProjectNavigation(navi_node, proj_obj){
+    // Button DIV
+    var previous_button_div = document.createElement("DIV");
+    previous_button_div.setAttribute("class", "previous-page-button project-detail-navigation");
+    
+    // Title DIV
+    var project_title_div = document.createElement("DIV");
+    project_title_div.setAttribute("class", "project-detail-title project-detail-navigation");
+    var project_title_span = document.createElement("SPAN");
+    project_title_span.appendChild(document.createTextNode(proj_obj.project_name));
+    project_title_div.appendChild(project_title_span);
+
+    // Overview DIV
+    var overview_div = document.createElement("DIV");
+    overview_div.setAttribute("class", "project-detail-overview project-detail-navigation");
+    var total_stems = proj_obj.stems.length;
+    var total_tracks = proj_obj.tracks.length;
+    var overview_span = document.createElement("SPAN");
+    var b = document.createElement("B");
+    var u = document.createElement("U");
+    u.appendChild(document.createTextNode("Overview"));
+    b.appendChild(u);
+    overview_span.appendChild(b);
+    overview_div.appendChild(overview_span);
+
+    if (total_stems > 0){ 
+        var empty_div = document.createElement("DIV");
+        empty_div.setAttribute("class", "empty-spacing-div");
+
+        var stem_span = document.createElement("SPAN");
+        stem_span.appendChild(document.createTextNode('Stem Files'));
+        
+        overview_div.appendChild(empty_div);
+        overview_div.appendChild(stem_span);
+    }
+
+    if (total_tracks > 0){
+        var empty_div = document.createElement("DIV");
+        empty_div.setAttribute("class", "empty-spacing-div");
+
+        var track_span = document.createElement("SPAN");
+        track_span.appendChild(document.createTextNode('Track Files'));
+        
+        overview_div.appendChild(empty_div);
+        overview_div.appendChild(track_span);
+    }
+
+    navi_node.appendChild(previous_button_div);
+    navi_node.appendChild(project_title_div);
+    navi_node.appendChild(overview_div)
+
+    return navi_node;
+}
+
+// Create Project Detail Options DIV
+// options_node, options DIV
+// proj_obj, project detail object
+// @return updated options_node
+function createOptionsDiv(options_node, proj_obj){
+    var stem_files = document.createElement("DIV");
+    var stem_span = document.createElement("SPAN");
+    var text = "(" + proj_obj.stems.length + ")" + " Stem Files";
+    stem_span.appendChild(document.createTextNode(text));
+    stem_files.appendChild(stem_span);
+
+    var comments = document.createElement("DIV");
+    var comments_span = document.createElement("SPAN");
+    text = "(" + proj_obj.stems.length + ")" + " Comments";
+    comments_span.appendChild(document.createTextNode(text));
+    comments.appendChild(comments_span);
+
+    var download = document.createElement("DIV");
+    var download_span = document.createElement("SPAN");
+    text = "Download";
+    download_span.appendChild(document.createTextNode(text));
+    download.appendChild(download_span);
+
+    var empty_div = document.createElement("DIV");
+    empty_div.setAttribute("class", "empty-spacing-div");
+
+    options_node.appendChild(stem_files);
+    options_node.appendChild(empty_div);
+    options_node.appendChild(comments);
+    options_node.appendChild(empty_div.cloneNode(true));
+
+    options_node.appendChild(download);
+
+    return options_node;
+}
+
+// Create Information DIV
+// info_div, project information DIV
+// proj_obj, project detail object
+// @return updated info_div
+function createInfoDiv(info_div, proj_obj){
+    // Recent Updates DIV
+    var updates_div = document.createElement("DIV");
+    updates_div.setAttribute("class", "updates-div");
+    var updates_span = document.createElement("SPAN");
+    updates_span.appendChild(document.createTextNode("Recent Updates"));
+    updates_div.appendChild(updates_span);
+
+    // Project Information DIV
+    var project_info = document.createElement("DIV");
+    project_info.setAttribute("class", "project-info-div");
+    var project_info_span = document.createElement("SPAN");
+    project_info_span.appendChild(document.createTextNode("Project Information"));
+    project_info.appendChild(project_info_span);
+
+    info_div.appendChild(updates_div);
+    info_div.appendChild(project_info);
+
+    return info_div;
+}
+
+// Get Only Unique Titles From A List
+// list_obj, list of objects
+// @return list with only unique titles
 function getUniqueTitles(list_obj){
     var unique_titles = []
     for (var i in list_obj){

@@ -32,10 +32,10 @@ def get_user_input_results(request, format=None):
 
     data = request.GET.get("input")
     terms = normalize_query(data)
-    user = getUserFromList(terms)
-    user_search = userSearch(terms)
+    user = get_user_from_list(terms)
+    user_list = user_search(terms)
 
-    if (user != None): # user found
+    if user: # user found
         terms.remove(user[0])
         user = user[1]
         q = reduce(operator.and_, (Q(name__icontains = term) for term in terms), Q(userID=user))
@@ -53,7 +53,7 @@ def get_user_input_results(request, format=None):
             ids.append(proj.id)
             projects.append(tmp)
 
-    if (user != None):
+    if user:
         q = reduce(operator.or_, (Q(name__icontains = term) for term in terms), Q(userID=user))
         print(q)
     else:
@@ -71,7 +71,7 @@ def get_user_input_results(request, format=None):
 
     results["exact_projects"] = projects
     results["other_projects"] = other_projects
-    results["users"] = user_search
+    results["users"] = user_list
 
     print ("END USER INPUT RESULTS")
     print("------------------------------------------")
@@ -92,7 +92,7 @@ def normalize_query(query_string,
 
 # Get user from a list
 # _list, a list of terms
-def getUserFromList(_list):
+def get_user_from_list(_list):
     user = None
     for item in _list:
         try:
@@ -100,11 +100,11 @@ def getUserFromList(_list):
         except Exception:
             pass
 
-        if (user != None):
+        if user:
             return [item, user]
     return None
 
-def userSearch(_list):
+def user_search(_list):
     query = reduce(operator.or_, (Q(username__icontains = term) for term in _list))
     userSearchList = User.objects.filter(query)
     users = []

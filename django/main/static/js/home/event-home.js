@@ -1,4 +1,5 @@
 var EVENT_HOME_NEW_PROJ_DESC_ID = "new_proj_desc";
+var NEW_PROJECT_DIV_ID = "new_project_div"
 var NEW_PROJECT_ROW_ID = "new_project_row";
 var NEW_PROJECT_TABLE_ID = "new_project_table";
 // Change project status
@@ -35,27 +36,19 @@ function getTable(node){
 // Add new project
 // Called by home.js
 function newProjectEvent(){
-    var new_project_exist = document.getElementById(NEW_PROJECT_ROW_ID);
+    var new_project_exist = document.getElementById(NEW_PROJECT_DIV_ID);
     if (new_project_exist != null)
         return
 
-    var body_div = document.getElementById(BODY_DIV_ID);
-    var new_project_div = document.createElement("DIV");
-    new_project_div.id = NEW_PROJECT_ROW_ID;
+    var body_div = document.getElementById(BODY_DIV_ID); //body div
+    var new_project_div = document.createElement("DIV"); //new project div
+    new_project_div.id = NEW_PROJECT_DIV_ID;
 
-    var project_table = document.createElement("TABLE");
-    project_table.id = NEW_PROJECT_TABLE_ID;
-
-    var row = project_table.insertRow(project_table.rows.length);
-    row.className = "projectRow"; //copied over from update_project_html branch
-    row.id = NEW_PROJECT_ROW_ID;
-    var cell = row.insertCell(0);
-    var new_project_table = document.createElement("table");
+    var new_project_table = document.createElement("TABLE");
     new_project_table.className = "projectTable"; //new
 
     new_project_table.className = NEW_PROJECT_TABLE_ID;
     new_project_table.id = NEW_PROJECT_TABLE_ID; //copied over from update_project_html branch
-    cell.appendChild(new_project_table);
 
 
     // TITLE ROW
@@ -230,7 +223,7 @@ function newProjectEvent(){
     cell.style.textAlign = "right";
     cell.innerHTML = "<button id='project_save_button'>SAVE</button>";
     cell.innerHTML += "<button id='project_cancel_button'>CANCEL</button";
-    new_project_div.appendChild(project_table);
+    new_project_div.appendChild(new_project_table);
 
     var user_projects = document.getElementById(USER_PROJECTS_WRAPPER_DIV);
     if (user_projects == null)
@@ -243,7 +236,7 @@ function newProjectEvent(){
 }
 
 function cancelProjectEvent() {
-    var project_row_div = document.getElementById(NEW_PROJECT_ROW_ID);
+    var project_row_div = document.getElementById(NEW_PROJECT_DIV_ID);
     var parent = document.getElementById(BODY_DIV_ID);
     
     project_row_div.setAttribute("class","fadeOut");

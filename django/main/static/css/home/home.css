@@ -83,17 +83,17 @@
     cursor: pointer;
 }
 
-#new_project_row {
-    width: 50%;
+#new_project_div {
+    width: 25%;
+    position: absolute;
+    left: 0px;
+    right: 0px;
     margin-left: auto;
     margin-right: auto;
-    position: absolute;
     z-index: 1;
 }
 
 #new_project_table{
-    margin-left: auto;
-    margin-right: auto;
     background-color: lightgrey;
     border: 1px solid black;
 }

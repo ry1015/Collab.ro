@@ -130,5 +130,7 @@ PROJECT_DIR=os.path.dirname(__file__)
 STATIC_URL = '/static/'
 STATIC_ROOT= '/var/www/django/static'
 MEDIA_URL = '/media/'
-# MEDIA_ROOT = '/var/www/django/media'
 MEDIA_ROOT = BASE_DIR + "/main/media"
+
+# Session
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

@@ -1,0 +1,72 @@
+.previous-page-button {
+    width: 2.5%;
+    height: 30px;
+}
+
+.project-detail-navigation > div {
+    display: inline-block;
+    vertical-align: top;
+    height: 30px;
+}
+
+.project-detail-navigation span {
+    font-size: 17px;
+}
+
+.project-detail-title {
+    width: 70%;
+}
+
+.project-detail-overview {
+    width: 26.5%;
+    text-align: right;
+}
+
+.project-detail-overview > div {
+    display: inline-block;
+}
+
+.project-detail-track {
+    height: 120px;
+    width: : 100%;
+    border: 1px solid black;
+}
+
+.options-div {
+    padding-top: 1%;
+    padding-bottom: 1%;
+    text-align: right;
+}
+
+.options-div > div {
+    display: inline-block;
+}
+
+.options-div > div:not(.empty-spacing-div){
+    padding: .25% 1% .25% 1%;
+    background-color: rgb(216, 216, 216);
+}
+
+.info-div {
+    /*border: 1px solid black;*/
+}
+
+.info-div > div {
+    display: inline-block;
+}
+
+.info-div > div span{
+    font-size : 21px;
+}
+
+.updates-div {
+    width: 71%;
+    margin-right: 1%;
+}
+
+.project-info-div {
+    width: 20%;
+}
+.empty-spacing-div {
+    width: 15px;
+}

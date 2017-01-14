@@ -6,8 +6,8 @@ window.onload = function()
     var session_found = false;
     var current_user;
 
-    showIndex();
-    // checkSession(processSession); //event-index.js
+    // showIndex();
+    checkSession(processSession); //event-index.js
 }
 
 // Process Session

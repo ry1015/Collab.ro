@@ -111,14 +111,15 @@ def add_project(request, format=None):
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
+    print ('GETTING PROJECT DETAILS')
+    print ('REQUEST USER')
+    print (request.user)
     if request.user.is_authenticated:
         pass
     else:
         request.session.flush()
-        return Response("User not Authenticated.")
-    
-    print ('CURRENT USER')
-    print (request.user)
+        return Response("User not Authenticated.", status=status.HTTP_401_UNAUTHORIZED)
+
     username = request.POST.get("username")
     project_id = request.POST.get("project_id")
 
@@ -136,9 +137,9 @@ def get_project_details(request, format=None):
     data["project_status"] = project.status
     data["project_desc"] = project.description
     data["tracks"] = []
-    data["tracks"] = getProjectTracks(project)
+    data["tracks"] = get_project_tracks(project)
     data["stems"] = []
-    data["stems"] = getProjectStems(project)
+    data["stems"] = get_project_stems(project)
 
     return Response(data, status=status.HTTP_200_OK)
 
@@ -146,10 +147,10 @@ def get_project_details(request, format=None):
 # user, the user
 # proj, the project
 # list_stems, all stems associated with the project
-def getProjectStems(proj):
+
+def get_project_stems(proj):
     stems = Stem.objects.filter(projectID=proj.id)
     list_stems = []
-    pprint.pprint(stems)
     for stem in stems:
         tmp = {}
         tmp["title"] = stem.title
@@ -169,7 +170,7 @@ def getProjectStems(proj):
 # user, the user
 # proj, the project
 # list_tracks, all tracks associated with the project
-def getProjectTracks(proj):
+def get_project_tracks(proj):
     tracks = Track.objects.filter(projectID=proj.id)
     list_tracks = []
     for track in tracks:
@@ -187,18 +188,13 @@ def getProjectTracks(proj):
 @api_view(['POST'])
 @ensure_csrf_cookie
 def get_projects(request, format=None):
-    print('REQUEST.USER')
-    print(request.user)
     if request.user.is_authenticated:
         pass
     else:
         request.session.flush()
-        return Response("User not Authenticated.")
+        return Response("User not Authenticated.", status=status.HTTP_401_UNAUTHORIZED)
 
-    print('GET ALL PROJECTS')
-    pprint.pprint(request.POST)
     data = []
-    print(request.POST.get('username'))
     username = request.POST.get('username')
     
     try:

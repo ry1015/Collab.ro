@@ -19,21 +19,21 @@ import json
 # Redirects to index page
 @ensure_csrf_cookie
 def index(request):
-    # print(request.session.get('member_id'))
-    if(request.session.get('member_id') != None):
+    print ('-----------------------------------------------')
+    print ('USER')
+    print (request.user)
+    print ('SESSION')
+    print (request.session.get('member_id'))
+    if request.session.get('member_id'):
         user_id = request.session.get('member_id')
         try:
             user = User.objects.get(pk=user_id)
         except:
-            return render(request, 'html/index.html')
+            return render('User Does Not Exist', 'html/index.html')
     return render(request, 'html/index.html')
 
-@api_view(['GET'])
+@api_view(['POST'])
 def session(request, format=None):
-    print ("----------------------------------------------------")
-    print ("SESSION CALLED")
-
-    print ("MEMBER ID:",request.session.get('member_id'))
     data = {}
     if (request.session.get('member_id')):
         try:
@@ -61,7 +61,6 @@ def add_social_network(request, format=None):
         
     print ("Adding Social Network")
     data = json.loads(body.decode("utf-8"))
-    print (data)
     username = data["username"]
     sn = "http://" + data["social_network"]
 
@@ -108,7 +107,6 @@ def delete_social_network(request, format=None):
         return Response("Could Not Delete Social Network.", status=status.HTTP_400_BAD_REQUEST)
 
     data = get_user_data(username)
-    print (data)
     return Response(data, status=status.HTTP_200_OK)
 
 # Get all user information i.e. profile, contact info, all possible user category
@@ -153,21 +151,15 @@ def get_user_data(username):
         categories.append(obj.name)
     
     # User Projects
-    print ("-------------------------------------")
-    print ("GETTING PROJECTS")
     projects = []
     user_projects = Project.objects.filter(userID=user)
-    print(user_projects)
-    print ("-------------------------------------")
+
     for proj in user_projects:
         projects.append(proj.name)
 
     # User Profile Photos
-    print ("-------------------------------------")
-    print ("GETTING PROJECTS")
     photos = []
     user_photos = UserProfilePhoto.objects.filter(userID=user).order_by('-selected')
-    print (user_photos)
     for photo in user_photos:
         tmp = {}
         print (photo.filename)
@@ -175,7 +167,7 @@ def get_user_data(username):
         tmp["selected"] = photo.selected
         photos.append(tmp)
     user_profile["photos"] = photos
-    print ("-------------------------------------")
+
     data={
         "contact_info": contact_info_serializer.data,
         "profile": user_profile,
@@ -230,7 +222,7 @@ def login_user(request, format=None):
 
             data = get_user_data(username)
             request.session['member_id'] = user.id
-            request.session.set_expiry(300)
+            request.session.set_expiry(300) # 5 mins (300)
             return Response(data, status=status.HTTP_201_CREATED)
         else:
             # the authentication system was unable to verify the username and password
@@ -355,7 +347,6 @@ def update_profile(request, format=None):
     try:
         if (profile["user_category"] != ""):
             profile["user_category"] = UserCategory.objects.get(name=profile["user_category"]).id
-        print (profile)
         userprofile_serializer = UserProfileSerializer(data=profile)
     except:
         print ("SOMETHING WENT WORNG WITH USER PROFILE SERIALIZER")
