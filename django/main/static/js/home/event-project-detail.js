@@ -59,7 +59,7 @@ function createProjectDetail(proj){
     // createProjectDetailStems(proj, project_detail_table);
     var project_navigation_div = createProjectNavigation(document.createElement("DIV"), proj);
     project_navigation_div.setAttribute("class", "project-detail-navigation");
-    
+
     var track_div = document.createElement("DIV");
     track_div.setAttribute("class", "project-detail-track");
     track_div.appendChild(document.createTextNode('PASS THIS DIV INTO YOUR FUNCTION **** LOCATION: event-project-detail.js LINE: 60'));
@@ -190,6 +190,17 @@ function createInfoDiv(info_div, proj_obj){
     var project_info_span = document.createElement("SPAN");
     project_info_span.appendChild(document.createTextNode("Project Information"));
     project_info.appendChild(project_info_span);
+
+    var project_description_div = document.createElement("DIV");
+    project_description_div.id = "project-description";
+
+    if (proj_obj.project_desc != ""){
+        project_description_div.innerHTML = proj_obj.project_desc.replace(/(\r\n|\n|\r)/gm, "<br>");;
+    }
+    else{
+        project_description_div.innerHTML = "Leave Project Description Here";
+    }
+    project_info.appendChild(project_description_div);
 
     info_div.appendChild(updates_div);
     info_div.appendChild(project_info);

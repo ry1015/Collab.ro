@@ -1,6 +1,7 @@
 body {
     left: 0;
     right: 0;
+    min-width: 300px;
 }
 
 a {
