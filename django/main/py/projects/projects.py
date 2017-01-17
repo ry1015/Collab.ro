@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from main.serializer import UserSerializer, UserProfileSerializer, ContactInformationSerializer, TrackCommentSerializer
 from main.models import UserProfile, UserCategory, SocialNetwork, ContactInformation, Music, TrackComment, Project, Stem, Track
+from main.models import StemComment
 from django.template.context_processors import csrf
 from django.http import HttpResponse
 import json
@@ -111,9 +112,6 @@ def add_project(request, format=None):
 
 @api_view(['POST'])
 def get_project_details(request, format=None):
-    print ('GETTING PROJECT DETAILS')
-    print ('REQUEST USER')
-    print (request.user)
     if request.user.is_authenticated:
         pass
     else:
@@ -133,6 +131,7 @@ def get_project_details(request, format=None):
         return Response("Project Does Not Exist", status.status.HTTP_400_BAD_REQUEST)
 
     data = {}
+    data["project_id"] = project.id
     data["project_name"] = project.name
     data["project_status"] = project.status
     data["project_desc"] = project.description
@@ -147,7 +146,6 @@ def get_project_details(request, format=None):
 # user, the user
 # proj, the project
 # list_stems, all stems associated with the project
-
 def get_project_stems(proj):
     stems = Stem.objects.filter(projectID=proj.id)
     list_stems = []
@@ -257,3 +255,43 @@ def change_project_status(request, format=None):
     
     project.save()
     return Response(data, status=status.HTTP_200_OK)
+
+# Get recent project updates
+# This includes stem comments and uploaded stems
+@api_view(['POST'])
+def get_recent_updates(request, format=None):
+    if request.user.is_authenticated:
+        pass
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
+
+    project_id = request.POST.get("project_id")
+
+    try:
+        project = Project.objects.get(id=project_id)
+    except:
+        return Response("Project Does Not Exist.", status=status.HTTP_400_BAD_REQUEST)
+
+    stems = Stem.objects.filter(projectID=project_id).order_by("-upload_date")
+    data = []
+    stem_comments_list = []
+    for i in range(0, len(stems)):
+        tmp = {}
+        tmp["stem_title"] = stems[i].title
+        tmp["stem_category"] = stems[i].category
+        tmp["stem_uploaded_by"]  = stems[i].userID.username
+        tmp["stem_filename"] = str(stems[i].filename).replace("stems/", "")
+        tmp["date"] = stems[i].upload_date
+        data.append(tmp)
+
+        stem_comments = StemComment.objects.filter(stemID=stems[i].id).order_by('-timestamp')[:10]
+        for comment in stem_comments:
+            tmp_comment = {}
+            tmp_comment["stem_title"] = comment.stemID.title
+            tmp_comment["stem_comment"] = comment.comment
+            tmp_comment["date"] = comment.timestamp
+            data.append(tmp_comment)
+    data = sorted(data, key=lambda x: x['date'], reverse=True)
+
+    return Response(data, status.HTTP_200_OK)

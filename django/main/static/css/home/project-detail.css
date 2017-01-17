@@ -1,3 +1,11 @@
+.loading-icon {
+    background-image: url("../../../media/loading-icon.gif");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 29%;
+    height: 60px;
+}
+
 .previous-page-button {
     width: 2.5%;
     height: 30px;
@@ -60,10 +68,6 @@
     font-size : 21px;
 }
 
-.project-info-div {
-    width: 27%;
-}
-
 .empty-spacing-div {
     width: 15px;
 }
@@ -84,4 +88,13 @@
 
 #updates-div > span {
     padding-left: 2%;
+}
+
+#project-info-div {
+    width: 27%;
+}
+
+#recent-updates {
+    height: 100px;
+    border: 1px solid black;
 }
