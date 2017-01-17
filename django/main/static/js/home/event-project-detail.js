@@ -77,13 +77,34 @@ function createProjectDetail(proj){
 
     body_div.appendChild(wrapper);
 
-    var recent_updates = document.createElement("DIV");
-    recent_updates.id = "recent-updates";
     var updates_div = document.getElementById("updates-div");
-    console.log("UPDATES DIV");
-    console.log(updates_div);
+    getRecentUpdates(updates_div, proj);
+
 }
 
+// Updates updates_div
+// updates_div, updates_div
+function getRecentUpdates(updates_div, proj_obj){
+    var loading_div = document.createElement("DIV");
+    loading_div.setAttribute("class", "loading-icon");
+    updates_div.appendChild(loading_div);
+
+    var insertRecentUpdates = function(result){
+        console.log(result);
+        if (updates_div.lastChild.className == "loading-icon");
+            updates_div.removeChild(updates_div.lastChild);
+
+        var recent_updates = document.createElement("DIV");
+        recent_updates.id = "recent-updates";
+
+        updates_div.appendChild(recent_updates);
+    }
+
+    var url = "api/get-recent-updates";
+    var formData = new FormData();
+    formData.append("project_id", proj_obj["project_id"]);
+    postFormRequest(url, formData, insertRecentUpdates);
+}
 // Create Project Detail Navigation
 // navi_node, navigation div
 // proj_obj, project detail object
@@ -192,7 +213,7 @@ function createInfoDiv(info_div, proj_obj){
 
     // Project Information DIV
     var project_info = document.createElement("DIV");
-    project_info.setAttribute("class", "project-info-div");
+    project_info.id = "project-info-div";
     var project_info_span = document.createElement("SPAN");
     project_info_span.appendChild(document.createTextNode("Project Information"));
     project_info.appendChild(project_info_span);
