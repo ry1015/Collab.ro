@@ -177,7 +177,8 @@ def get_project_tracks(proj):
         tmp["title"] = track.title
         tmp["genre"] = track.genre
         tmp["status"] = track.status
-        tmp["filename"] = str(track.filename).split("/")[3]
+        trackpath = str(track.filename).split("/")
+        tmp["filename"] = trackpath[len(trackpath) - 1]
         tmp["owner"] = track.userID.username
         tmp["timestamp"] = track.upload_date
         list_tracks.append(tmp)
