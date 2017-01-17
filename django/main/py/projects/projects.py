@@ -289,6 +289,7 @@ def get_recent_updates(request, format=None):
         stem_comments = StemComment.objects.filter(stemID=stems[i].id).order_by('-timestamp')[:10]
         for comment in stem_comments:
             tmp_comment = {}
+            tmp_comment["stem_comment_sender"] = comment.sender.username
             tmp_comment["stem_title"] = comment.stemID.title
             tmp_comment["stem_comment"] = comment.comment
             tmp_comment["date"] = comment.timestamp

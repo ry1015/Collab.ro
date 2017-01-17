@@ -90,12 +90,45 @@ function getRecentUpdates(updates_div, proj_obj){
     updates_div.appendChild(loading_div);
 
     var insertRecentUpdates = function(result){
-        console.log(result);
         if (updates_div.lastChild.className == "loading-icon");
             updates_div.removeChild(updates_div.lastChild);
 
         var recent_updates = document.createElement("DIV");
         recent_updates.id = "recent-updates";
+
+        for (var i=0; i < result.length; ++i){
+            console.log(result[i]);
+            var header = document.createElement("DIV");
+            header.setAttribute("class", "recent-updates-header");
+            if (result[i]["stem_comment"] != undefined){
+                var author_div = document.createElement("DIV");
+                var duration_div = document.createElement("DIV");
+                var comments_div = document.createElement("DIV");
+
+                var text = "<b>" + result[i]["stem_comment_sender"] + "</b> added a comment to <b>" + result[i]["stem_title"] + "</b>";
+                var span = document.createElement("SPAN");
+                span.innerHTML = text;
+                author_div.appendChild(span);
+
+                text = document.createTextNode(getMaxTime(result[i]["date"]));
+                duration_div.appendChild(text);
+
+                var stem_comments = document.createTextNode(result[i]["stem_comment"]);
+                var span_comments = document.createElement("SPAN");
+                span_comments.appendChild(stem_comments);
+                comments_div.appendChild(span_comments);
+
+                header.appendChild(author_div);
+                header.appendChild(duration_div);
+                header.appendChild(comments_div);
+            }
+            else{
+
+            }
+
+            recent_updates.appendChild(header);
+            updates_div.appendChild(recent_updates);
+        }
 
         updates_div.appendChild(recent_updates);
     }
@@ -105,6 +138,50 @@ function getRecentUpdates(updates_div, proj_obj){
     formData.append("project_id", proj_obj["project_id"]);
     postFormRequest(url, formData, insertRecentUpdates);
 }
+
+// Get Max Time
+// time, specified time
+// @return max time
+function getMaxTime(time){
+    var current_date = new Date;
+    var duration = current_date - new Date(time);
+    var days = Math.round(getDay(duration));
+    var hours = Math.round(getHour(duration));
+    var mins = Math.round(getMinute(duration));
+    
+    if (days > 1)
+        return days + " days";
+    else if (hours > 1)
+        return hours + " hours";
+    else if (hours > 0)
+        return "1 hour";
+    else if (mins > 1)
+        return mins + " mins";
+    else
+        return "1 min";
+}
+
+// Get Hour of a Specified Time
+// time, specified time
+// @return number of hours
+function getHour(time){
+    return time/1000/60/60;
+}
+
+// Get Hour of a Specified Time
+// time, specified time
+// @return number of minutes
+function getMinute(time){
+    return time/1000/60;
+}
+
+// Get Hour of a Specified Time
+// time, specified time
+// @return number of days
+function getDay(time){
+    return time/1000/60/60/24;
+}
+
 // Create Project Detail Navigation
 // navi_node, navigation div
 // proj_obj, project detail object

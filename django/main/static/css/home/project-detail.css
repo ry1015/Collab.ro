@@ -55,6 +55,30 @@
     background-color: rgb(216, 216, 216);
 }
 
+.recent-updates-header{
+    padding-bottom: 2%;
+}
+
+.recent-updates-header > div:not(:last-child){
+    font-size: 13px;
+}
+
+.recent-updates-header > div {
+    display: inline-block;
+}
+
+.recent-updates-header div:first-child{
+    width: 90%;
+}
+
+.recent-updates-header div:nth-child(2){
+    width: 9%;
+}
+
+.recent-updates-header div:last-child{
+    font-size: 18px;
+}
+
 .info-div {
     /*border: 1px solid black;*/
 }
@@ -64,8 +88,8 @@
     vertical-align: top;
 }
 
-.info-div > div span{
-    font-size : 21px;
+.info-div > div > span{
+    font-size : 27px;
 }
 
 .empty-spacing-div {
@@ -86,15 +110,16 @@
     margin-right: 1%;
 }
 
-#updates-div > span {
+/*#updates-div > span {
     padding-left: 2%;
-}
+}*/
 
 #project-info-div {
     width: 27%;
 }
 
 #recent-updates {
+    width: 95%;
     height: 100px;
-    border: 1px solid black;
+    padding-top: 2%;
 }
