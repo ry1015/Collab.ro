@@ -60,17 +60,12 @@
     font-size : 21px;
 }
 
-.updates-div {
-    width: 71%;
-    margin-right: 1%;
-}
-
-.updates-div > span {
-    padding-left: 2%;
-}
-
 .project-info-div {
     width: 27%;
+}
+
+.empty-spacing-div {
+    width: 15px;
 }
 
 #project-description {
@@ -81,6 +76,12 @@
     min-height: 500px;
     width: 100%;
 }
-.empty-spacing-div {
-    width: 15px;
+
+#updates-div {
+    width: 71%;
+    margin-right: 1%;
+}
+
+#updates-div > span {
+    padding-left: 2%;
 }

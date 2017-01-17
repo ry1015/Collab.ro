@@ -131,3 +131,15 @@ class Stem(models.Model):
     def __str__(self):
         preview = str(self.id) + "[Project: " + str(self.projectID.id) + "]   (Stem Owner: " + str(self.userID) + ")(Stem Title: " + self.title + ")"
         return preview
+
+# Stem Comments
+class StemComment(models.Model):
+    stemID = models.ForeignKey(Music)
+    sender = models.ForeignKey(User)
+    comment_stem_parent_id = models.PositiveIntegerField(blank=True, null=True)
+    comments = models.TextField(blank=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        preview = "[ID: " + str(self.id) + "][" + str(self.timestamp) + "]" + "(" + str(self.stemID) + ")" + ": SENDER: " + str(self.sender) + "--> PARENT: " + str(self.comment_parent_id)
+        return preview

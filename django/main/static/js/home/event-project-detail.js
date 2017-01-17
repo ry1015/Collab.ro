@@ -76,6 +76,12 @@ function createProjectDetail(proj){
     wrapper.appendChild(info_div);
 
     body_div.appendChild(wrapper);
+
+    var recent_updates = document.createElement("DIV");
+    recent_updates.id = "recent-updates";
+    var updates_div = document.getElementById("updates-div");
+    console.log("UPDATES DIV");
+    console.log(updates_div);
 }
 
 // Create Project Detail Navigation
@@ -179,7 +185,7 @@ function createOptionsDiv(options_node, proj_obj){
 function createInfoDiv(info_div, proj_obj){
     // Recent Updates DIV
     var updates_div = document.createElement("DIV");
-    updates_div.setAttribute("class", "updates-div");
+    updates_div.id ="updates-div";
     var updates_span = document.createElement("SPAN");
     updates_span.appendChild(document.createTextNode("Recent Updates"));
     updates_div.appendChild(updates_span);
