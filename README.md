@@ -1,10 +1,8 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
-* Quick summary
+* This application is a repository for musics files. It allows any musician around the world to store their tracks and stems. Each track and stem will have its own version number.
 * Version
 
 ### SETUP ###
