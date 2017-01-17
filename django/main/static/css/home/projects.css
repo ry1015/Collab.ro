@@ -55,6 +55,12 @@
 	width: 100%;
 }
 
+.char_counter {
+    position: relative;
+    left: -30px;
+    font-weight: bold;    
+}
+
 .required_field {
     display: inline-block;
     color: red;

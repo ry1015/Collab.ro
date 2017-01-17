@@ -2,6 +2,7 @@ var EVENT_HOME_NEW_PROJ_DESC_ID = "new_proj_desc";
 var NEW_PROJECT_DIV_ID = "new_project_div"
 var NEW_PROJECT_ROW_ID = "new_project_row";
 var NEW_PROJECT_TABLE_ID = "new_project_table";
+var MAX_CHAR_LENGTH = "50";
 // Change project status
 function changeProjectStatus(){
     var parent = getTable(this);
@@ -63,6 +64,7 @@ function newProjectEvent(){
     cell.style.width = "100%";
     var input = document.createElement("INPUT");
     input.id = "project_name_field";
+    input.maxLength = "50";
     input.placeholder = "Enter project title";
     cell.appendChild(input);
 
@@ -73,6 +75,16 @@ function newProjectEvent(){
     span.appendChild(asterisk);
     div.appendChild(span);
     cell.appendChild(div);
+
+    cell = row.insertCell(2);
+    var proj_counter_div = document.createElement("DIV");
+    proj_counter_div.className = "char_counter";
+    var project_char_count_span = document.createElement("SPAN");
+    project_char_count_span.id = "project_char_count_span";
+    var proj_count = document.createTextNode(MAX_CHAR_LENGTH);
+    project_char_count_span.appendChild(proj_count);
+    proj_counter_div.appendChild(project_char_count_span);
+    cell.appendChild(proj_counter_div);
 
     row = new_project_table.insertRow(new_project_table.rows.length);
     row.id = "projectStatusRow";
@@ -102,8 +114,19 @@ function newProjectEvent(){
     cell = row.insertCell(1);
     input = document.createElement("INPUT");
     input.id = "project_track_title";
+    input.maxLength = "50";
     input.placeholder = "Enter track title";
     cell.appendChild(input);
+
+    cell = row.insertCell(2);
+    var proj_track_counter_div = document.createElement("DIV");
+    proj_track_counter_div.className = "char_counter";
+    var proj_track_char_count_span = document.createElement("SPAN");
+    proj_track_char_count_span.id = "proj_track_char_count_span";
+    var proj_track_count = document.createTextNode(MAX_CHAR_LENGTH);
+    proj_track_char_count_span.appendChild(proj_track_count);
+    proj_track_counter_div.appendChild(proj_track_char_count_span);
+    cell.appendChild(proj_track_counter_div);
 
     row = new_project_table.insertRow(new_project_table.rows.length);
     row.id = "projectTrackGenreRow";
@@ -154,8 +177,19 @@ function newProjectEvent(){
     cell = row.insertCell(1);
     input = document.createElement("INPUT");
     input.id = "project_stem_title";
+    input.maxLength = "50";
     input.placeholder = "Enter stem title";
     cell.appendChild(input);
+
+    cell = row.insertCell(2);
+    var proj_stem_counter_div = document.createElement("DIV");
+    proj_stem_counter_div.className = "char_counter";
+    var proj_stem_char_count_span = document.createElement("SPAN");
+    proj_stem_char_count_span.id = "proj_stem_char_count_span";
+    var proj_stem_count = document.createTextNode(MAX_CHAR_LENGTH);
+    proj_stem_char_count_span.appendChild(proj_stem_count);
+    proj_stem_counter_div.appendChild(proj_stem_char_count_span);
+    cell.appendChild(proj_stem_counter_div);
 
     row = new_project_table.insertRow(new_project_table.rows.length);
     row.id = "projectStemCategoryRow";
@@ -231,8 +265,23 @@ function newProjectEvent(){
     else
         body_div.insertBefore(new_project_div, user_projects);
 
+    document.getElementById("project_name_field").addEventListener('keyup', function() {
+        projectNameCounterEvent(this, document.getElementById("project_char_count_span"), MAX_CHAR_LENGTH)});
+
+    document.getElementById("project_track_title").addEventListener('keyup', function() {
+        projectNameCounterEvent(this, document.getElementById("proj_track_char_count_span"), MAX_CHAR_LENGTH)});
+
+    document.getElementById("project_stem_title").addEventListener('keyup', function() {
+        projectNameCounterEvent(this, document.getElementById("proj_stem_char_count_span"), MAX_CHAR_LENGTH)});
+
     document.getElementById("project_save_button").addEventListener('click', saveProjectEvent, false);
     document.getElementById("project_cancel_button").addEventListener('click', cancelProjectEvent, false);
+}
+
+function projectNameCounterEvent(input_field, char_count_span, max_char_length) {
+    var remaining_char = max_char_length - input_field.value.length;
+    char_count_span.textContent = remaining_char;
+    return true;    
 }
 
 function cancelProjectEvent() {
