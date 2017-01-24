@@ -1,16 +1,11 @@
-var PROJ_TRACKS = undefined;
-var PROJ_STEMS = undefined;
+var audio_playing_stack = [];
+var audio_paused_stack = [];
+var audio_stack = [];
+var home = "http://127.0.0.1:8000/";
 
-function addProjectTrackEvent(node){
-    node.onclick = getTrackOwners;
-}
-
-function addProjectStemEvent(node){
-    node.onclick = getStemOwners;
-}
-
-function addVersionEvent(node){
-    node.onclick = createVersionTable;
+// Add function to node
+function addStemControls(node){
+    node.onclick = stemControls;
 }
 
 // Gets project id and info
@@ -19,8 +14,6 @@ function getProjectId(){
     var table_node = findTable(current);
     var project_id = table_node.id.split("_")[2];
     var processProjectId = function(results){
-        console.log("PROCESS LIST");
-        console.log(results);
         createProjectDetail(results);
     }
 
@@ -41,28 +34,14 @@ function createProjectDetail(proj){
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
     var wrapper = document.createElement("DIV");
-    // wrapper.setAttribute("class", "projectDetailWrapper");
-    // wrapper.style.textAlign = "center";
-    // var project_detail_table = document.createElement("TABLE");
-    // project_detail_table.setAttribute("class", "projectDetail");
-    // var row = project_detail_table.insertRow(project_detail_table.rows.length);
-    // var cell = row.insertCell(0);
-    // cell.colSpan = "2";
-    // cell.style.textAlign = "center";
-    // var bold = document.createElement("B");
-    // var text = document.createTextNode(proj.project_name);
-    // bold.appendChild(text);
-    // cell.appendChild(bold);
-    // wrapper.appendChild(project_detail_table);
-    
-    // createProjectDetailTracks(proj, project_detail_table);
-    // createProjectDetailStems(proj, project_detail_table);
+    wrapper.id = "project-detail-wrapper";
+
     var project_navigation_div = createProjectNavigation(document.createElement("DIV"), proj);
     project_navigation_div.setAttribute("class", "project-detail-navigation");
 
     var track_div = document.createElement("DIV");
     track_div.setAttribute("class", "project-detail-track");
-    track_div.appendChild(document.createTextNode('PASS THIS DIV INTO YOUR FUNCTION **** LOCATION: event-project-detail.js LINE: 60'));
+    track_div.appendChild(getTrack(proj));
     
     var options_div = createOptionsDiv(document.createElement("DIV"), proj);
     options_div.setAttribute("class", "options-div");
@@ -82,6 +61,37 @@ function createProjectDetail(proj){
 
 }
 
+// Gets the project track
+// Assigns triggers to image tag track_play
+// @return track_play image
+function getTrack(proj){
+    if(proj.tracks.length != 0){
+        var track_audio;
+        proj_track = proj.tracks[0];
+        track_audio = new Howl({
+            src: ["media/" + proj_track.filename]
+        });
+
+        var track_play = document.createElement("IMG");
+        track_play.setAttribute("class", "track_play_button");
+        track_play.setAttribute("src", "media/play.png");;
+        track_play.onclick = function() { track_audio.play(); }
+         
+        track_audio.on("play", function(){
+           track_play.setAttribute("src", "media/pause.png");
+           track_play.onclick = function() { track_audio.pause(); }
+        });
+        
+        track_audio.on("pause", function(){
+            track_play.setAttribute("src", "media/play.png");
+            track_play.onclick = function() { track_audio.play(); }
+         });
+        return track_play;
+    }
+    var empty_div = document.createElement("DIV");
+    empty_div.id = "empty-div";
+    return empty_div;
+}
 // Updates updates_div
 // updates_div, updates_div
 function getRecentUpdates(updates_div, proj_obj){
@@ -97,34 +107,43 @@ function getRecentUpdates(updates_div, proj_obj){
         recent_updates.id = "recent-updates";
 
         for (var i=0; i < result.length; ++i){
-            console.log(result[i]);
             var header = document.createElement("DIV");
             header.setAttribute("class", "recent-updates-header");
+            var author_div = document.createElement("DIV");
+            var duration_div = document.createElement("DIV");
+            var text;
+            var content = document.createElement("DIV");
             if (result[i]["stem_comment"] != undefined){
-                var author_div = document.createElement("DIV");
-                var duration_div = document.createElement("DIV");
-                var comments_div = document.createElement("DIV");
-
-                var text = "<b>" + result[i]["stem_comment_sender"] + "</b> added a comment to <b>" + result[i]["stem_title"] + "</b>";
-                var span = document.createElement("SPAN");
-                span.innerHTML = text;
-                author_div.appendChild(span);
-
-                text = document.createTextNode(getMaxTime(result[i]["date"]));
-                duration_div.appendChild(text);
+                text = "<b>" + result[i]["stem_comment_sender"] + "</b> added a comment to <b>" + result[i]["stem_title"] + "</b>";
 
                 var stem_comments = document.createTextNode(result[i]["stem_comment"]);
                 var span_comments = document.createElement("SPAN");
                 span_comments.appendChild(stem_comments);
-                comments_div.appendChild(span_comments);
-
-                header.appendChild(author_div);
-                header.appendChild(duration_div);
-                header.appendChild(comments_div);
+                content.appendChild(span_comments);
+                
             }
             else{
+                text = "<b>" + result[i]["stem_uploaded_by"] + "</b> uploaded a stem file: <b>" + result[i]["stem_filename"] + "</b>";
 
+                var stem_audio = document.createElement("AUDIO");
+                var stem_source = document.createElement("SOURCE");
+                content.setAttribute("class", "play-stem");
+                content.setAttribute("stem-id", result[i]["stem_filename"]);
+                addStemControls(content);
+                stem_audio.append(stem_source);
+                content.appendChild(stem_audio);
             }
+
+            var span = document.createElement("SPAN");
+            span.innerHTML = text;
+            author_div.appendChild(span);
+
+            var date_text = document.createTextNode(getMaxTime(result[i]["date"]));
+            duration_div.appendChild(date_text);
+
+            header.appendChild(author_div);
+            header.appendChild(duration_div);
+            header.appendChild(content);
 
             recent_updates.appendChild(header);
             updates_div.appendChild(recent_updates);
@@ -139,7 +158,160 @@ function getRecentUpdates(updates_div, proj_obj){
     postFormRequest(url, formData, insertRecentUpdates);
 }
 
-// Get Max Time
+// Play/Pause audio
+function stemControls(){
+    var node = this;
+
+    for (i = 0; i < audio_stack.length; ++i){
+        if (!audio_stack[i].paused){
+            audio_stack[i].pause();
+
+            if (audio_stack[i].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
+                node.setAttribute("class", "play-stem");
+                return
+            }
+            else {
+                var grandparent_div = getGrandparentDIV(node);
+                var audio_parent = findAudioDiv(grandparent_div, audio_stack[i].getAttribute("stem-id"));
+                audio_parent.setAttribute("class", "play-stem");
+            }
+        }
+    }
+
+    for (i = 0; i < audio_stack.length; ++i){
+        if (audio_stack[i].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
+            node.setAttribute("class", "pause-stem");
+            audio_stack[i].play();
+            return;
+        }
+    }
+
+    var url = "api/get-stem-file";
+    var formData = new FormData();
+    formData.append("filename", node.getAttribute("stem-id"));
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", home + url, true);
+    var csrftoken = getCookie('csrftoken');
+
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+    xhr.responseType = 'blob';
+    xhr.onload = function(){
+        var binaryData = [];
+        binaryData.push(xhr.response);
+        var audio = new Audio();
+        var objectUrl = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/mpeg"}));
+        audio.src = objectUrl;
+
+        // Release resource when it's loaded
+        audio.onload = function(evt) {
+            URL.revokeObjectUrl(objectUrl);
+        };
+
+        var stem_id = xhr.getResponseHeader("Content-Disposition").split("=")[1];
+        node.setAttribute("class", "pause-stem");
+        audio.setAttribute("stem-id", stem_id);
+        audio.play();
+        // audio.ontimeupdate = function(){
+        //     console.log(Math.floor(this.currentTime));
+        // };
+        audio_stack.push(audio);
+
+        // SAVE THIS CODE FOR NOW TO DISPLAY WAVEFORM
+        // var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // var arrayBuffer;
+        // var fileReader = new FileReader();
+        // fileReader.readAsArrayBuffer(new Blob(binaryData, {type: "audio/mpeg"}));
+        // fileReader.onload = function() {
+        //     arrayBuffer = this.result;
+        //     audioCtx.decodeAudioData(arrayBuffer, function(decodedData) {
+        //       // use the dec​oded data here
+        //       displayBuffer(decodedData);
+        //     });
+        // };
+        
+    }
+
+    xhr.send(formData);
+}
+
+// DO NOT DELETE THE FUNCTIONS
+// var canvasWidth = window.innerWidth/2,  canvasHeight = 120 ;
+// var newCanvas   = createCanvas (canvasWidth, canvasHeight);
+// var context     =  newCanvas.getContext('2d');
+
+// function displayBuffer(buff /* is an AudioBuffer */) {
+  
+//     var drawLines = 400;
+//     var leftChannel = buff.getChannelData(0); // Float32Array describing left channel     
+//     var lineOpacity = canvasWidth / leftChannel.length  ;      
+//     context.save();
+//     context.fillStyle = '#080808' ;
+//     context.fillRect(0,0,canvasWidth,canvasHeight );
+//     context.strokeStyle = '#46a0ba';
+//     context.globalCompositeOperation = 'lighter';
+//     context.translate(0,canvasHeight / 2);
+//     //context.globalAlpha = 0.6 ; // lineOpacity ;
+//     context.lineWidth=1;
+//     var totallength = leftChannel.length;
+//     var eachBlock = Math.floor(totallength / drawLines);
+//     var lineGap = (canvasWidth/drawLines);
+
+//     context.beginPath();
+//     for(var i=0;i<=drawLines;i++){
+//         var audioBuffKey = Math.floor(eachBlock * i);
+//         var x = i*lineGap;
+//         var y = leftChannel[audioBuffKey] * canvasHeight / 2;
+//         context.moveTo( x, y );
+//         context.lineTo( x, (y*-1) );
+//     }
+//     context.stroke();
+//     context.restore();
+//     document.getElementById("recent-updates").appendChild(newCanvas);
+// }
+
+// function createCanvas ( w, h ) {
+//     var newCanvas = document.createElement('canvas');
+//     newCanvas.width  = w;     newCanvas.height = h;
+//     return newCanvas;
+// };
+
+
+// Find div that contains stem-id
+// node, grandparent node
+// stem_id, stem-id to locate
+// @return the DIV that contains the stem-id
+function findAudioDiv(node, stem_id){
+    for (i = 0; i < node.childNodes.length; ++i){
+        if (node.childNodes[i].childNodes[2].getAttribute("stem-id") != null){
+            if (node.childNodes[i].childNodes[2].getAttribute("stem-id").includes(stem_id)){
+                // console.log(node.childNodes[i].childNodes[2]);
+                // console.log(stem_id);
+                return node.childNodes[i].childNodes[2];
+            }
+        }
+    }
+    return undefined;
+}
+
+// Find parent DIV
+// node, current node
+// @return parent DIV
+function getGrandparentDIV(node) {
+    var parent_node = document.getElementById("recent-updates");
+    var new_node = node;
+    while (new_node != null){
+        if (new_node.parentNode == parent_node)
+            return new_node.parentNode;
+        else
+            new_node = new_node.parentNode;
+    }
+
+    return undefined;
+}
+// Get max time
 // time, specified time
 // @return max time
 function getMaxTime(time){
@@ -161,28 +333,28 @@ function getMaxTime(time){
         return "1 min";
 }
 
-// Get Hour of a Specified Time
+// Get hour of a specied time
 // time, specified time
 // @return number of hours
 function getHour(time){
     return time/1000/60/60;
 }
 
-// Get Hour of a Specified Time
+// Get minute of a specied time
 // time, specified time
 // @return number of minutes
 function getMinute(time){
     return time/1000/60;
 }
 
-// Get Hour of a Specified Time
+// Get day of a specied time
 // time, specified time
 // @return number of days
 function getDay(time){
     return time/1000/60/60/24;
 }
 
-// Create Project Detail Navigation
+// Create project detail navigation
 // navi_node, navigation div
 // proj_obj, project detail object
 // @return updated navi_node
@@ -240,7 +412,7 @@ function createProjectNavigation(navi_node, proj_obj){
     return navi_node;
 }
 
-// Create Project Detail Options DIV
+// Create project detail options DIV
 // options_node, options DIV
 // proj_obj, project detail object
 // @return updated options_node
@@ -276,7 +448,7 @@ function createOptionsDiv(options_node, proj_obj){
     return options_node;
 }
 
-// Create Information DIV
+// Create information DIV
 // info_div, project information DIV
 // proj_obj, project detail object
 // @return updated info_div
@@ -312,151 +484,6 @@ function createInfoDiv(info_div, proj_obj){
     return info_div;
 }
 
-// Get Only Unique Titles From A List
-// list_obj, list of objects
-// @return list with only unique titles
-function getUniqueTitles(list_obj){
-    var unique_titles = []
-    for (var i in list_obj){
-        if (unique_titles.indexOf(list_obj[i].title) < 0){
-            unique_titles.push(list_obj[i].title);
-        }
-    }
-    return unique_titles;
-}
-
-function createProjectDetailTracks(proj, table){
-    var row = table.insertRow(table.rows.length);
-    var cell = row.insertCell(0);
-    cell.colSpan = "2";
-    var bold = document.createElement("B");
-    var text = document.createTextNode("TRACKS");
-    bold.appendChild(text);
-    cell.appendChild(bold);
-    PROJ_TRACKS = proj.tracks;
-    PROJ_TRACKS.sort(function(obj1,obj2){
-        return new Date(obj1.timestamp) < new Date(obj2.timestamp);
-    });
-
-    var unique_titles = getUniqueTitles(PROJ_TRACKS);
-    var anchor = undefined;
-
-    for (var i=0; i<unique_titles.length; ++i){
-        row = table.insertRow(table.rows.length);
-        cell = row.insertCell(0);
-        cell.setAttribute("class", "emptyCell");
-        
-        cell = row.insertCell(1);
-        text = document.createTextNode(unique_titles[i]);
-        anchor = document.createElement("A");
-        anchor.href="#";
-        anchor.appendChild(text);
-        cell.appendChild(anchor);
-        addProjectTrackEvent(anchor);
-    }
-}
-
-function createProjectDetailStems(proj, table){
-    var row = table.insertRow(table.rows.length);
-    var cell = row.insertCell(0);
-    cell.colSpan = "2";
-    var bold = document.createElement("B");
-    var text = document.createTextNode("STEMS");
-    bold.appendChild(text);
-    cell.appendChild(bold);
-    PROJ_STEMS = proj.stems;
-    PROJ_STEMS.sort(function(obj1,obj2){
-        return new Date(obj1.timestamp) < new Date(obj2.timestamp);
-    });
-
-    var unique_titles = getUniqueTitles(PROJ_STEMS);
-    var anchor = undefined;
-
-    for (var i=0; i<unique_titles.length; ++i){
-        row = table.insertRow(table.rows.length);
-        cell = row.insertCell(0);
-        cell.setAttribute("class", "emptyCell");
-
-        cell = row.insertCell(1);
-        text = document.createTextNode(unique_titles[i]);
-        anchor = document.createElement("A");
-        anchor.href = "#";
-        anchor.appendChild(text);
-        cell.appendChild(anchor);
-        addProjectStemEvent(anchor);
-    }
-}
-
-function getTrackOwners(){
-    var title = this.text;
-    var owners = [];
-    var obj = undefined;
-
-    for (var i=0; i<PROJ_TRACKS.length; ++i){
-        obj = PROJ_TRACKS[i];
-        if (obj.title == title)
-            owners.push(obj);
-    }
-    createOwnerTable(owners, "track");
-}
-
-function getStemOwners(){
-    var title = this.text;
-    var owners = [];
-    var obj = undefined;
-
-    for (var i=0; i<PROJ_STEMS.length; ++i){
-        obj = PROJ_STEMS[i];
-        if (obj.title == title)
-            owners.push(obj);
-    }
-    createOwnerTable(owners, "stem");
-}
-
-function createOwnerTable(list_owners, type){
-    var body = document.getElementById(BODY_DIV_ID).childNodes[0];
-    var table = document.createElement("TABLE");
-    table.setAttribute("class", "projectDetail trackOwners");
-    var row = table.insertRow(table.rows.length);
-    var cell = row.insertCell(0);
-    var anchor = undefined;
-    var text = undefined;
-    var obj = undefined;
-    var bold = document.createElement("B");
-    var unique_owners = [];
-
-    if (body.childElementCount > 1){
-        while (body.childElementCount > 1){
-            var last_child = body.lastElementChild;
-            body.removeChild(last_child);
-        }
-    }
-
-    if (list_owners.length > 0){
-        text = document.createTextNode(list_owners[0].title + " Collaborators");
-        bold.appendChild(text);
-        cell.appendChild(bold);
-        cell.style.width = "300px";
-    }
-
-    for (var i=0; i<list_owners.length; ++i){
-        obj = list_owners[i];
-        if (unique_owners.indexOf(obj.owner) < 0){
-            unique_owners.push(obj.owner);
-            row = table.insertRow(table.rows.length);
-            cell = row.insertCell(0);
-            anchor = document.createElement("A");
-            anchor.href = "#";
-            anchor.setAttribute("sid", obj.title);
-            anchor.setAttribute("type", type);
-            addVersionEvent(anchor);
-            text = document.createTextNode(obj.owner);
-            anchor.appendChild(text);
-            cell.appendChild(anchor);
-        }
-    }
-    body.appendChild(table);
-}
 // Locates the parent table node
 // node, the current node
 // returns table node
@@ -465,59 +492,4 @@ function findTable(node){
         node = node.parentNode;
     }
     return node;
-}
-
-function createVersionTable(){
-    console.log(this.getAttribute("sid"));
-    var current_node = this;
-    var body = document.getElementById(BODY_DIV_ID).childNodes[0]; //get wrapper
-    var table = document.createElement("TABLE");
-    table.setAttribute("class", "projectDetail trackOwners");
-    var row = table.insertRow(table.rows.length);
-    var cell = row.insertCell(0);
-    var anchor = undefined;
-    var text = undefined;
-    var obj = undefined;
-    var list = undefined;
-    var bold = document.createElement("B");
-
-    if (body.childElementCount > 2){
-        var last_child = body.lastElementChild;
-        body.removeChild(last_child);
-    }
-
-    if (this.getAttribute("type") == "stem")
-        list = ownerVersionList(PROJ_STEMS, this.text, this.getAttribute("sid"));
-    else
-        list = ownerVersionList(PROJ_TRACKS, this.text, this.getAttribute("sid"));
-
-    if (list.length > 0){
-        text = document.createTextNode(list[0].owner + " " + list[0].title + " Versions");
-        bold.appendChild(text);
-        cell.appendChild(bold);
-        cell.style.width = "300px";
-    }
-
-    for (var i=0; i<list.length; ++i){
-        obj = list[i];
-        row = table.insertRow(table.rows.length);
-        cell = row.insertCell(0);
-        anchor = document.createElement("A");
-        anchor.href = "#";
-        text = document.createTextNode(obj.timestamp);
-        anchor.appendChild(text);
-        cell.appendChild(anchor);
-    }
-    body.appendChild(table);
-    }
-
-function ownerVersionList(list, owner, title){
-    var owner_versions = [];
-    var obj = undefined;
-    for (var i=0; i<list.length; ++i){
-        obj = list[i];
-        if (obj.title == title && obj.owner == owner)
-            owner_versions.push(obj);
-    }
-    return owner_versions;
 }

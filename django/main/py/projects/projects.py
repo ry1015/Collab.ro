@@ -14,6 +14,9 @@ import json
 import os
 import pprint
 from django.conf import settings
+from wsgiref.util import FileWrapper
+import os
+import base64
 
 @api_view(['POST'])
 def add_project(request, format=None):
@@ -22,7 +25,7 @@ def add_project(request, format=None):
     else:
         request.session.flush()
         return Response("User not Authenticated.")
-    
+
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
     project_status = request.POST.get("project_status")
@@ -142,11 +145,14 @@ def get_project_details(request, format=None):
 
     return Response(data, status=status.HTTP_200_OK)
 
-# Gets all stems associated with user and user's project
-# user, the user
-# proj, the project
-# list_stems, all stems associated with the project
+
 def get_project_stems(proj):
+    """
+    Gets all stems associated with user and user's project
+    user, the user
+    proj, the project
+    list_stems, all stems associated with the project
+    """
     stems = Stem.objects.filter(projectID=proj.id)
     list_stems = []
     for stem in stems:
@@ -164,11 +170,14 @@ def get_project_stems(proj):
         list_stems.append(tmp)
     return list_stems
 
-# Gets all tracks associated with user and user's project
-# user, the user
-# proj, the project
-# list_tracks, all tracks associated with the project
+
 def get_project_tracks(proj):
+    """
+    Gets all tracks associated with user and user's project
+    user, the user
+    proj, the project
+    list_tracks, all tracks associated with the project
+    """
     tracks = Track.objects.filter(projectID=proj.id)
     list_tracks = []
     for track in tracks:
@@ -257,10 +266,13 @@ def change_project_status(request, format=None):
     project.save()
     return Response(data, status=status.HTTP_200_OK)
 
-# Get recent project updates
-# This includes stem comments and uploaded stems
+
 @api_view(['POST'])
 def get_recent_updates(request, format=None):
+    """
+    Get recent project updates
+    This includes stem comments and uploaded stems
+    """
     if request.user.is_authenticated:
         pass
     else:
@@ -296,4 +308,25 @@ def get_recent_updates(request, format=None):
             data.append(tmp_comment)
     data = sorted(data, key=lambda x: x['date'], reverse=True)
 
-    return Response(data, status.HTTP_200_OK)
+    return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def get_stem_file(request, format=None):
+    """                                                                         
+    Send a file through Django without loading the whole file into              
+    memory at once. The FileWrapper will turn the file object into an           
+    iterator for chunks of 8KB.                                                 
+    """
+    if request.user.is_authenticated:
+        filename = settings.BASE_DIR + "/main/media/stems/"+request.POST.get("filename")
+        f = open(filename, "rb")
+        response = HttpResponse()
+        response.write(f.read())
+        response['Content-Type'] = 'audio/mpeg'
+        response['Content-Length'] = os.path.getsize(filename)
+        response['Content-Disposition'] = 'attachment; filename=%s' % request.POST.get("filename")
+        return response
+    else:
+        request.session.flush()
+        return Response("User not Authenticated.")
+    
