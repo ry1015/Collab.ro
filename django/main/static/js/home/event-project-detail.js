@@ -113,6 +113,7 @@ function getRecentUpdates(updates_div, proj_obj){
             var duration_div = document.createElement("DIV");
             var text;
             var content = document.createElement("DIV");
+            
             if (result[i]["stem_comment"] != undefined){
                 text = "<b>" + result[i]["stem_comment_sender"] + "</b> added a comment to <b>" + result[i]["stem_title"] + "</b>";
 
@@ -125,13 +126,9 @@ function getRecentUpdates(updates_div, proj_obj){
             else{
                 text = "<b>" + result[i]["stem_uploaded_by"] + "</b> uploaded a stem file: <b>" + result[i]["stem_filename"] + "</b>";
 
-                var stem_audio = document.createElement("AUDIO");
-                var stem_source = document.createElement("SOURCE");
                 content.setAttribute("class", "play-stem");
                 content.setAttribute("stem-id", result[i]["stem_filename"]);
                 addStemControls(content);
-                stem_audio.append(stem_source);
-                content.appendChild(stem_audio);
             }
 
             var span = document.createElement("SPAN");

@@ -29,6 +29,39 @@
 #search_input {
     width: 90%;
 }
+
+#dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#dropdown-wrapper {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 100px;
+    box-shadow: 0px 8px 25px 0px;
+}
+
+#dropdown-wrapper div {
+    padding: 5px 5px;
+    display: block;
+    text-align: left;
+}
+
+#dropdown-wrapper div:hover {
+    background-color: #f0f0f0;	
+}
+
+#dropdown:hover > div:not(.not-hover){
+    display: block;
+    z-index: 1;
+}
+
+.not-hover {
+
+}
 .add-pointer:hover {
     cursor: pointer;
 }

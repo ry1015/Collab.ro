@@ -156,6 +156,8 @@ function showHome(user){
     var nav_div = createNavigationBar(); //navigation.js
     main.appendChild(nav_div);
 
+    createMyAccountDropdown(); //navigation.js
+	
     // Add Navigation Event Listener
     addNavigationEventListener(); //navigation.js
 

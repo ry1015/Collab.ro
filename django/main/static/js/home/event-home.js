@@ -3,6 +3,7 @@ var NEW_PROJECT_DIV_ID = "new_project_div"
 var NEW_PROJECT_ROW_ID = "new_project_row";
 var NEW_PROJECT_TABLE_ID = "new_project_table";
 var MAX_CHAR_LENGTH = "50";
+
 // Change project status
 function changeProjectStatus(){
     var parent = getTable(this);
@@ -266,13 +267,13 @@ function newProjectEvent(){
         body_div.insertBefore(new_project_div, user_projects);
 
     document.getElementById("project_name_field").addEventListener('keyup', function() {
-        projectNameCounterEvent(this, document.getElementById("project_char_count_span"), MAX_CHAR_LENGTH)});
+        projectNameCounterEvent(this, document.getElementById("project_char_count_span"), MAX_CHAR_LENGTH)}, false);
 
     document.getElementById("project_track_title").addEventListener('keyup', function() {
-        projectNameCounterEvent(this, document.getElementById("proj_track_char_count_span"), MAX_CHAR_LENGTH)});
+        projectNameCounterEvent(this, document.getElementById("proj_track_char_count_span"), MAX_CHAR_LENGTH)}, false);
 
     document.getElementById("project_stem_title").addEventListener('keyup', function() {
-        projectNameCounterEvent(this, document.getElementById("proj_stem_char_count_span"), MAX_CHAR_LENGTH)});
+        projectNameCounterEvent(this, document.getElementById("proj_stem_char_count_span"), MAX_CHAR_LENGTH)}, false);
 
     document.getElementById("project_save_button").addEventListener('click', saveProjectEvent, false);
     document.getElementById("project_cancel_button").addEventListener('click', cancelProjectEvent, false);

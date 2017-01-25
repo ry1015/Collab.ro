@@ -232,7 +232,7 @@ def login_user(request, format=None):
 
 
 @api_view(['POST'])
-def logout(request, format=None):
+def logout_user(request, format=None):
     if request.user.is_authenticated:
         pass
     else:
