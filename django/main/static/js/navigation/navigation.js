@@ -1,14 +1,16 @@
 var nav_links = ["Search", "Projects", "My Account"];
-var nav_links_id = ["search", "projects", "my_account"];
+var nav_links_id = ["search", "projects", "dropdown"];
 var DELETE_PROFILE_ID = "delete_profile";
 
 // Adds event listener to the navigation options
 function addNavigationEventListener()
 {
     document.getElementById("projects").addEventListener('click', openHomePage, false);
-    document.getElementById("my_account").addEventListener('click', openProfilePage, false);
+    //document.getElementById("my_account").addEventListener('click', openProfilePage, false);
+    document.getElementById("profile_node").addEventListener('click', openProfilePage, false);
     // document.getElementById("Search").addEventListener('click', openSearchPage, false);
     // document.getElementById("Logout").addEventListener('click', logOutUser, false);
+    document.getElementById("logout_node").addEventListener('click', logOutUser, false);
     document.getElementById("search_input").addEventListener('keyup', lookUpInput, false);
 }
 
@@ -43,8 +45,10 @@ function createNavigationBar()
 // Creates the user profile page
 function openProfilePage()
 {
+    hideDropdownMenu();
+    
     var body_div = document.getElementById(BODY_DIV_ID);
-    if (body_div.innerHTML != "")
+    if (body_div.innerHTM!= "")
         body_div.innerHTML = "";
 
     var profile = document.createElement("div");
@@ -126,3 +130,36 @@ function logOutUser(){
     data["username"] = current_user.username;
     postRequest(url, data, openLoginPage);
 }
+
+//Creates the My Account dropdown menu
+function createMyAccountDropdown() {
+    var my_account = document.getElementById("dropdown");
+
+    var dropdown_wrapper = document.createElement("DIV");
+    dropdown_wrapper.id = "dropdown-wrapper"
+
+    var profile_node = document.createElement("DIV");
+    var settings_node = document.createElement("DIV");
+    var logout_node = document.createElement("DIV");
+    profile_node.textContent = "Profile";
+    profile_node.id = "profile_node";
+    settings_node.textContent = "Settings";
+    settings_node.id = "settings_node";
+    logout_node.textContent = "Logout";
+    logout_node.id = "logout_node";
+
+    dropdown_wrapper.appendChild(profile_node);
+    dropdown_wrapper.appendChild(settings_node);
+    dropdown_wrapper.appendChild(logout_node);
+
+    my_account.appendChild(dropdown_wrapper);
+}
+
+//Hides the dropdown menu after clicking on dropdown item
+function hideDropdownMenu () {
+    var dropdown_wrapper = document.getElementById("dropdown-wrapper");
+    dropdown_wrapper.setAttribute("class", "not-hover");
+    dropdown_wrapper.onmouseout = function(){
+        this.removeAttribute("class");
+    }
+} 
