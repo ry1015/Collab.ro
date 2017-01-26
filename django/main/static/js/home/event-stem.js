@@ -1,3 +1,16 @@
+function createProjectStem(stem_node, proj_obj){
+    stem_node.onclick = function(){
+        var children = ["project-detail-track", "options-div", "info-div"];
+        var parent = document.getElementById("project-detail-wrapper");
+        for (i = 0; i < children.length; ++i){
+            var child = document.getElementById(children[i]);
+            if (child != null)
+                parent.removeChild(child);
+        }
+    }
+}
+
+
 //Creates stem table using the result of api/get_project_stems
 function createStemTableEvent(project_id){
     var url = "api/get_project_stems";
@@ -68,7 +81,7 @@ function addNewStemEvent(button_id) {
     cell.appendChild(new_stem_table);
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_title_row_" + proj_id;
+    row.id = "stem_title_row_" + proj_id;
     cell = row.insertCell(0);
     text = document.createTextNode("STEMS");
     cell.appendChild(text);
@@ -88,7 +101,7 @@ function addNewStemEvent(button_id) {
     cell.appendChild(div);
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_category_row_" + proj_id;
+    row.id = "stem_category_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
 
@@ -114,7 +127,7 @@ function addNewStemEvent(button_id) {
                         "<option value='private'>Private";
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_file_row_" + proj_id;
+    row.id = "stem_file_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
@@ -133,13 +146,13 @@ function addNewStemEvent(button_id) {
 
     // Extra spacing
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "empty_stem_row_" + proj_id;
+    row.id = "empty_stem_row_" + proj_id;
     cell = row.insertCell(0);
     cell.setAttribute("class", "empty_cell");
 
     // Stem Save Button
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_user_action_row_" + proj_id;
+    row.id = "stem_user_action_row_" + proj_id;
     cell = row.insertCell(0);
     var saveButton = document.createElement("BUTTON");
     saveButton.id = "stem_save_button_" + proj_id;
@@ -184,7 +197,7 @@ function saveStemEvent(proj_id){
     var stemFilenameId = "stem_upload_" + proj_id;
     var stemFilename = document.getElementById(stemFilenameId);
 
-	var stemData = {};
+    var stemData = {};
 
     stemData["project_id"] = proj_id;
     stemData["stem_title"] = stemTitle;

@@ -37,17 +37,17 @@ function createProjectDetail(proj){
     wrapper.id = "project-detail-wrapper";
 
     var project_navigation_div = createProjectNavigation(document.createElement("DIV"), proj);
-    project_navigation_div.setAttribute("class", "project-detail-navigation");
+    project_navigation_div.id = "project-detail-navigation";
 
     var track_div = document.createElement("DIV");
-    track_div.setAttribute("class", "project-detail-track");
+    track_div.id = "project-detail-track";
     track_div.appendChild(getTrack(proj));
     
     var options_div = createOptionsDiv(document.createElement("DIV"), proj);
-    options_div.setAttribute("class", "options-div");
+    options_div.id = "options-div";
 
     var info_div = createInfoDiv(document.createElement("DIV"), proj);
-    info_div.setAttribute("class", "info-div");
+    info_div.id = "info-div";
 
     wrapper.appendChild(project_navigation_div);
     wrapper.appendChild(track_div);
@@ -358,18 +358,19 @@ function getDay(time){
 function createProjectNavigation(navi_node, proj_obj){
     // Button DIV
     var previous_button_div = document.createElement("DIV");
-    previous_button_div.setAttribute("class", "previous-page-button project-detail-navigation");
+    previous_button_div.setAttribute("class", "previous-page-button");
     
     // Title DIV
     var project_title_div = document.createElement("DIV");
-    project_title_div.setAttribute("class", "project-detail-title project-detail-navigation");
+    project_title_div.id = "project-detail-title";
     var project_title_span = document.createElement("SPAN");
     project_title_span.appendChild(document.createTextNode(proj_obj.project_name));
     project_title_div.appendChild(project_title_span);
 
     // Overview DIV
     var overview_div = document.createElement("DIV");
-    overview_div.setAttribute("class", "project-detail-overview project-detail-navigation");
+    overview_div.id = "project-detail-overview";
+
     var total_stems = proj_obj.stems.length;
     var total_tracks = proj_obj.tracks.length;
     var overview_span = document.createElement("SPAN");
@@ -377,28 +378,25 @@ function createProjectNavigation(navi_node, proj_obj){
     var u = document.createElement("U");
     u.appendChild(document.createTextNode("Overview"));
     b.appendChild(u);
+    overview_span.onclick = function(){
+        createProjectDetail(proj_obj);
+    }
+
     overview_span.appendChild(b);
     overview_div.appendChild(overview_span);
 
     if (total_stems > 0){ 
-        var empty_div = document.createElement("DIV");
-        empty_div.setAttribute("class", "empty-spacing-div");
-
         var stem_span = document.createElement("SPAN");
         stem_span.appendChild(document.createTextNode('Stem Files'));
-        
-        overview_div.appendChild(empty_div);
+        createProjectStem(stem_span, proj_obj); //event-stem.js
+
         overview_div.appendChild(stem_span);
     }
 
     if (total_tracks > 0){
-        var empty_div = document.createElement("DIV");
-        empty_div.setAttribute("class", "empty-spacing-div");
-
         var track_span = document.createElement("SPAN");
         track_span.appendChild(document.createTextNode('Track Files'));
         
-        overview_div.appendChild(empty_div);
         overview_div.appendChild(track_span);
     }
 
@@ -414,15 +412,24 @@ function createProjectNavigation(navi_node, proj_obj){
 // proj_obj, project detail object
 // @return updated options_node
 function createOptionsDiv(options_node, proj_obj){
+    console.log("CREATE OPTIONS DIV");
+    console.log(proj_obj);
     var stem_files = document.createElement("DIV");
     var stem_span = document.createElement("SPAN");
-    var text = "(" + proj_obj.stems.length + ")" + " Stem Files";
+    var text;
+    if (proj_obj.stems.length == 1)
+        text = "(1) Stem File";
+    else
+        text = "(" + proj_obj.stems.length + ")" + " Stem Files";
     stem_span.appendChild(document.createTextNode(text));
     stem_files.appendChild(stem_span);
 
     var comments = document.createElement("DIV");
     var comments_span = document.createElement("SPAN");
-    text = "(" + proj_obj.stems.length + ")" + " Comments";
+    if (proj_obj.stem_comments_count == 1)
+        text = "(1) Comment";
+    else
+        text = "(" + proj_obj.stem_comments_count + ")" + " Comments";
     comments_span.appendChild(document.createTextNode(text));
     comments.appendChild(comments_span);
 

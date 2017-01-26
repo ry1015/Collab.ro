@@ -138,12 +138,18 @@ def get_project_details(request, format=None):
     data["project_name"] = project.name
     data["project_status"] = project.status
     data["project_desc"] = project.description
-    data["tracks"] = []
     data["tracks"] = get_project_tracks(project)
-    data["stems"] = []
     data["stems"] = get_project_stems(project)
-
+    data["stem_comments_count"] = get_stem_comments_count(project)
     return Response(data, status=status.HTTP_200_OK)
+
+def get_stem_comments_count(proj):
+    count = 0
+    stem_list = Stem.objects.filter(projectID=proj)
+    for stem in stem_list:
+        comments = StemComment.objects.filter(stemID=stem)
+        count += len(comments)
+    return count
 
 
 def get_project_stems(proj):
