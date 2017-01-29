@@ -1,15 +1,68 @@
-function createProjectStem(stem_node, proj_obj){
+function addUploadStemEvent(node){
+    node.onclick = uploadStem;
+}
+
+function createProjectStemEvent(stem_node, proj_obj){
     stem_node.onclick = function(){
+        console.log("CREATING STEM FILES PAGE");
+        console.log(proj_obj);
         var children = ["project-detail-track", "options-div", "info-div"];
         var parent = document.getElementById("project-detail-wrapper");
+        
+        //Remove children from parent
         for (i = 0; i < children.length; ++i){
             var child = document.getElementById(children[i]);
             if (child != null)
                 parent.removeChild(child);
         }
+
+        //Change highlighted link
+        var proj_overview_link = document.getElementById("project-overview-link");
+        var proj_stem_link = document.getElementById("project-stem-files-link");
+
+        if (proj_stem_link.children.length > 0){ //Stem Files Selected
+            return;
+        }
+        else {
+            var text = proj_stem_link.textContent;
+            proj_stem_link.innerHTML = "<b><u>" + text + "</u></b>";
+            proj_overview_link.innerHTML = proj_overview_link.textContent;
+            createStemTitle(parent, proj_obj);
+        }
+
     }
 }
 
+function createStemTitle(parent, proj_obj){
+    var stem_title_div = document.createElement("DIV");
+    stem_title_div.id = "stem-files-title-div";
+
+    // Create current stem files count div
+    var current_stem_files_div = document.createElement("DIV");
+    var span = document.createElement("SPAN");
+    var stem_count = proj_obj.stems.length;
+    var content = "Current Stem Files (" + stem_count + ")";
+    var stem_files_text = document.createTextNode(content);
+    span.appendChild(stem_files_text);
+    current_stem_files_div.appendChild(span);
+
+    // Create uplaod stem div
+    var stem_upload_div = document.createElement("DIV");
+    stem_upload_div.id = "stem-upload";
+    var upload_span = document.createElement("SPAN");
+    content = "+ Upload Stem";
+    var upload_text = document.createTextNode(content);
+    upload_span.appendChild(upload_text);
+    stem_upload_div.appendChild(upload_span);
+
+    stem_title_div.appendChild(current_stem_files_div);
+    stem_title_div.appendChild(stem_upload_div);
+    parent.appendChild(stem_title_div);
+}
+
+function uploadStem(){
+    
+}
 
 //Creates stem table using the result of api/get_project_stems
 function createStemTableEvent(project_id){
@@ -81,7 +134,7 @@ function addNewStemEvent(button_id) {
     cell.appendChild(new_stem_table);
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-    row.id = "stem_title_row_" + proj_id;
+	row.id = "stem_title_row_" + proj_id;
     cell = row.insertCell(0);
     text = document.createTextNode("STEMS");
     cell.appendChild(text);
@@ -101,7 +154,7 @@ function addNewStemEvent(button_id) {
     cell.appendChild(div);
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-    row.id = "stem_category_row_" + proj_id;
+	row.id = "stem_category_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
 
@@ -127,7 +180,7 @@ function addNewStemEvent(button_id) {
                         "<option value='private'>Private";
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-    row.id = "stem_file_row_" + proj_id;
+	row.id = "stem_file_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
@@ -146,13 +199,13 @@ function addNewStemEvent(button_id) {
 
     // Extra spacing
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-    row.id = "empty_stem_row_" + proj_id;
+	row.id = "empty_stem_row_" + proj_id;
     cell = row.insertCell(0);
     cell.setAttribute("class", "empty_cell");
 
     // Stem Save Button
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-    row.id = "stem_user_action_row_" + proj_id;
+	row.id = "stem_user_action_row_" + proj_id;
     cell = row.insertCell(0);
     var saveButton = document.createElement("BUTTON");
     saveButton.id = "stem_save_button_" + proj_id;
@@ -197,7 +250,7 @@ function saveStemEvent(proj_id){
     var stemFilenameId = "stem_upload_" + proj_id;
     var stemFilename = document.getElementById(stemFilenameId);
 
-    var stemData = {};
+	var stemData = {};
 
     stemData["project_id"] = proj_id;
     stemData["stem_title"] = stemTitle;

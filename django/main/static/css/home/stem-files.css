@@ -1,0 +1,25 @@
+#stem-files-title-div > div {
+    display: inline-block;
+}
+
+#stem-files-title-div div:first-child {
+    width: 80%;
+    padding-left: 2.5%;
+}
+
+#stem-files-title-div div:first-child span{
+    font-size: 20px;
+}
+
+#stem-files-title-div div:last-child {
+    padding: 1% 3%;
+    background-color: rgb(216, 216, 216);
+}
+
+#stem-files-title-div div:last-child span{
+    font-size: 18px;
+}
+
+#stem-upload:hover {
+    cursor: pointer;
+}

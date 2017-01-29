@@ -28,8 +28,6 @@ function getProjectId(){
 // Create Project Detail Page
 // proj, project detail object
 function createProjectDetail(proj){
-    console.log("CREATING PROJECT DETAIL");
-    console.log(proj);
     var body_div = document.getElementById(BODY_DIV_ID);
     if (body_div.innerHTML != "")
         body_div.innerHTML = "";
@@ -38,6 +36,7 @@ function createProjectDetail(proj){
 
     var project_navigation_div = createProjectNavigation(document.createElement("DIV"), proj);
     project_navigation_div.id = "project-detail-navigation";
+    project_navigation_div.setAttribute("pid", proj.project_id);
 
     var track_div = document.createElement("DIV");
     track_div.id = "project-detail-track";
@@ -374,6 +373,7 @@ function createProjectNavigation(navi_node, proj_obj){
     var total_stems = proj_obj.stems.length;
     var total_tracks = proj_obj.tracks.length;
     var overview_span = document.createElement("SPAN");
+    overview_span.id = "project-overview-link";
     var b = document.createElement("B");
     var u = document.createElement("U");
     u.appendChild(document.createTextNode("Overview"));
@@ -387,8 +387,9 @@ function createProjectNavigation(navi_node, proj_obj){
 
     if (total_stems > 0){ 
         var stem_span = document.createElement("SPAN");
+        stem_span.id = "project-stem-files-link";
         stem_span.appendChild(document.createTextNode('Stem Files'));
-        createProjectStem(stem_span, proj_obj); //event-stem.js
+        createProjectStemEvent(stem_span, proj_obj); //event-stem.js
 
         overview_div.appendChild(stem_span);
     }
@@ -412,8 +413,6 @@ function createProjectNavigation(navi_node, proj_obj){
 // proj_obj, project detail object
 // @return updated options_node
 function createOptionsDiv(options_node, proj_obj){
-    console.log("CREATE OPTIONS DIV");
-    console.log(proj_obj);
     var stem_files = document.createElement("DIV");
     var stem_span = document.createElement("SPAN");
     var text;

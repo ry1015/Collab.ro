@@ -63,11 +63,11 @@
 }
 
 .track_play_button {
-    image: url("../../../media/play.png");
-    width: 10%;
-    height: 100%;
-    margin-top: "auto";
-    margin-bottom: "auto";
+	image: url("../../../media/play.png");
+	width: 10%;
+	height: 100%;
+	margin-top: "auto";
+	margin-bottom: "auto";
 }
 
 .track_pause_button {
@@ -114,6 +114,12 @@
     margin-top: 8%;
     min-height: 500px;
     width: 100%;
+}
+
+#project-detail-navigation {
+    border-bottom: 1px solid #ECECEC;
+    margin-bottom: 1%;
+    padding-bottom: 1%;
 }
 
 #project-detail-navigation > div {
