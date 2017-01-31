@@ -107,7 +107,7 @@ function createStemFiles(parent, proj_obj){
                 title_wrapper.appendChild(span_div);
                 title_wrapper.appendChild(last_updated_div);
                 title_div.appendChild(title_wrapper);
-                addAdditionalStems(title_div, category, proj_obj);
+                addAdditionalStems(title_div, proj_obj.stems[j]["category"], proj_obj);
                 stem_title_header_div.appendChild(title_div);
                 break;
             }
@@ -122,7 +122,50 @@ function createStemFiles(parent, proj_obj){
 // category, the specified category
 // proj_obj, the project object
 function addAdditionalStems(parent, category, proj_obj){
-    return
+    var stem_content_wrapper = document.createElement("DIV");
+    stem_content_wrapper.setAttribute("class", "stem-content-wrapper hidden-stems");
+    
+    for (var i = 0; i < proj_obj.stems.length; ++i){
+        if (category == proj_obj.stems[i]["category"]){
+            var author_wrapper = document.createElement("DIV");
+            author_wrapper.setAttribute("class", "author-wrapper");
+
+            var stem_author = document.createElement("DIV");
+            stem_author.setAttribute("class", "stem-author");
+            var stem_duration = document.createElement("DIV");
+            stem_duration.setAttribute("class", "stem-duration");
+            
+            // Author
+            var text = "<b>" + proj_obj.stems[i]["owner"] + "</b> uploaded a stem file: <b>" + proj_obj.stems[i]["filename"] + "</b>";
+            var span = document.createElement("SPAN");
+            span.innerHTML = text;
+            stem_author.appendChild(span);
+
+            // Duration
+            var date_text = document.createTextNode(getMaxTime(proj_obj.stems[i]["timestamp"]));
+            var date_span = document.createElement("SPAN");
+            date_span.appendChild(date_text)
+            stem_duration.appendChild(date_span);
+
+            author_wrapper.appendChild(stem_author);
+            author_wrapper.appendChild(stem_duration);
+
+            // Content
+            var stem_file_wrappper = document.createElement("DIV");
+            stem_file_wrappper.setAttribute("class", "stem-file-wrapper");
+
+            var stem_file_content = document.createElement("DIV");
+            stem_file_content.setAttribute("class", "stem-file-content");
+
+            stem_file_wrappper.appendChild(stem_file_content);
+
+            var wrapper = document.createElement("DIV");
+            wrapper.appendChild(author_wrapper);
+            wrapper.appendChild(stem_file_wrappper);
+            stem_content_wrapper.appendChild(wrapper);
+        }
+    }
+    parent.appendChild(stem_content_wrapper);
 }
 
 // Get the total recurrence of a specified category in a given list

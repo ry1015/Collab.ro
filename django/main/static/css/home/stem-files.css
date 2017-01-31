@@ -1,10 +1,20 @@
 .hidden-stems{
-    display: none;
+    /*display: none;*/
 }
 
-.empty-stem-row-div {
-    height: 20px;
+.author-wrapper > div {
+    display: inline-block;
 }
+
+.stem-content-wrapper {
+    width: 90%;
+    border: 1px solid;
+}
+
+.stem-author span {
+    font-size: 13px;
+}
+
 .stem-title-header-div{ 
     width: 90%;
     margin-top: 2%;
@@ -12,25 +22,22 @@
     margin-right: auto;
 }
 
-.stem-files-list > div > div:not(.empty-stem-row-div){
+.stem-title-wrapper > div:not(.hidden-stems){
     padding: 1% 2%;
     background-color: #DBDBDB;
-}
-
-.stem-files-list > div > div:not(.empty-stem-row-div){
     display: inline-block;
 }
 
-.stem-files-list > div div:first-child{
+.stem-files-list > div:not(.stem-content-wrapper) div:first-child{
     width: 67%;
 }
 
-.stem-files-list > div div:nth-child(2){
+.stem-files-list > div:not(.stem-content-wrapper) div:nth-child(2){
     text-align: right;
     width: 25%;
 }
 
-.stem-files-list > div div span{
+.stem-files-list > div:not(.stem-content-wrapper) div span{
     font-size: 18px;
 }
 
