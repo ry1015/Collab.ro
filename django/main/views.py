@@ -275,6 +275,7 @@ def signup_user(request, format=None):
                     return Response("Could not create Contact Info.", status=status.HTTP_400_BAD_REQUEST)
 
                 data = get_user_data(user.username)
+                login(request, user)
                 return Response(data, status=status.HTTP_201_CREATED)
             except:
                 return Response("Could not create User.", status=status.HTTP_400_BAD_REQUEST)

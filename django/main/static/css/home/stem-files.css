@@ -1,3 +1,47 @@
+.hidden-stems{
+    display: none;
+}
+
+.empty-stem-row-div {
+    height: 20px;
+}
+.stem-title-header-div{ 
+    width: 90%;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stem-files-list > div > div:not(.empty-stem-row-div){
+    padding: 1% 2%;
+    background-color: #DBDBDB;
+}
+
+.stem-files-list > div > div:not(.empty-stem-row-div){
+    display: inline-block;
+}
+
+.stem-files-list > div div:first-child{
+    width: 67%;
+}
+
+.stem-files-list > div div:nth-child(2){
+    text-align: right;
+    width: 25%;
+}
+
+.stem-files-list > div div span{
+    font-size: 18px;
+}
+
+.stem-title-wrapper{
+    cursor: pointer;
+}
+
+.stem-files-list {
+    margin-bottom: 2%;
+}
+
 #stem-files-title-div > div {
     display: inline-block;
 }
@@ -8,11 +52,11 @@
 }
 
 #stem-files-title-div div:first-child span{
-    font-size: 20px;
+    font-size: 18px;
 }
 
 #stem-files-title-div div:last-child {
-    padding: 1% 3%;
+    padding: 1% 2.5%;
     background-color: rgb(216, 216, 216);
 }
 

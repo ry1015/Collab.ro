@@ -1,7 +1,12 @@
+// Add event to node
+// node, the stem node
 function addUploadStemEvent(node){
     node.onclick = uploadStem;
 }
 
+// Add onclick function to stem_node
+// stem_node, the stem node
+// proj_obj, the project object
 function createProjectStemEvent(stem_node, proj_obj){
     stem_node.onclick = function(){
         console.log("CREATING STEM FILES PAGE");
@@ -10,7 +15,7 @@ function createProjectStemEvent(stem_node, proj_obj){
         var parent = document.getElementById("project-detail-wrapper");
         
         //Remove children from parent
-        for (i = 0; i < children.length; ++i){
+        for (var i = 0; i < children.length; ++i){
             var child = document.getElementById(children[i]);
             if (child != null)
                 parent.removeChild(child);
@@ -28,11 +33,14 @@ function createProjectStemEvent(stem_node, proj_obj){
             proj_stem_link.innerHTML = "<b><u>" + text + "</u></b>";
             proj_overview_link.innerHTML = proj_overview_link.textContent;
             createStemTitle(parent, proj_obj);
+            createStemFiles(parent, proj_obj);
         }
-
     }
 }
 
+// Create stem title and add to parent
+// parent, the parent node
+// proj_obj, the project object
 function createStemTitle(parent, proj_obj){
     var stem_title_div = document.createElement("DIV");
     stem_title_div.id = "stem-files-title-div";
@@ -60,8 +68,86 @@ function createStemTitle(parent, proj_obj){
     parent.appendChild(stem_title_div);
 }
 
+// Upload stem
 function uploadStem(){
-    
+    return
+}
+
+// Create stem file list div to display all stems
+// parent, the parent node
+// proj_obj, the project object
+function createStemFiles(parent, proj_obj){
+    var categories = getCategories(proj_obj);
+    var stem_title_header_div = document.createElement("DIV");
+    stem_title_header_div.setAttribute("class", "stem-title-header-div");
+
+    for (var i = 0; i < categories.length; ++i){
+        for (var j = 0; j < proj_obj.stems.length; ++j){
+            if (categories[i] == proj_obj.stems[j]["category"]){
+                // Create category title stem count
+                var title_div = document.createElement("DIV");
+                title_div.setAttribute("class", "stem-files-list");
+                var title_wrapper = document.createElement("DIV");
+                title_wrapper.setAttribute("class", "stem-title-wrapper");
+                var span_div = document.createElement("DIV");
+                var category_stem_count = getCategoryCount(categories[i], proj_obj.stems);
+                var stem_span = document.createElement("SPAN");
+                var content = "<B>" + categories[i] + " Stems (" + category_stem_count + ")</B>"
+                stem_span.innerHTML = content;
+                span_div.appendChild(stem_span);
+                
+                // Create category last updated
+                var last_updated_div = document.createElement("DIV");
+                var updated_span = document.createElement("SPAN");
+                var date = new Date(proj_obj.stems[j]["timestamp"])
+                content = "Last Updated: " + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+                updated_span.innerHTML = content;
+                last_updated_div.appendChild(updated_span);
+
+                title_wrapper.appendChild(span_div);
+                title_wrapper.appendChild(last_updated_div);
+                title_div.appendChild(title_wrapper);
+                addAdditionalStems(title_div, category, proj_obj);
+                stem_title_header_div.appendChild(title_div);
+                break;
+            }
+        }
+    }
+    parent.appendChild(stem_title_header_div);
+    return
+}
+
+// Add stem files into stem parent
+// parent, the stem parent
+// category, the specified category
+// proj_obj, the project object
+function addAdditionalStems(parent, category, proj_obj){
+    return
+}
+
+// Get the total recurrence of a specified category in a given list
+// category, specified category
+// stem_list, list of stem objects
+function getCategoryCount(category, stem_list){
+    var count = 0;
+    for (var i = 0; i < stem_list.length; ++i){
+        if (category == stem_list[i]["category"])
+            count++;
+    }
+    return count;
+ }
+
+// Get all unique categories in a list
+// proj_obj, the project object
+function getCategories(proj_obj){
+    var stem_list = proj_obj.stems;
+    var categories = [];
+    for (var i = 0; i < stem_list.length; ++i){
+        if (!categories.includes(stem_list[i]["category"])){
+            categories.push(stem_list[i]["category"]);
+        }
+    }
+    return categories;
 }
 
 //Creates stem table using the result of api/get_project_stems
@@ -134,7 +220,7 @@ function addNewStemEvent(button_id) {
     cell.appendChild(new_stem_table);
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_title_row_" + proj_id;
+    row.id = "stem_title_row_" + proj_id;
     cell = row.insertCell(0);
     text = document.createTextNode("STEMS");
     cell.appendChild(text);
@@ -154,7 +240,7 @@ function addNewStemEvent(button_id) {
     cell.appendChild(div);
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_category_row_" + proj_id;
+    row.id = "stem_category_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
 
@@ -180,7 +266,7 @@ function addNewStemEvent(button_id) {
                         "<option value='private'>Private";
 
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_file_row_" + proj_id;
+    row.id = "stem_file_row_" + proj_id;
     cell = row.insertCell(0);
     cell.width = "10%";
     cell = row.insertCell(1);
@@ -199,13 +285,13 @@ function addNewStemEvent(button_id) {
 
     // Extra spacing
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "empty_stem_row_" + proj_id;
+    row.id = "empty_stem_row_" + proj_id;
     cell = row.insertCell(0);
     cell.setAttribute("class", "empty_cell");
 
     // Stem Save Button
     row = new_stem_table.insertRow(new_stem_table.rows.length);
-	row.id = "stem_user_action_row_" + proj_id;
+    row.id = "stem_user_action_row_" + proj_id;
     cell = row.insertCell(0);
     var saveButton = document.createElement("BUTTON");
     saveButton.id = "stem_save_button_" + proj_id;
@@ -250,7 +336,7 @@ function saveStemEvent(proj_id){
     var stemFilenameId = "stem_upload_" + proj_id;
     var stemFilename = document.getElementById(stemFilenameId);
 
-	var stemData = {};
+    var stemData = {};
 
     stemData["project_id"] = proj_id;
     stemData["stem_title"] = stemTitle;

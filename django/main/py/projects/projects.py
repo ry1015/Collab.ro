@@ -63,7 +63,7 @@ def add_project(request, format=None):
 
             if(track_title != ""):
                 if(track_filename is not None):
-                    if(track_status != ""):					
+                    if(track_status != ""):                 
                         try:
                             new_track = Track.objects.create(userID=user, projectID=new_project, title=track_title, genre=track_genre, status=track_status, filename=track_filename)
                         except:
@@ -150,8 +150,7 @@ def get_stem_comments_count(proj):
         comments = StemComment.objects.filter(stemID=stem)
         count += len(comments)
     return count
-
-
+    
 def get_project_stems(proj):
     """
     Gets all stems associated with user and user's project
@@ -159,7 +158,7 @@ def get_project_stems(proj):
     proj, the project
     list_stems, all stems associated with the project
     """
-    stems = Stem.objects.filter(projectID=proj.id)
+    stems = Stem.objects.filter(projectID=proj.id).order_by("category", "-upload_date")
     list_stems = []
     for stem in stems:
         tmp = {}
