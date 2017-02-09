@@ -157,42 +157,39 @@ function getRecentUpdates(updates_div, proj_obj){
 // Play/Pause audio
 function stemControls(){
     var node = this;
-
     for (i = 0; i < audio_stack.length; ++i){
-        if (!audio_stack[i].paused){
-            audio_stack[i].pause();
-
-            if (audio_stack[i].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
-                node.setAttribute("class", "play-stem");
+        if (!audio_stack[i]["audio"].paused){
+            audio_stack[i]["audio"].pause();
+            if (audio_stack[i]["audio"].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
+                node.classList.remove("pause-stem");
+                node.classList.add("play-stem");
                 return
             }
             else {
-                var grandparent_div = getGrandparentDIV(node);
-                var audio_parent = findAudioDiv(grandparent_div, audio_stack[i].getAttribute("stem-id"));
+                // var grandparent_div = getGrandparentDIV(node);
+                var audio_parent = findAudioDiv(audio_stack[i]["grandparent"], audio_stack[i]["audio"].getAttribute("stem-id"));
                 audio_parent.setAttribute("class", "play-stem");
+                audio_parent.classList.remove("pause-stem");
+                audio_parent.classList.add("play-stem");
             }
         }
     }
-
     for (i = 0; i < audio_stack.length; ++i){
-        if (audio_stack[i].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
-            node.setAttribute("class", "pause-stem");
-            audio_stack[i].play();
+        if (audio_stack[i]["audio"].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
+            node.classList.remove("play-stem");
+            node.classList.add("pause-stem");
+            audio_stack[i]["audio"].play();
             return;
         }
     }
-
     var url = "api/get-stem-file";
     var formData = new FormData();
     formData.append("filename", node.getAttribute("stem-id"));
-
     var xhr = new XMLHttpRequest();
     xhr.open("POST", home + url, true);
     var csrftoken = getCookie('csrftoken');
-
     xhr.setRequestHeader("X-CSRFToken", csrftoken);
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
     xhr.responseType = 'blob';
     xhr.onload = function(){
         var binaryData = [];
@@ -200,21 +197,23 @@ function stemControls(){
         var audio = new Audio();
         var objectUrl = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/mpeg"}));
         audio.src = objectUrl;
-
         // Release resource when it's loaded
         audio.onload = function(evt) {
             URL.revokeObjectUrl(objectUrl);
         };
-
         var stem_id = xhr.getResponseHeader("Content-Disposition").split("=")[1];
-        node.setAttribute("class", "pause-stem");
+        node.classList.remove("play-stem");
+        node.classList.add("pause-stem");
         audio.setAttribute("stem-id", stem_id);
         audio.play();
         // audio.ontimeupdate = function(){
         //     console.log(Math.floor(this.currentTime));
         // };
-        audio_stack.push(audio);
-
+        var tmp = {
+            "audio" : audio,
+            "grandparent" : getGrandparentDIV(node)
+        }
+        audio_stack.push(tmp);
         // SAVE THIS CODE FOR NOW TO DISPLAY WAVEFORM
         // var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         // var arrayBuffer;
@@ -223,13 +222,12 @@ function stemControls(){
         // fileReader.onload = function() {
         //     arrayBuffer = this.result;
         //     audioCtx.decodeAudioData(arrayBuffer, function(decodedData) {
-        //       // use the dec​oded data here
+        //       // use the decoded data here
         //       displayBuffer(decodedData);
         //     });
         // };
         
     }
-
     xhr.send(formData);
 }
 
@@ -296,10 +294,10 @@ function findAudioDiv(node, stem_id){
 // node, current node
 // @return parent DIV
 function getGrandparentDIV(node) {
-    var parent_node = document.getElementById("recent-updates");
+    var grandparent_node = node.parentNode.parentNode;
     var new_node = node;
     while (new_node != null){
-        if (new_node.parentNode == parent_node)
+        if (new_node.parentNode == grandparent_node)
             return new_node.parentNode;
         else
             new_node = new_node.parentNode;

@@ -24,7 +24,7 @@ def add_project(request, format=None):
         pass
     else:
         request.session.flush()
-        return Response("User not Authenticated.")
+        return Response("User not Authenticated.", status=status.HTTP_401_UNAUTHORIZED)
 
     username = request.POST.get("username")
     project_name = request.POST.get("project_name")
@@ -63,7 +63,7 @@ def add_project(request, format=None):
 
             if(track_title != ""):
                 if(track_filename is not None):
-                    if(track_status != ""):                 
+                    if(track_status != ""): 
                         try:
                             new_track = Track.objects.create(userID=user, projectID=new_project, title=track_title, genre=track_genre, status=track_status, filename=track_filename)
                         except:
@@ -235,7 +235,7 @@ def delete_project(request, format=None):
         pass
     else:
         request.session.flush()
-        return Response("User not Authenticated.")
+        return Response("User not Authenticated.", status=status.HTTP_401_UNAUTHORIZED)
     
     data = json.loads(body.decode("utf-8"))
     id = data["id"]
@@ -254,7 +254,7 @@ def change_project_status(request, format=None):
         pass
     else:
         request.session.flush()
-        return Response("User not Authenticated.")
+        return Response("User not Authenticated.", status=status.HTTP_401_UNAUTHORIZED)
     
     data = {}
     id = request.POST.get("projectID")
@@ -282,7 +282,7 @@ def get_recent_updates(request, format=None):
         pass
     else:
         request.session.flush()
-        return Response("User not Authenticated.")
+        return Response("User not Authenticated.", status=status.HTTP_401_UNAUTHORIZED)
 
     project_id = request.POST.get("project_id")
 
@@ -323,7 +323,15 @@ def get_stem_file(request, format=None):
     iterator for chunks of 8KB.                                                 
     """
     if request.user.is_authenticated:
-        filename = settings.BASE_DIR + "/main/media/stems/"+request.POST.get("filename")
+        filename = ""
+        tmp_file = request.POST.get("filename").split("/")
+        print (tmp_file)
+        if tmp_file[1].isdigit():
+            filename = settings.BASE_DIR + "/main/media/stems/"+request.POST.get("filename")
+        else:
+            user = User.objects.get(username=tmp_file[1])
+            filename = settings.BASE_DIR + "/main/media/stems/" + str(tmp_file[0]) + "/" + str(user.id) + "/" + tmp_file[2]
+        
         f = open(filename, "rb")
         response = HttpResponse()
         response.write(f.read())
@@ -333,5 +341,4 @@ def get_stem_file(request, format=None):
         return response
     else:
         request.session.flush()
-        return Response("User not Authenticated.")
-    
+        return Response("User not Authenticated.", status=status.HTTP_401_UNAUTHORIZED)

@@ -1,5 +1,5 @@
 .hidden-stems{
-    /*display: none;*/
+    display: none;
 }
 
 .author-wrapper > div {
@@ -8,10 +8,32 @@
 
 .stem-content-wrapper {
     width: 90%;
-    border: 1px solid;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stem-content-wrapper > div {
+    padding-bottom: 2%;
+}
+
+.stem-files-entry div:not(:last-child){
+    display: inline-block;
+}
+
+.stem-author {
+    width: 79%;
+}
+
+.stem-duration {
+    width: 20%;
+    text-align: right;
 }
 
 .stem-author span {
+    font-size: 13px;
+}
+
+.stem-duration span {
     font-size: 13px;
 }
 
@@ -28,21 +50,18 @@
     display: inline-block;
 }
 
-.stem-files-list > div:not(.stem-content-wrapper) div:first-child{
-    width: 67%;
-}
-
-.stem-files-list > div:not(.stem-content-wrapper) div:nth-child(2){
-    text-align: right;
-    width: 25%;
-}
-
-.stem-files-list > div:not(.stem-content-wrapper) div span{
-    font-size: 18px;
-}
-
 .stem-title-wrapper{
     cursor: pointer;
+    width: 100%;
+}
+
+.stem-title-wrapper div:first-child{
+    width: 66%;
+}
+
+.stem-title-wrapper div:last-child{
+    width: 26%;
+    text-align: right;
 }
 
 .stem-files-list {
@@ -62,7 +81,8 @@
     font-size: 18px;
 }
 
-#stem-files-title-div div:last-child {
+#stem-upload {
+    display: block;
     padding: 1% 2.5%;
     background-color: rgb(216, 216, 216);
 }
@@ -73,4 +93,17 @@
 
 #stem-upload:hover {
     cursor: pointer;
+}
+
+#upload-stem-wrapper {
+    background-color: rgb(216, 216, 216);
+    width: 40%;
+    border: 1px solid;
+    height: 200px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 29%;
+    left: 0;
+    right: 0;
 }
