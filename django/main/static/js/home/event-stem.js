@@ -97,11 +97,27 @@ function uploadStem(){
     var parent = document.getElementById("project-detail-wrapper");
     var wrapper = document.createElement("DIV");
     wrapper.id = "upload-stem-wrapper";
-    uploadStemButtons(wrapper);
 
+    stemFile(wrapper);
+    uploadStemButtons(wrapper);
     parent.appendChild(wrapper);
 }
 
+// Create input section for stem upload
+// node, the container
+function stemFile(node){
+    var wrapper = document.createElement("DIV");
+    wrapper.id = "stem_upload_input";
+    var stem_input = document.createElement("INPUT");
+    stem_input.id = "stem_input";
+    stem_input.placeholder = "ENTER TITLE";
+    var choose_file = document.createElement("INPUT");
+    choose_file.id = "stem_file";
+    choose_file.type = "file";
+    wrapper.appendChild(stem_input);
+    wrapper.appendChild(choose_file);
+    node.appendChild(wrapper);
+}
 // Create buttons for uploading a stem file
 // node, the container
 function uploadStemButtons(node){

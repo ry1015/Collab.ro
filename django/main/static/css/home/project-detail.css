@@ -63,11 +63,11 @@
 }
 
 .track_play_button {
-	image: url("../../../media/play.png");
-	width: 10%;
-	height: 100%;
-	margin-top: "auto";
-	margin-bottom: "auto";
+    image: url("../../../media/play.png");
+    width: 10%;
+    height: 100%;
+    margin-top: "auto";
+    margin-bottom: "auto";
 }
 
 .track_pause_button {
@@ -155,14 +155,14 @@
     border: 1px solid black;
 }
 
+#project-detail-wrapper {
+    position: relative;
+}
+
 #updates-div {
     width: 71%;
     margin-right: 1%;
 }
-
-/*#updates-div > span {
-    padding-left: 2%;
-}*/
 
 #project-info-div {
     width: 27%;
