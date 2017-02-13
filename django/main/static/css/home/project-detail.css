@@ -63,11 +63,11 @@
 }
 
 .track_play_button {
-    image: url("../../../media/play.png");
-    width: 10%;
-    height: 100%;
-    margin-top: "auto";
-    margin-bottom: "auto";
+	image: url("../../../media/play.png");
+	width: 10%;
+	height: 100%;
+	margin-top: "auto";
+	margin-bottom: "auto";
 }
 
 .track_pause_button {
