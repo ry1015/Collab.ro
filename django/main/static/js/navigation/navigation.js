@@ -105,6 +105,7 @@ function openHomePage()
     console.log("CURRENT USER:");
     console.log(current_user);
     createHomePage(current_user); //home.js
+    pauseAudio(); //event-project-detail.js
 }
 
 // Creates the search result page

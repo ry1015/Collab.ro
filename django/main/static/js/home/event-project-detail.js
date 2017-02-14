@@ -167,6 +167,7 @@ function getRecentUpdates(updates_div, proj_obj){
 // Play/Pause audio
 function stemControls(){
     var node = this;
+
     // Audio stack contains currently playing stems
     for (i = 0; i < audio_stack.length; ++i){
         if (!audio_stack[i]["audio"].paused){ //check if audio is playing
@@ -247,7 +248,7 @@ function stemControls(){
         // Pauses playing audio if non-audio link is selected
         document.onmouseup = function(event){
             console.log(event.target);
-            if (event.target.getAttribute("stem-id") == null){
+            if (event.target.onclick != null && event.target.getAttribute("stem-id") == null){
                 pauseAudio();
             }
             else {
@@ -421,6 +422,7 @@ function createProjectNavigation(navi_node, proj_obj){
     b.appendChild(u);
     overview_span.onclick = function(){
         createProjectDetail(proj_obj);
+        pauseAudio();
     }
 
     overview_span.appendChild(b);
