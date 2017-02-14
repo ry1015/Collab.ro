@@ -356,8 +356,9 @@ function saveProjectEvent(){
 
     var processProject = function(result)
     {
-        var element = document.getElementById(NEW_PROJECT_ROW_ID).outerHTML = "";
-        delete element;
+        var parent = document.getElementById("body_div");
+        var element = document.getElementById(NEW_PROJECT_DIV_ID);
+        parent.removeChild(element);
         refreshProjects();
     }
 
