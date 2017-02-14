@@ -190,23 +190,12 @@ function stemControls(){
         }
     }
 
-    // Play a puased stem
+    // Play a paused stem
     for (i = 0; i < audio_stack.length; ++i){
         if (audio_stack[i]["audio"].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
             node.classList.remove("play-stem");
             node.classList.add("pause-stem");
             audio_stack[i]["audio"].play();
-
-            // Pauses playing audio if non-audio link is selected
-            document.onmouseup = function(event){
-                console.log(event.target);
-                if (event.target.getAttribute("stem-id") == null){
-                    pauseAudio();
-                }
-                else {
-                    document.onmouseup = null;
-                }
-            }
             return;
         }
     }
@@ -244,17 +233,6 @@ function stemControls(){
             "grandparent" : getGrandparentDIV(node)
         }
         audio_stack.push(tmp);
-
-        // Pauses playing audio if non-audio link is selected
-        document.onmouseup = function(event){
-            console.log(event.target);
-            if (event.target.onclick != null && event.target.getAttribute("stem-id") == null){
-                pauseAudio();
-            }
-            else {
-                document.onmouseup = null;
-            }
-        }
 
         // SAVE THIS CODE FOR NOW TO DISPLAY WAVEFORM
         // var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
