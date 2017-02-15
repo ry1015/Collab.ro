@@ -226,6 +226,9 @@ def get_projects(request, format=None):
     for proj in data:
         stems = Stem.objects.filter(projectID=proj['id'])
         proj['stems_count'] = len(stems)
+        
+        tracks = Track.objects.filter(projectID=proj['id'])
+        proj['tracks_count'] = len(tracks)
     
     return Response(data, status=status.HTTP_200_OK)
     

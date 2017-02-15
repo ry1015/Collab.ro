@@ -157,7 +157,7 @@ function showHome(user){
     main.appendChild(nav_div);
 
     createMyAccountDropdown(); //navigation.js
-	
+    
     // Add Navigation Event Listener
     addNavigationEventListener(); //navigation.js
 
@@ -248,7 +248,8 @@ var processProjectData = function(result)
         var num_of_files = 'files';
         if (project_data[i]['stems_count'] == 1)
             num_of_files = 'file'
-        var text = document.createTextNode(project_data[i]['stems_count'] + ' ' + num_of_files);
+        var total_files = project_data[i]["stems_count"] + project_data[i]["tracks_count"];
+        var text = document.createTextNode(total_files + ' ' + num_of_files);
         // bold.appendChild(text);
         // span.appendChild(bold);
         files_div.appendChild(text);
