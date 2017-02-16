@@ -98,9 +98,6 @@
     margin-left: auto;
     margin-right: auto;
     z-index: 1;
-}
-
-#new_project_table{
-    background-color: lightgrey;
-    border: 1px solid black;
+    border: 1px solid;
+    background-color: rgb(216, 216, 216);
 }

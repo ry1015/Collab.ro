@@ -1,6 +1,5 @@
 var EVENT_HOME_NEW_PROJ_DESC_ID = "new_proj_desc";
 var NEW_PROJECT_DIV_ID = "new-project-div"
-var NEW_PROJECT_ROW_ID = "new_project_row";
 var NEW_PROJECT_TABLE_ID = "new-project-table";
 var MAX_CHAR_LENGTH = "50";
 
