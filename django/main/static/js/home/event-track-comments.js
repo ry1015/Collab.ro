@@ -1,5 +1,5 @@
 var COMMENT_SECTION_PARENT_IDS = ["comment-table-id"];
-var PARENT_DIVS = ["body_div", "navigation-div", "comment-div", "project_div"];
+var PARENT_DIVS = ["body-div", "navigation-div", "comment-div", "project_div"];
 var HTML_TAG = "HTML";
 var USER_COMMENT_INPUT = "user-comment-input";
 var COMMENT_TABLE_ID = "comment-table-id";

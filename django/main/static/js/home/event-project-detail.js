@@ -10,7 +10,7 @@ function addStemControls(node){
 function getProjectId(){
     var current = this;
     var table_node = findTable(current);
-    var project_id = table_node.id.split("_")[2];
+    var project_id = table_node.id.split("-")[2];
     var processProjectId = function(results){
         createProjectDetail(results);
     }
@@ -28,10 +28,9 @@ function pauseAudio(){
     for (i = 0; i < audio_stack.length; ++i){
         if (!audio_stack[i]["audio"].paused){ //check if audio is playing
             audio_stack[i]["audio"].pause();
-            var audio_parent = findAudioDiv(audio_stack[i]["grandparent"], audio_stack[i]["audio"].getAttribute("stem-id"));
-            audio_parent.setAttribute("class", "play-stem");
-            audio_parent.classList.remove("pause-stem");
-            audio_parent.classList.add("play-stem");
+            var audio_node = audio_stack[i]["node"];
+            audio_node.classList.remove("pause-stem");
+            audio_node.classList.remove("play-stem");
         }
     }
 }
@@ -172,21 +171,9 @@ function stemControls(){
     for (i = 0; i < audio_stack.length; ++i){
         if (!audio_stack[i]["audio"].paused){ //check if audio is playing
             audio_stack[i]["audio"].pause();
-            if (audio_stack[i]["audio"].getAttribute("stem-id").includes(node.getAttribute("stem-id"))){
-                // this object will contain stem-id, if what contains in audio_stack == this node,
-                // change class
-                node.classList.remove("pause-stem");
-                node.classList.add("play-stem");
-                return
-            }
-            else {
-                // this node's stem-id is not equal to what is currently playing thus find the node
-                // via grandparent
-                var audio_parent = findAudioDiv(audio_stack[i]["grandparent"], audio_stack[i]["audio"].getAttribute("stem-id"));
-                audio_parent.setAttribute("class", "play-stem");
-                audio_parent.classList.remove("pause-stem");
-                audio_parent.classList.add("play-stem");
-            }
+            var audio_node = audio_stack[i]["node"];
+            audio_node.classList.remove("pause-stem");
+            audio_node.classList.remove("play-stem");
         }
     }
 
@@ -230,7 +217,7 @@ function stemControls(){
         // };
         var tmp = {
             "audio" : audio,
-            "grandparent" : getGrandparentDIV(node)
+            "node" : node
         }
         audio_stack.push(tmp);
 
@@ -512,7 +499,7 @@ function createInfoDiv(info_div, proj_obj){
 // node, the current node
 // returns table node
 function findTable(node){
-    while (!node.id.includes('project_table')){
+    while (!node.id.includes('project-table')){
         node = node.parentNode;
     }
     return node;

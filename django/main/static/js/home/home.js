@@ -5,9 +5,9 @@ var PROJECT_TABLE_ID = "project_table";
 var PROJECT_TABLE_BODY_ID = "project_table_body";
 //var NEW_PROJECT_TABLE_ID = "new_project_table";
 //var NEW_PROJECT_ROW_ID = "new_project_row";
-var BODY_DIV_ID = "body_div";
+var BODY_DIV_ID = "body-div";
 var CURRENT_TRACKS_ID = "current-tracks-div";
-var NEW_PROJECT_ID = "new_project";
+var NEW_PROJECT_ID = "new-project";
 var DELETE_PROJECT_ID = "delete_project";
 var STEM_TABLE_ID = "stem_table_";
 var NEW_STEM_ROW_ID = "new_stem_row_";
@@ -18,11 +18,11 @@ var NEW_TRACK_TABLE_ID = "new_track_table";
 var DELETE_TRACK_BUTTON_ID = "delete_track_button";
 var DELETE_STEM_BUTTON_ID = "delete_stem_button";
 var MY_PROJECTS_DIV_ID = "my_projects_div";
-var MY_PROJECTS_WRAPPER_DIV = "my_projects_wrapper_div";
-var CREATE_PROJECT_DIV_ID = "create_project_div";
-var MY_PROJECTS_SPAN_ID = "my_projects_span";
-var MY_PROJECTS_DIV_CLASS = "my_projects_div_class";
-var USER_PROJECTS_WRAPPER_DIV = "user_projects";
+var MY_PROJECTS_WRAPPER_DIV = "my-projects-wrapper-div";
+var CREATE_PROJECT_DIV_ID = "create-project-div";
+var MY_PROJECTS_SPAN_ID = "my-projects-span";
+var MY_PROJECTS_DIV_CLASS = "my-projects-div-class";
+var USER_PROJECTS_WRAPPER_DIV = "user-projects";
 var PROJECT_NAME_MAX_LENGTH = 44;
 var project_data;
 
@@ -183,16 +183,16 @@ var processProjectData = function(result)
     var text_node = undefined;
     var anchor_node = undefined;
     var text = undefined;
-    var parent = document.getElementById('user_projects');
+    var parent = document.getElementById('user-projects');
     for (i = 0; i < project_data.length; i++){
         var project_id = project_data[i]["id"];
         var user_project_div = document.createElement("DIV");
-        user_project_div.setAttribute('class', 'user_project');
-        user_project_div.id = "project_table_" + project_id;
+        user_project_div.setAttribute('class', 'user-project');
+        user_project_div.id = "project-table-" + project_id;
 
         //Create Project Table Header & Title
         var project_header = document.createElement("DIV");
-        project_header.setAttribute('class', 'project_title_div');
+        project_header.setAttribute('class', 'project-title-div');
         anchor_node = document.createElement("A");
         anchor_node.href="#";
         bold_node = document.createElement("B");
@@ -207,11 +207,11 @@ var processProjectData = function(result)
 
         // Create Wrapper For Project Photo and Project Header
         var photo_div_wrapper = document.createElement("DIV");
-        photo_div_wrapper.setAttribute('class', 'photo_div_wrapper');
+        photo_div_wrapper.setAttribute('class', 'photo-div-wrapper');
 
         //Create Delete Button
         var project_delete_div = document.createElement("DIV");
-        project_delete_div.setAttribute('class', 'project_delete_div');
+        project_delete_div.setAttribute('class', 'project-delete-div');
         var deleteButton = document.createElement("button");
         deleteButton.id = DELETE_PROJECT_ID;
         deleteButton.value = project_id;
@@ -227,7 +227,7 @@ var processProjectData = function(result)
         var photo_div = document.createElement("DIV");
         photo_div.style.backgroundImage = "url('media/default_photo.jpg')";
         photo_div.style.backgroundPosition = 'center';
-        photo_div.setAttribute('class', 'photo_div');
+        photo_div.setAttribute('class', 'photo-div');
         addPhotoEventListener(photo_div);
         
         photo_div_wrapper.appendChild(project_header);
@@ -236,13 +236,13 @@ var processProjectData = function(result)
 
         // Create Collaborators and File Count Section
         var count_wrapper_div = document.createElement("DIV");
-        count_wrapper_div.setAttribute('class', 'count_wrapper_div');
+        count_wrapper_div.setAttribute('class', 'count-wrapper-div');
         
         var collaborators_div = document.createElement("DIV");
-        collaborators_div.setAttribute('class', 'collaborators_div');
+        collaborators_div.setAttribute('class', 'collaborators-div');
 
         var files_div = document.createElement("DIV");
-        files_div.setAttribute('class', 'files_div');
+        files_div.setAttribute('class', 'files-div');
         // var span = document.createElement("SPAN");
         // var bold = document.createElement("B");
         var num_of_files = 'files';
@@ -250,9 +250,14 @@ var processProjectData = function(result)
             num_of_files = 'file'
         var total_files = project_data[i]["stems_count"] + project_data[i]["tracks_count"];
         var text = document.createTextNode(total_files + ' ' + num_of_files);
+        var text_span = document.createElement("SPAN");
+        text_span.appendChild(text);
+        var spacer = document.createElement("SPAN");
+        spacer.classList.add("span-spacer");
         // bold.appendChild(text);
         // span.appendChild(bold);
-        files_div.appendChild(text);
+        files_div.appendChild(spacer);
+        files_div.appendChild(text_span);
 
         count_wrapper_div.appendChild(collaborators_div);
         count_wrapper_div.appendChild(files_div);

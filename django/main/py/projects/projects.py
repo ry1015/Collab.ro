@@ -222,14 +222,23 @@ def get_projects(request, format=None):
             data.append({"id":project.id, "name":project.name, "status":project.status})
     else:
         print ("NO PROJECTS")
-        
+    
+    
     for proj in data:
+        collaborators = []
         stems = Stem.objects.filter(projectID=proj['id'])
         proj['stems_count'] = len(stems)
-        
+        for stem in stems:
+            if not stem.userID.username in collaborators:
+                collaborators.append(stem.userID.username)
+
         tracks = Track.objects.filter(projectID=proj['id'])
         proj['tracks_count'] = len(tracks)
-    
+        for track in tracks:
+            if not track.userID.username in collaborators:
+                collaborators.append(track.userID.username)
+        proj['collaborators'] = collaborators
+
     return Response(data, status=status.HTTP_200_OK)
     
 @api_view(['DELETE'])
