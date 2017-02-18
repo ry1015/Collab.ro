@@ -13,6 +13,27 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+.collaborators{
+    height: 100%;
+    width: 20%;
+    display: inline-block;
+    background-size: cover;
+}
+
+.collaborators:hover .hidden-collaborators{
+    display: block;
+    position: absolute;
+}
+
+.hidden-collaborators{
+    display: none;
+}
+
+.collaborators:hover{
+
+}
+
 .count-wrapper-div{
     height: 20%;
 }

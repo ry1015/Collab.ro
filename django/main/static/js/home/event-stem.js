@@ -66,6 +66,7 @@ function createProjectStemEvent(stem_node, proj_obj){
             createStemTitle(parent, proj_obj);
             createStemFiles(parent, proj_obj);
         }
+        pauseAudio();//event-project-detail.js
     }
 }
 

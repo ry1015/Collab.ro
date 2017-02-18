@@ -157,7 +157,7 @@ function showHome(user){
     main.appendChild(nav_div);
 
     createMyAccountDropdown(); //navigation.js
-    
+	
     // Add Navigation Event Listener
     addNavigationEventListener(); //navigation.js
 
@@ -240,11 +240,12 @@ var processProjectData = function(result)
         
         var collaborators_div = document.createElement("DIV");
         collaborators_div.setAttribute('class', 'collaborators-div');
+        addCollaborators(collaborators_div, project_data[i]);
 
+        // Create Total File Count
         var files_div = document.createElement("DIV");
         files_div.setAttribute('class', 'files-div');
-        // var span = document.createElement("SPAN");
-        // var bold = document.createElement("B");
+
         var num_of_files = 'files';
         if (project_data[i]['stems_count'] == 1)
             num_of_files = 'file'
@@ -254,8 +255,7 @@ var processProjectData = function(result)
         text_span.appendChild(text);
         var spacer = document.createElement("SPAN");
         spacer.classList.add("span-spacer");
-        // bold.appendChild(text);
-        // span.appendChild(bold);
+
         files_div.appendChild(spacer);
         files_div.appendChild(text_span);
 
@@ -266,6 +266,26 @@ var processProjectData = function(result)
         parent.appendChild(user_project_div);   
     }
 
+}
+
+// Add collaborator profile image in node
+// node, collaborator div
+// project, the associated project
+function addCollaborators(node, project){
+    for (var i = 0; i < project.collaborators.length; ++i){
+        var user_div = document.createElement("DIV");
+        var user_span = document.createElement("SPAN");
+        user_span.innerHTML = project.collaborators[i]["username"];
+        user_span.classList.add("hidden-collaborators");
+        user_div.appendChild(user_span);
+
+        user_div.style.backgroundImage = "url('media/profile-icon.png')";
+        user_div.style.backgroundPosition = 'center';
+        user_div.classList.add("collaborators");
+        user_div.setAttribute("username", project.collaborators[i]["username"]);
+
+        node.appendChild(user_div);
+    }
 }
 
 var refreshProjects = function(args){

@@ -10,6 +10,7 @@ from main.models import UserProfile, UserCategory, SocialNetwork, ContactInforma
 from main.models import StemComment
 from django.template.context_processors import csrf
 from django.http import HttpResponse
+from itertools import chain
 import json
 import os
 import pprint
@@ -225,18 +226,25 @@ def get_projects(request, format=None):
     
     
     for proj in data:
+        stem_users = Stem.objects.filter(projectID=proj['id']).values("userID").distinct()
+        track_users = Track.objects.filter(projectID=proj['id']).values("userID").distinct()
+        user_list = list(chain(stem_users, track_users))
+        
+        tmp_users = []
+        for user in user_list:
+            if user not in tmp_users:
+                tmp_users.append(user) 
+        
         collaborators = []
-        stems = Stem.objects.filter(projectID=proj['id'])
-        proj['stems_count'] = len(stems)
-        for stem in stems:
-            if not stem.userID.username in collaborators:
-                collaborators.append(stem.userID.username)
+        for tmp_user in tmp_users:
+            user = User.objects.get(id=tmp_user["userID"])            
+            tmp = {}
+            tmp["id"] = user.id
+            tmp["username"] = user.username
+            collaborators.append(tmp)
 
-        tracks = Track.objects.filter(projectID=proj['id'])
-        proj['tracks_count'] = len(tracks)
-        for track in tracks:
-            if not track.userID.username in collaborators:
-                collaborators.append(track.userID.username)
+        proj['stems_count'] = len(Stem.objects.filter(projectID=proj['id']))
+        proj['tracks_count'] = len(Track.objects.filter(projectID=proj['id']))
         proj['collaborators'] = collaborators
 
     return Response(data, status=status.HTTP_200_OK)

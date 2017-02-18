@@ -280,38 +280,6 @@ function stemControls(){
 // };
 
 
-// Find div that contains stem-id
-// node, grandparent node
-// stem_id, stem-id to locate
-// @return the DIV that contains the stem-id
-function findAudioDiv(node, stem_id){
-    for (i = 0; i < node.childNodes.length; ++i){
-        if (node.childNodes[i].childNodes[2].getAttribute("stem-id") != null){
-            if (node.childNodes[i].childNodes[2].getAttribute("stem-id").includes(stem_id)){
-                // console.log(node.childNodes[i].childNodes[2]);
-                // console.log(stem_id);
-                return node.childNodes[i].childNodes[2];
-            }
-        }
-    }
-    return undefined;
-}
-
-// Find parent DIV
-// node, current node
-// @return parent DIV
-function getGrandparentDIV(node) {
-    var grandparent_node = node.parentNode.parentNode;
-    var new_node = node;
-    while (new_node != null){
-        if (new_node.parentNode == grandparent_node)
-            return new_node.parentNode;
-        else
-            new_node = new_node.parentNode;
-    }
-
-    return undefined;
-}
 // Get max time
 // time, specified time
 // @return max time
